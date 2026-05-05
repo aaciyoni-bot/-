@@ -7,6 +7,21 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
+    <!-- Chosen Palette: Professional Slate & Blue (Financial Accuracy Focus) -->
+    
+    <!-- Application Structure Plan: 
+         1. Secure Login: Multi-level access (Admin, Agent, Player). 
+         2. Dynamic Fee Calculation: Agents see fees net of club cut (no % mentioned).
+         3. Unified Names: Removed "(מאוחד)" suffix for cleanliness.
+         4. Credential Sharing: Agents see player logins to facilitate personal tracking. -->
+
+    <!-- Visualization & Content Choices: 
+         1. Settlement Overview: Bar chart for debts/credits.
+         2. Fee Distribution: Doughnut for club revenue split.
+         3. Dynamic Modals: Player game sessions and private credentials. -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; }
         .chart-container {
@@ -68,12 +83,12 @@
                     </h4>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="flex-1 bg-white p-3 rounded-xl border border-emerald-200">
-                            <span class="text-[9px] text-emerald-500 font-bold block uppercase mb-1">שם משתמש:</span>
-                            <code id="modal-display-username" class="text-lg font-black text-slate-800">---</code>
+                            <span class="text-[9px] text-emerald-50 text-emerald-500 font-bold block uppercase mb-1">שם משתמש:</span>
+                            <code id="modal-display-username" class="text-lg font-black text-slate-800 tracking-tight">---</code>
                         </div>
                         <div class="flex-1 bg-white p-3 rounded-xl border border-emerald-200">
                             <span class="text-[9px] text-emerald-500 font-bold block uppercase mb-1">סיסמה:</span>
-                            <code id="modal-display-password" class="text-lg font-black text-slate-800">---</code>
+                            <code id="modal-display-password" class="text-lg font-black text-slate-800 tracking-tight">---</code>
                         </div>
                     </div>
                 </div>
@@ -130,11 +145,10 @@
 
         <main class="flex-grow container mx-auto px-4 lg:px-8 max-w-7xl py-8">
             
-            <!-- Admin Dashboard View -->
             <div id="view-dashboard" class="view-section block">
                 <div class="mb-8">
                     <h2 class="text-2xl font-black text-slate-800 mb-2 tracking-tight">תמונת מצב מועדון</h2>
-                    <p class="text-slate-600 font-medium">סיכום התחשבנות גלובלי - אדמין.</p>
+                    <p class="text-slate-600 font-medium italic">סיכום התחשבנות גלובלי - אדמין.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="dash-stats"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -149,7 +163,6 @@
                 </div>
             </div>
 
-            <!-- Agent/Detailed View -->
             <div id="view-agents" class="view-section hidden">
                 <div id="agent-selector-container" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 mb-8">
                     <label class="block text-[11px] font-black text-slate-500 mb-2 uppercase tracking-widest">בחר סוכן להצגה:</label>
@@ -170,20 +183,19 @@
                                         <th class="p-4 border-b text-left fee-col">עמלה</th>
                                     </tr>
                                 </thead>
-                                <tbody id="agent-players-table" class="divide-y text-slate-700"></tbody>
+                                <tbody id="agent-players-table" class="divide-y text-slate-700 font-medium"></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Individual Player View -->
             <div id="view-player-single" class="view-section hidden">
                 <div class="max-w-3xl mx-auto">
                     <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden mb-8">
                         <div class="bg-slate-900 text-white p-8 sm:p-12">
                             <h2 class="text-4xl font-black mb-2 tracking-tighter uppercase" id="player-view-name">שלום</h2>
-                            <p class="opacity-60 font-bold uppercase tracking-widest text-xs">סיכום ביצועים אישי מבוקר</p>
+                            <p class="opacity-60 font-bold uppercase tracking-widest text-xs tracking-widest">סיכום ביצועים אישי מבוקר</p>
                         </div>
                         <div class="p-8 sm:p-12">
                             <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 flex justify-between items-center mb-10 shadow-inner">
@@ -194,7 +206,7 @@
                                 <div class="bg-white w-16 h-16 rounded-2xl shadow-sm flex items-center justify-center text-3xl">💹</div>
                             </div>
                             
-                            <h3 class="text-xl font-black text-slate-800 mb-6 border-b pb-2 uppercase tracking-tighter">היסטוריית משחקים</h3>
+                            <h3 class="text-xl font-black text-slate-800 mb-6 border-b pb-2 uppercase tracking-tighter tracking-tight">פירוט משחקים</h3>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-right">
                                     <thead>
@@ -228,14 +240,31 @@
             'עוז': { pass: 'עוז999', role: 'agent', name: 'עוז', agentIndex: 3 },
             'אלחנן': { pass: 'אלחנן86', role: 'agent', name: 'אלחנן', agentIndex: 4 },
             'יוני': { pass: 'יוני25', role: 'agent', name: 'יוני', agentIndex: 5 },
-            // Players with logins
+            // Players with clean names
             'avim24': { pass: 'avim123', role: 'player', name: 'avim24' },
             'Bathens': { pass: 'bat123', role: 'player', name: 'Bathens' },
             'מור קריטי': { pass: 'מור123', role: 'player', name: 'מור קריטי' },
             'Black Rain82': { pass: 'black123', role: 'player', name: 'Black Rain82' },
             'OTC 1': { pass: 'otc123', role: 'player', name: 'OTC 1' },
-            'IzMaR (מאוחד)': { pass: 'izmar123', role: 'player', name: 'IzMaR (מאוחד)' },
-            'dipstay': { pass: 'dip123', role: 'player', name: 'dipstay' }
+            'IzMaR': { pass: 'izmar123', role: 'player', name: 'IzMaR' },
+            'dipstay': { pass: 'dip123', role: 'player', name: 'dipstay' },
+            'in2024': { pass: 'in2024in', role: 'player', name: 'in2024' },
+            'Aviad1111': { pass: 'aviad123', role: 'player', name: 'Aviad1111' },
+            'yaniv!': { pass: 'yaniv22', role: 'player', name: 'yaniv!' },
+            'heziza': { pass: 'heziza7', role: 'player', name: 'heziza' },
+            'Dididrogba': { pass: 'didi11', role: 'player', name: 'Dididrogba' },
+            'אלדד כהן': { pass: 'eldad8', role: 'player', name: 'אלדד כהן' },
+            'עופר וקנין': { pass: 'ofer3', role: 'player', name: 'עופר וקנין' },
+            'yoram3554': { pass: 'yoram5', role: 'player', name: 'yoram3554' },
+            'P2338-2447': { pass: 'p2338', role: 'player', name: 'P2338-2447' },
+            'Alof mlyda': { pass: 'alofm', role: 'player', name: 'Alof mlyda' },
+            'dani shovevani1': { pass: 'danish', role: 'player', name: 'dani shovevani1' },
+            'דני': { pass: 'dani55', role: 'player', name: 'דני' },
+            'adirmezin12': { pass: 'adir12', role: 'player', name: 'adirmezin12' },
+            'AM26': { pass: 'am2626', role: 'player', name: 'AM26' },
+            'BOOM': { pass: 'boom8', role: 'player', name: 'BOOM' },
+            'Camel63': { pass: 'camel6', role: 'player', name: 'Camel63' },
+            'ghost baba': { pass: 'ghost1', role: 'player', name: 'ghost baba' }
         };
 
         const reportData = {
@@ -265,8 +294,8 @@
                     pastBalance: 0.00,
                     players: [
                         { name: "OTC 1", pnl: 126.70, fee: 173.00, games: [{d: '01/05', t: 'NLH 5/10', r: -53.34, f: 173.00}, {d: 'MTT', t: 'רווח טורניר', r: 180.04, f: 0.00}] },
-                        { name: "Aviad1111 (מאוחד)", pnl: -3632.81, fee: 936.15, games: [{d: '28/04', t: 'PLO 25/50', r: -2000, f: 500}, {d: '30/04', t: 'NLH 10/20', r: -1632.81, f: 436.15}] },
-                        { name: "in2024 (מאוחד)", pnl: 775.41, fee: 257.16, games: [{d: '01/05', t: 'NLH 5/10', r: 775.41, f: 257.16}] },
+                        { name: "Aviad1111", pnl: -3632.81, fee: 936.15, games: [{d: '28/04', t: 'PLO 25/50', r: -2000, f: 500}, {d: '30/04', t: 'NLH 10/20', r: -1632.81, f: 436.15}] },
+                        { name: "in2024", pnl: 775.41, fee: 257.16, games: [{d: '01/05', t: 'NLH 5/10', r: 775.41, f: 257.16}] },
                         { name: "Black Rain82", pnl: 862.65, fee: 232.56, games: [{d: '03/05', t: 'PLO 5/10', r: 862.65, f: 232.56}] },
                         { name: "heziza", pnl: -400.00, fee: 84.56, games: [{d: '04/05', t: 'NLH 10/20', r: -400.00, f: 84.56}] },
                         { name: "yaniv!", pnl: -206.27, fee: 333.01, games: [{d: '02/05', t: 'NLH 5/10', r: -206.27, f: 333.01}] },
@@ -307,7 +336,7 @@
                     name: "אלחנן",
                     pastBalance: -2000.00,
                     players: [
-                        { name: "IzMaR1", pnl: 713.31, fee: 622.27, games: [{d: '30/04', t: 'NLH 10/20', r: 1500, f: 300}, {d: '02/05', t: 'NLH 10/20', r: 1313.31, f: 322.27}, {d: '05/05', t: 'חוב עבר', r: -2300.00, f: 0.00}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] },
+                        { name: "IzMaR", pnl: 713.31, fee: 622.27, games: [{d: '30/04', t: 'NLH 10/20', r: 1500, f: 300}, {d: '02/05', t: 'NLH 10/20', r: 1313.31, f: 322.27}, {d: '05/05', t: 'חוב עבר', r: -2300.00, f: 0.00}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] },
                         { name: "naki t", pnl: 126.92, fee: 0.00, games: [{d: 'MTT', t: 'רווח טורניר', r: 126.92, f: 0.00}] },
                         { name: "Camel63", pnl: -178.12, fee: 28.19, games: [{d: '01/05', t: 'NLH 5/10', r: -178.12, f: 28.19}] },
                         { name: "Puntman777", pnl: -100.00, fee: 26.10, games: [{d: '03/05', t: 'NLH 5/10', r: -100.00, f: 26.10}] }
@@ -398,9 +427,9 @@
             const totalFeesRaw = summaries.reduce((s, x) => s + x.rawFees, 0);
             const netBalance = summaries.reduce((s, x) => s + x.final, 0);
             document.getElementById('dash-stats').innerHTML = `
-                <div class="bg-white p-6 rounded-2xl border shadow-sm"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1">סוכנים פעילים</span><div class="text-3xl font-black text-slate-800">${reportData.agents.length}</div></div>
-                <div class="bg-white p-6 rounded-2xl border shadow-sm"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1">סה"כ עמלות</span><div class="text-3xl font-black text-blue-600">${format(totalFeesRaw)}</div></div>
-                <div class="bg-white p-6 rounded-2xl border shadow-sm"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1">מאזן מועדון סופי</span><div class="text-3xl font-black ${netBalance >=0 ? 'text-emerald-600' : 'text-red-600'}">${format(netBalance)}</div></div>
+                <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1">סוכנים פעילים</span><div class="text-3xl font-black text-slate-800 tracking-tighter">${reportData.agents.length}</div></div>
+                <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1 uppercase">סה"כ עמלות</span><div class="text-3xl font-black text-blue-600 tracking-tighter">${format(totalFeesRaw)}</div></div>
+                <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1 uppercase">מאזן מועדון סופי</span><div class="text-3xl font-black ${netBalance >=0 ? 'text-emerald-600' : 'text-red-600'} tracking-tighter">${format(netBalance)}</div></div>
             `;
             if(settlementChart) settlementChart.destroy();
             settlementChart = new Chart(document.getElementById('settlementChart'), {
@@ -421,11 +450,11 @@
             const isPos = summary.final >= 0;
             const rate = getRate(agent.name);
             document.getElementById('agent-metrics').innerHTML = `
-                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">P&L שחקנים</span><div class="text-xl font-black ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'}">${format(summary.sumPnl)}</div></div>
-                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">עמלת סוכן</span><div class="text-xl font-black text-blue-600">${format(summary.agentCut)}</div></div>
-                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">יתרת עבר</span><div class="text-xl font-black text-slate-700">${format(agent.pastBalance)}</div></div>
-                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1 text-nowrap">שחקנים</span><div class="text-xl font-black text-slate-800">${agent.players.length}</div></div>
-                <div class="${isPos ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'} p-4 rounded-xl border shadow-sm col-span-full md:col-span-1"><span class="text-[9px] font-black ${isPos ? 'text-emerald-600' : 'text-red-600'} uppercase tracking-widest block mb-1">שורה תחתונה</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">P&L שחקנים</span><div class="text-xl font-black ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'} tracking-tight">${format(summary.sumPnl)}</div></div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">עמלת סוכן</span><div class="text-xl font-black text-blue-600 tracking-tight">${format(summary.agentCut)}</div></div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1">יתרת עבר</span><div class="text-xl font-black text-slate-700 tracking-tight">${format(agent.pastBalance)}</div></div>
+                <div class="bg-white p-4 rounded-xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-1 text-nowrap">שחקנים</span><div class="text-xl font-black text-slate-800 tracking-tight">${agent.players.length}</div></div>
+                <div class="${isPos ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'} p-4 rounded-xl border shadow-sm col-span-full md:col-span-1"><span class="text-[9px] font-black ${isPos ? 'text-emerald-600' : 'text-red-600'} uppercase tracking-widest block mb-1">שורה תחתונה</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'} tracking-tighter">${format(summary.final)}</div></div>
             `;
             const tbody = document.getElementById('agent-players-table');
             const sortedPlayers = [...agent.players].sort((a,b) => (Math.abs(b.pnl) + b.fee) - (Math.abs(a.pnl) + a.fee));
@@ -433,7 +462,7 @@
                 <tr class="player-row cursor-pointer hover:bg-slate-50 border-b border-slate-100 transition-colors" onclick="openPlayerDetails('${agent.name}', '${p.name}')">
                     <td class="p-4 font-bold text-slate-800 player-name tracking-tight transition-colors text-sm">${p.name}</td>
                     <td class="p-4 font-black text-left ${p.pnl > 0 ? 'text-emerald-600' : p.pnl < 0 ? 'text-red-600' : 'text-slate-400'} text-sm" dir="ltr">${format(p.pnl)}</td>
-                    <td class="p-4 text-left text-slate-600 fee-col font-bold text-sm" dir="ltr">${format(p.fee * rate)}</td>
+                    <td class="p-4 text-left text-slate-600 fee-col font-bold text-sm tracking-tight" dir="ltr">${format(p.fee * rate)}</td>
                 </tr>
             `).join('');
         }
@@ -449,7 +478,7 @@
             const tbody = document.getElementById('player-view-table');
             tbody.innerHTML = player.games.map(g => `
                 <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-4 px-2 text-sm font-bold text-slate-400">${g.d}</td>
+                    <td class="py-4 px-2 text-sm font-bold text-slate-400 uppercase tracking-tighter">${g.d}</td>
                     <td class="py-4 px-2 text-sm text-slate-700 font-black tracking-tight">${g.t}</td>
                     <td class="py-4 px-2 text-sm font-black text-left ${g.r >= 0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(g.r)}</td>
                 </tr>
@@ -499,7 +528,7 @@
                     </tr>
                 `).join('');
             } else {
-                gamesBody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-slate-400 italic font-medium">אין מידע זמין</td></tr>`;
+                gamesBody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-slate-400 italic font-medium tracking-tight">אין מידע זמין</td></tr>`;
             }
             document.getElementById('player-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -512,13 +541,13 @@
                 <div class="bg-white p-8 rounded-3xl border border-red-100 border-t-4 border-t-red-500 shadow-sm">
                     <h3 class="text-xl font-black text-slate-800 mb-6 text-center uppercase tracking-tighter">זליגת כספים בטורנירים</h3>
                     <div class="space-y-4 font-bold">
-                        <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>Overlay</span><span class="text-red-600">-1,920.00</span></div>
-                        <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>הפסד שחקני בית</span><span class="text-red-600">-236.03</span></div>
-                        <div class="flex justify-between p-5 bg-red-600 text-white rounded-2xl shadow mt-6 font-black tracking-widest"><span class="uppercase">סה"כ עלות מועדון</span><span class="text-2xl">-2,156.03</span></div>
+                        <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>Overlay</span><span class="text-red-600 tracking-tight">-1,920.00</span></div>
+                        <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>הפסד שחקני בית</span><span class="text-red-600 tracking-tight">-236.03</span></div>
+                        <div class="flex justify-between p-5 bg-red-600 text-white rounded-2xl shadow mt-6 font-black tracking-widest"><span class="uppercase">סה"כ עלות מועדון</span><span class="text-2xl tracking-tighter">-2,156.03</span></div>
                     </div>
                 </div>
                 <div class="bg-white p-8 rounded-3xl border shadow-sm">
-                    <h3 class="text-xl font-black text-slate-800 mb-4 border-b pb-2 tracking-tighter uppercase font-black font-black">ניתוח והמלצות</h3>
+                    <h3 class="text-xl font-black text-slate-800 mb-4 border-b pb-2 tracking-tighter uppercase font-black font-black font-black">ניתוח והמלצות</h3>
                     <p class="text-slate-600 leading-relaxed mb-4 font-medium italic text-sm">הטורנירים עולים למועדון מעל ל-2,100 יחידות מדי שבוע. שחקני הבית מסיימים בהפסד מול שחקנים זרים.</p>
                     <div class="mt-4 p-5 bg-blue-50 border-r-4 border-blue-500 rounded-2xl text-blue-900 font-bold italic text-[10px] text-center uppercase tracking-widest shadow-inner">מומלץ להקטין את סכומי ה-GTD בטורנירים.</div>
                 </div>
