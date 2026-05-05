@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>דוח התחשבנות מועדון - פירוט משחקים מלא</title>
+    <title>מערכת התחשבנות - ניהול סוכנים ושחקנים</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -32,40 +32,40 @@
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4 font-bold text-2xl">₪</div>
                 <h2 class="text-2xl font-bold text-slate-800">מערכת התחשבנות</h2>
-                <p class="text-slate-500 mt-2">פירוט משחקים וסשנים - גישה מאובטחת</p>
+                <p class="text-slate-500 mt-2">כניסת מנהלים, סוכנים ושחקנים</p>
             </div>
             <div class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">שם משתמש</label>
-                    <input type="text" id="username" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="הכנס שם">
+                    <input type="text" id="username" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="שם משתמש">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-slate-700 mb-1">סיסמה</label>
                     <input type="password" id="password" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="••••••••">
                 </div>
                 <div id="login-error" class="text-red-500 text-sm hidden text-center font-medium">פרטי התחברות שגויים</div>
-                <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors mt-4">כניסה למערכת</button>
+                <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors mt-4">התחבר</button>
             </div>
         </div>
     </div>
 
-    <!-- Player Details Modal -->
+    <!-- Player Details Modal (For Admin/Agent Use) -->
     <div id="player-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 modal-overlay">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <div>
                     <h3 id="modal-player-name" class="text-2xl font-bold text-slate-800">שם שחקן</h3>
-                    <p class="text-sm text-slate-500 mt-1">פירוט סשנים וחישוב תוצאה סופית</p>
+                    <p class="text-sm text-slate-500 mt-1">פירוט סשנים וחישוב תוצאה</p>
                 </div>
                 <button id="close-modal" class="text-slate-400 hover:text-slate-600 p-2 text-2xl">&times;</button>
             </div>
             <div class="p-6 overflow-y-auto flex-grow">
-                <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="grid grid-cols-2 gap-4 mb-6" id="modal-stats-container">
                     <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
                         <span class="text-xs text-blue-600 font-bold uppercase">סה"כ P&L</span>
                         <div id="modal-total-pnl" class="text-2xl font-black">0.00</div>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <div id="modal-fee-card" class="bg-slate-50 p-4 rounded-xl border border-slate-100">
                         <span class="text-xs text-slate-500 font-bold uppercase">סה"כ עמלה (100%)</span>
                         <div id="modal-total-fee" class="text-2xl font-black">0.00</div>
                     </div>
@@ -78,16 +78,11 @@
                                 <th class="pb-3 px-2">תאריך/סשן</th>
                                 <th class="pb-3 px-2">סוג משחק</th>
                                 <th class="pb-3 px-2 text-left">תוצאה</th>
-                                <th class="pb-3 px-2 text-left">עמלה</th>
+                                <th class="pb-3 px-2 text-left fee-col">עמלה</th>
                             </tr>
                         </thead>
-                        <tbody id="modal-games-body" class="divide-y text-slate-700">
-                        </tbody>
+                        <tbody id="modal-games-body" class="divide-y text-slate-700"></tbody>
                     </table>
-                </div>
-                <div class="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-100 text-sm text-amber-800">
-                    <strong>איך הגענו לתוצאה?</strong><br>
-                    התוצאה הסופית היא סיכום כלל הרווחים וההפסדים מהסשנים המוצגים לעיל. העמלה המוצגת בטבלה זו היא ה-100% שנוצר, ממנה נגזרת עמלת הסוכן בסיכום הכללי.
                 </div>
             </div>
         </div>
@@ -99,8 +94,8 @@
             <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <div class="flex items-center gap-3">
-                        <h1 class="text-2xl font-bold text-slate-800 tracking-tight">💼 התחשבנות סוכנים</h1>
-                        <span id="user-badge" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black border border-blue-100 uppercase"></span>
+                        <h1 class="text-2xl font-bold text-slate-800 tracking-tight">💼 דוח פעילות</h1>
+                        <span id="user-badge" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black border border-blue-100 uppercase tracking-tighter"></span>
                     </div>
                     <nav class="flex gap-2 items-center">
                         <div id="main-nav" class="flex gap-2 mr-4">
@@ -108,17 +103,19 @@
                             <button id="nav-agents" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium">👥 דוחות</button>
                             <button id="nav-mtt" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium">🏆 טורנירים</button>
                         </div>
-                        <button id="logout-btn" class="text-slate-400 hover:text-red-600 p-2" title="התנתק">🚪</button>
+                        <button id="logout-btn" class="bg-slate-50 text-slate-500 hover:text-red-600 px-4 py-2 rounded-lg border border-slate-200 transition-colors font-bold">יציאה</button>
                     </nav>
                 </div>
             </div>
         </header>
 
         <main class="flex-grow container mx-auto px-4 lg:px-8 max-w-7xl py-8">
+            
+            <!-- Admin Dashboard View -->
             <div id="view-dashboard" class="view-section block">
                 <div class="mb-8">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2 font-black">תמונת מצב מועדון</h2>
-                    <p class="text-slate-600">סיכום התחשבנות גלובלי - לחץ על סוכן בדוח המפורט לצפייה בפירוט משחקים.</p>
+                    <p class="text-slate-600">סיכום התחשבנות גלובלי - אדמין.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="dash-stats"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -133,6 +130,7 @@
                 </div>
             </div>
 
+            <!-- Agent/Detailed View -->
             <div id="view-agents" class="view-section hidden">
                 <div id="agent-selector-container" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
                     <label class="block text-sm font-semibold text-slate-700 mb-2 font-bold uppercase tracking-tighter">בחר סוכן להצגה:</label>
@@ -150,11 +148,46 @@
                                     <tr>
                                         <th class="p-4 border-b">שם שחקן</th>
                                         <th class="p-4 border-b text-left">תוצאה (P&L)</th>
-                                        <th class="p-4 border-b text-left">עמלה (100%)</th>
+                                        <th class="p-4 border-b text-left fee-col">עמלה (100%)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="agent-players-table" class="divide-y text-slate-700"></tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Player Individual View -->
+            <div id="view-player-single" class="view-section hidden">
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden mb-8">
+                        <div class="bg-slate-800 text-white p-8">
+                            <h2 class="text-3xl font-black mb-2" id="player-view-name">שלום, שחקן</h2>
+                            <p class="opacity-70 font-medium">סיכום ביצועים אישי לתקופה: 28/04 - 04/05</p>
+                        </div>
+                        <div class="p-8">
+                            <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex justify-between items-center mb-8">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">תוצאה סופית (P&L)</span>
+                                    <div id="player-view-pnl" class="text-4xl font-black">0.00</div>
+                                </div>
+                                <div class="text-slate-300 text-5xl">📊</div>
+                            </div>
+                            
+                            <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">פירוט סשנים ומשחקים</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right">
+                                    <thead>
+                                        <tr class="text-xs font-bold text-slate-400 uppercase border-b">
+                                            <th class="pb-3">תאריך</th>
+                                            <th class="pb-3">סוג משחק</th>
+                                            <th class="pb-3 text-left">תוצאה</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="player-view-table" class="divide-y text-slate-700"></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -168,14 +201,20 @@
     </div>
 
     <script>
+        // Extended users database including players
         const users = {
-            'admin': { pass: 'admin123', role: 'admin', name: 'אדמין' },
+            'admin': { pass: 'admin123', role: 'admin', name: 'מנהל מערכת' },
             'חיים': { pass: 'חיים177', role: 'agent', name: 'חיים', agentIndex: 0 },
             'איתי': { pass: 'איתי2024', role: 'agent', name: 'איתי', agentIndex: 1 },
             'אבי': { pass: 'אבי2026', role: 'agent', name: 'אבי', agentIndex: 2 },
             'עוז': { pass: 'עוז999', role: 'agent', name: 'עוז', agentIndex: 3 },
             'אלחנן': { pass: 'אלחנן86', role: 'agent', name: 'אלחנן', agentIndex: 4 },
-            'יוני': { pass: 'יוני25', role: 'agent', name: 'יוני', agentIndex: 5 }
+            'יוני': { pass: 'יוני25', role: 'agent', name: 'יוני', agentIndex: 5 },
+            // Sample player users
+            'avim24': { pass: 'avim123', role: 'player', name: 'avim24' },
+            'Bathens': { pass: 'bat123', role: 'player', name: 'Bathens' },
+            'מור קריטי': { pass: 'מור123', role: 'player', name: 'מור קריטי' },
+            'Black Rain82': { pass: 'black123', role: 'player', name: 'Black Rain82' }
         };
 
         const reportData = {
@@ -200,14 +239,7 @@
                         { name: "dasi7", pnl: 3.44, fee: 75.00, games: [{d: '02/05', t: 'NLH 5/10', r: 3.44, f: 75.00}] },
                         { name: "YoavAA", pnl: 23.54, fee: 15.00, games: [{d: '03/05', t: 'NLH 5/10', r: 23.54, f: 15.00}] },
                         { name: "Baraks1", pnl: -55.00, fee: 98.52, games: [{d: '04/05', t: 'NLH 2/4', r: -55.00, f: 98.52}] },
-                        { name: "Adi Rahimian", pnl: -126.11, fee: 30.90, games: [{d: '02/05', t: 'NLH 5/10', r: -126.11, f: 30.90}] },
-                        { name: "Yossi xXx", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "Dadi@Max", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "ilanzi", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "addADDis", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "Shekel@", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "DysonV", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "malibu pompom", pnl: 0.00, fee: 0.00, games: [] }
+                        { name: "Adi Rahimian", pnl: -126.11, fee: 30.90, games: [{d: '02/05', t: 'NLH 5/10', r: -126.11, f: 30.90}] }
                     ]
                 },
                 {
@@ -224,12 +256,7 @@
                         { name: "OTC 1", pnl: -53.34, fee: 173.00, games: [{d: '01/05', t: 'NLH 5/10', r: -53.34, f: 173.00}] },
                         { name: "dan13579", pnl: 102.56, fee: 25.77, games: [{d: '02/05', t: 'NLH 2/4', r: 102.56, f: 25.77}] },
                         { name: "govo22", pnl: -100.00, fee: 40.00, games: [{d: '03/05', t: 'NLH 5/10', r: -100.00, f: 40.00}] },
-                        { name: "MAXPRESSURE7", pnl: -120.00, fee: 3.00, games: [{d: '04/05', t: 'NLH 5/10', r: -120.00, f: 3.00}] },
-                        { name: "school teacher", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "ID20", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "tomerme13579", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "AAA10MA", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "Don_Pablorr12", pnl: 0.00, fee: 0.00, games: [] }
+                        { name: "MAXPRESSURE7", pnl: -120.00, fee: 3.00, games: [{d: '04/05', t: 'NLH 5/10', r: -120.00, f: 3.00}] }
                     ]
                 },
                 {
@@ -255,8 +282,7 @@
                         { name: "BOOM", pnl: -600.00, fee: 289.00, games: [{d: '02/05', t: 'NLH 5/10', r: -600.00, f: 289.00}] },
                         { name: "Ofir eliyahu198", pnl: -261.73, fee: 120.16, games: [{d: '03/05', t: 'NLH 2/4', r: -261.73, f: 120.16}] },
                         { name: "yosi!!", pnl: -300.00, fee: 60.29, games: [{d: '04/05', t: 'NLH 5/10', r: -300.00, f: 60.29}] },
-                        { name: "ozozoz111", pnl: -300.00, fee: 30.19, games: [{d: '29/04', t: 'NLH 5/10', r: -300.00, f: 30.19}] },
-                        { name: "israel999", pnl: 0.00, fee: 0.00, games: [] }
+                        { name: "ozozoz111", pnl: -300.00, fee: 30.19, games: [{d: '29/04', t: 'NLH 5/10', r: -300.00, f: 30.19}] }
                     ]
                 },
                 {
@@ -265,19 +291,14 @@
                     players: [
                         { name: "IzMaR (מאוחד)", pnl: 2813.31, fee: 622.27, games: [{d: '30/04', t: 'NLH 10/20', r: 1500, f: 300}, {d: '02/05', t: 'NLH 10/20', r: 1313.31, f: 322.27}] },
                         { name: "Camel63 (מאוחד)", pnl: -178.12, fee: 28.19, games: [{d: '01/05', t: 'NLH 5/10', r: -178.12, f: 28.19}] },
-                        { name: "Puntman777", pnl: -100.00, fee: 26.10, games: [{d: '03/05', t: 'NLH 5/10', r: -100.00, f: 26.10}] },
-                        { name: "naki t", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "mirdi 86", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "jokeravi", pnl: 0.00, fee: 0.00, games: [] }
+                        { name: "Puntman777", pnl: -100.00, fee: 26.10, games: [{d: '03/05', t: 'NLH 5/10', r: -100.00, f: 26.10}] }
                     ]
                 },
                 {
                     name: "יוני",
                     pastBalance: 0.00,
                     players: [
-                        { name: "ghost baba", pnl: -26.68, fee: 2.81, games: [{d: '02/05', t: 'NLH 2/4', r: -26.68, f: 2.81}] },
-                        { name: "Kepler36b", pnl: 0.00, fee: 0.00, games: [] },
-                        { name: "levinson yoram", pnl: 0.00, fee: 0.00, games: [] }
+                        { name: "ghost baba", pnl: -26.68, fee: 2.81, games: [{d: '02/05', t: 'NLH 2/4', r: -26.68, f: 2.81}] }
                     ]
                 }
             ]
@@ -311,14 +332,24 @@
 
         function setupView() {
             document.getElementById('user-badge').textContent = currentUser.name;
+            
+            // Clear navigation
+            const nav = document.getElementById('main-nav');
+            
             if (currentUser.role === 'admin') {
+                nav.classList.remove('hidden');
                 switchTab('nav-dashboard', 'view-dashboard');
-            } else {
+            } else if (currentUser.role === 'agent') {
+                nav.classList.remove('hidden');
                 document.getElementById('nav-dashboard').classList.add('hidden');
                 document.getElementById('nav-mtt').classList.add('hidden');
                 document.getElementById('agent-selector-container').classList.add('hidden');
                 switchTab('nav-agents', 'view-agents');
                 renderAgentDetails(reportData.agents[currentUser.agentIndex]);
+            } else if (currentUser.role === 'player') {
+                nav.classList.add('hidden');
+                switchTab(null, 'view-player-single');
+                renderPlayerSingleView(currentUser.name);
             }
             initNavigation();
         }
@@ -340,7 +371,8 @@
             document.querySelectorAll('.view-section').forEach(v => v.classList.add('hidden'));
             document.getElementById(viewId).classList.remove('hidden');
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'bg-blue-600', 'text-white'));
-            document.getElementById(activeBtnId).classList.add('active', 'bg-blue-600', 'text-white');
+            if(activeBtnId) document.getElementById(activeBtnId).classList.add('active', 'bg-blue-600', 'text-white');
+            
             if(viewId === 'view-dashboard') renderDashboard();
             if(viewId === 'view-mtt') renderMTT();
         }
@@ -381,7 +413,7 @@
                 <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">עמלת סוכן (${summary.rateText})</span><div class="text-xl font-bold text-blue-600">${format(summary.agentCut)}</div></div>
                 <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">יתרת עבר</span><div class="text-xl font-bold text-slate-700">${format(agent.pastBalance)}</div></div>
                 <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">שחקנים רשומים</span><div class="text-xl font-bold text-slate-800">${agent.players.length}</div></div>
-                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border shadow-sm col-span-full md:col-span-1"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורה תחתונה (${statusText})</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
+                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורה תחתונה (${statusText})</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
             `;
 
             const tbody = document.getElementById('agent-players-table');
@@ -391,7 +423,32 @@
                 <tr class="player-row cursor-pointer hover:bg-slate-50 border-b border-slate-100 transition-colors" onclick="openPlayerDetails('${agent.name}', '${p.name}')">
                     <td class="p-4 font-medium text-slate-800 player-name transition-colors">${p.name}</td>
                     <td class="p-4 font-bold text-left ${p.pnl > 0 ? 'text-emerald-600' : p.pnl < 0 ? 'text-red-600' : 'text-slate-400'}" dir="ltr">${format(p.pnl)}</td>
-                    <td class="p-4 text-left text-slate-600" dir="ltr">${format(p.fee)}</td>
+                    <td class="p-4 text-left text-slate-600 fee-col" dir="ltr">${format(p.fee)}</td>
+                </tr>
+            `).join('');
+            
+            // Hide fee column if agent shouldn't see it (not applicable here based on prompt, but available)
+        }
+
+        function renderPlayerSingleView(playerName) {
+            let player = null;
+            reportData.agents.forEach(a => {
+                const found = a.players.find(p => p.name === playerName);
+                if(found) player = found;
+            });
+
+            if(!player) return;
+
+            document.getElementById('player-view-name').textContent = `שלום, ${player.name}`;
+            document.getElementById('player-view-pnl').textContent = format(player.pnl);
+            document.getElementById('player-view-pnl').className = `text-4xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}`;
+
+            const tbody = document.getElementById('player-view-table');
+            tbody.innerHTML = player.games.map(g => `
+                <tr class="hover:bg-slate-50">
+                    <td class="py-4 px-2 text-sm font-medium">${g.d}</td>
+                    <td class="py-4 px-2 text-sm text-slate-500 font-bold">${g.t}</td>
+                    <td class="py-4 px-2 text-sm font-bold text-left ${g.r >= 0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(g.r)}</td>
                 </tr>
             `).join('');
         }
@@ -403,20 +460,32 @@
             document.getElementById('modal-player-name').textContent = player.name;
             document.getElementById('modal-total-pnl').textContent = format(player.pnl);
             document.getElementById('modal-total-pnl').className = `text-2xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}`;
-            document.getElementById('modal-total-fee').textContent = format(player.fee);
+            
+            // Role based protection in modal
+            const feeCol = document.querySelectorAll('.fee-col');
+            const feeCard = document.getElementById('modal-fee-card');
+            
+            if(currentUser.role === 'player') {
+                feeCard.classList.add('hidden');
+                feeCol.forEach(el => el.classList.add('hidden'));
+            } else {
+                feeCard.classList.remove('hidden');
+                feeCol.forEach(el => el.classList.remove('hidden'));
+                document.getElementById('modal-total-fee').textContent = format(player.fee);
+            }
             
             const gamesBody = document.getElementById('modal-games-body');
             if (player.games && player.games.length > 0) {
                 gamesBody.innerHTML = player.games.map(g => `
                     <tr class="hover:bg-slate-50">
                         <td class="py-3 px-2 text-sm">${g.d}</td>
-                        <td class="py-3 px-2 text-sm font-medium text-slate-500">${g.t}</td>
+                        <td class="py-3 px-2 text-sm font-medium text-slate-500 font-bold">${g.t}</td>
                         <td class="py-3 px-2 text-sm font-bold text-left ${g.r >= 0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(g.r)}</td>
-                        <td class="py-3 px-2 text-sm text-left font-medium text-slate-400" dir="ltr">${format(g.f)}</td>
+                        <td class="py-3 px-2 text-sm text-left font-medium text-slate-400 fee-col ${currentUser.role === 'player' ? 'hidden' : ''}" dir="ltr">${format(g.f)}</td>
                     </tr>
                 `).join('');
             } else {
-                gamesBody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-slate-400 italic">אין מידע מפורט זמין עבור שחקן זה</td></tr>`;
+                gamesBody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-slate-400 italic">אין מידע מפורט זמין</td></tr>`;
             }
 
             document.getElementById('player-modal').classList.remove('hidden');
@@ -440,8 +509,8 @@
                 </div>
                 <div class="bg-white p-8 rounded-xl border shadow-sm">
                     <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 tracking-tighter uppercase font-black">ניתוח והמלצות</h3>
-                    <p class="text-slate-600 leading-relaxed mb-4">המערכת מעידה כי הטורנירים עולים למועדון מעל ל-2,100 יחידות מדי שבוע. שחקני הבית שתומכים בנזילות המשחקים מסיימים בהפסד מול שחקנים זרים.</p>
-                    <div class="mt-4 p-4 bg-blue-50 border-r-4 border-blue-500 rounded text-blue-900 font-medium italic text-sm text-center">מומלץ להקטין את סכומי ה-GTD בטורנירים שאינם מתמלאים.</div>
+                    <p class="text-slate-600 leading-relaxed mb-4">הטורנירים עולים למועדון מעל ל-2,100 יחידות מדי שבוע. שחקני הבית מסיימים בהפסד מול שחקנים זרים.</p>
+                    <div class="mt-4 p-4 bg-blue-50 border-r-4 border-blue-500 rounded text-blue-900 font-medium italic text-sm text-center">מומלץ להקטין את סכומי ה-GTD בטורנירים.</div>
                 </div>
             `;
         }
