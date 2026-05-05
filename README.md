@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מערכת התחשבנות - גרסה מתוקנת ומלאה</title>
+    <title>מערכת התחשבנות - ניהול מחזורים ושחקנים</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -34,7 +34,7 @@
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4 font-bold text-2xl">₪</div>
                 <h2 class="text-2xl font-bold text-slate-800 font-black tracking-tighter uppercase">כניסת מערכת</h2>
-                <p class="text-slate-500 mt-2 font-medium">התחשבנות מבוקרת - גישה מאובטחת</p>
+                <p class="text-slate-500 mt-2 font-medium">ניהול התחשבנות וסשנים</p>
             </div>
             <div class="space-y-4 text-right">
                 <div>
@@ -46,7 +46,7 @@
                     <input type="password" id="password" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-right" placeholder="••••••••">
                 </div>
                 <div id="login-error" class="text-red-600 text-sm hidden text-center font-black bg-red-50 p-2 rounded-lg border border-red-100 italic">פרטי התחברות שגויים</div>
-                <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl transition-all shadow-lg shadow-blue-200 uppercase tracking-widest">התחבר עכשיו</button>
+                <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl transition-all shadow-lg shadow-blue-200 uppercase tracking-widest">התחבר</button>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
             <div class="p-6 overflow-y-auto flex-grow text-right">
                 
                 <div id="modal-creds-section" class="mb-6 p-5 bg-emerald-50 border border-emerald-100 rounded-2xl hidden shadow-inner">
-                    <h4 class="text-[11px] font-black text-emerald-700 uppercase tracking-widest mb-4 flex items-center gap-2">🔑 פרטי גישה לשחקן</h4>
+                    <h4 class="text-[11px] font-black text-emerald-700 uppercase tracking-widest mb-4 flex items-center gap-2">🔑 פרטי גישה לשחקן (לשליחה)</h4>
                     <div class="flex flex-col sm:flex-row gap-4">
                         <div class="flex-1 bg-white p-3 rounded-xl border border-emerald-200">
                             <span class="text-[9px] text-emerald-500 font-bold block uppercase mb-1">שם משתמש:</span>
@@ -93,7 +93,7 @@
                     <table class="w-full text-right border-collapse">
                         <thead>
                             <tr class="text-[10px] font-black text-slate-400 uppercase border-b">
-                                <th class="pb-3 px-2 text-right">סוג/תאריך</th>
+                                <th class="pb-3 px-2">סוג/תאריך</th>
                                 <th class="pb-3 px-2 text-right">משחק</th>
                                 <th class="pb-3 px-2 text-left">תוצאה</th>
                                 <th class="pb-3 px-2 text-left fee-col">עמלה</th>
@@ -127,7 +127,7 @@
                             <button id="nav-agents" class="nav-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm whitespace-nowrap">👥 דוחות</button>
                             <button id="nav-mtt" class="nav-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm whitespace-nowrap">🏆 טורנירים</button>
                         </div>
-                        <button id="logout-btn" class="bg-slate-50 text-slate-500 hover:text-red-600 px-4 py-2 rounded-xl border border-slate-200 font-black text-xs transition-all uppercase">🚪 יציאה</button>
+                        <button id="logout-btn" class="bg-slate-50 text-slate-500 hover:text-red-600 px-4 py-2 rounded-xl border border-slate-200 font-black text-xs transition-all uppercase tracking-widest">🚪 יציאה</button>
                     </nav>
                 </div>
             </div>
@@ -138,12 +138,12 @@
             <div id="view-dashboard" class="view-section block">
                 <div class="mb-8 text-right">
                     <h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tight">תמונת מצב מועדון</h2>
-                    <p class="text-slate-600 font-medium">סיכום התחשבנות גלובלי - אדמין.</p>
+                    <p class="text-slate-600 font-medium">סיכום התחשבנות גלובלי למחזור הנבחר.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="dash-stats"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-black text-slate-800 mb-4 border-b pb-2 uppercase tracking-tighter text-right">מאזן סופי לפי סוכן</h3>
+                        <h3 class="text-lg font-black text-slate-800 mb-4 border-b pb-2 uppercase tracking-tighter text-right font-black">מאזן סופי לפי סוכן</h3>
                         <div class="chart-container"><canvas id="settlementChart"></canvas></div>
                     </div>
                     <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
@@ -165,7 +165,7 @@
                         <h3 class="text-lg font-black text-slate-800 mb-2 border-b border-slate-100 pb-2 uppercase tracking-tighter">פירוט שחקנים</h3>
                         <p class="text-xs text-slate-400 mb-4 font-medium italic tracking-tight">* לחץ על שם שחקן לצפייה בפרטי גישה ובפירוט המשחקים.</p>
                         <div class="overflow-x-auto">
-                            <table class="w-full text-right border-collapse">
+                            <table class="w-full text-right border-collapse font-medium">
                                 <thead class="bg-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-widest">
                                     <tr class="text-right">
                                         <th class="p-4 border-b">שם שחקן</th>
@@ -173,7 +173,7 @@
                                         <th class="p-4 border-b text-left fee-col">עמלה</th>
                                     </tr>
                                 </thead>
-                                <tbody id="agent-players-table" class="divide-y text-slate-700 font-medium"></tbody>
+                                <tbody id="agent-players-table" class="divide-y text-slate-700"></tbody>
                             </table>
                         </div>
                     </div>
@@ -201,8 +201,8 @@
                                 <table class="w-full text-right font-medium">
                                     <thead>
                                         <tr class="text-[10px] font-black text-slate-400 uppercase border-b">
-                                            <th class="pb-3 px-2">תאריך</th>
-                                            <th class="pb-3 px-2">סוג משחק</th>
+                                            <th class="pb-3 px-2 text-right">תאריך</th>
+                                            <th class="pb-3 px-2 text-right">סוג משחק</th>
                                             <th class="pb-3 px-2 text-left">תוצאה</th>
                                         </tr>
                                     </thead>
@@ -215,13 +215,14 @@
             </div>
 
             <div id="view-mtt" class="view-section hidden text-right font-medium">
-                <div class="mb-8"><h2 class="text-3xl font-black text-slate-800 font-black tracking-tighter uppercase">ניתוח טורנירים (MTT)</h2></div>
+                <div class="mb-8"><h2 class="text-3xl font-black text-slate-800 font-black tracking-tighter uppercase font-black">ניתוח טורנירים (MTT)</h2></div>
                 <div id="mtt-summary" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
             </div>
         </main>
     </div>
 
     <script>
+        // MASTER LOGINS
         const users = {
             'admin': { pass: 'admin123', role: 'admin', name: 'מנהל מערכת' },
             'חיים': { pass: 'חיים177', role: 'agent', name: 'חיים', agentIndex: 0 },
@@ -231,13 +232,19 @@
             'אלחנן': { pass: 'אלחנן86', role: 'agent', name: 'אלחנן', agentIndex: 4 },
             'יוני': { pass: 'יוני25', role: 'agent', name: 'יוני', agentIndex: 5 },
             'בליינדרס': { pass: 'blinders7', role: 'agent', name: 'בליינדרס', agentIndex: 6 },
+            // Players
             'avim24': { pass: 'avim123', role: 'player', name: 'avim24' },
             'Bathens': { pass: 'bat123', role: 'player', name: 'Bathens' },
-            'מור קריטי': { pass: 'מור123', role: 'player', name: 'מור קריטי' },
-            'Black Rain82': { pass: 'black123', role: 'player', name: 'Black Rain82' },
+            'Yana79': { pass: 'yana79', role: 'player', name: 'Yana79' },
+            'nigil': { pass: 'nigil123', role: 'player', name: 'nigil' },
+            'sepopo': { pass: 'sepopo123', role: 'player', name: 'sepopo' },
+            'owl50': { pass: 'owl123', role: 'player', name: 'owl50' },
+            'YOUSUFTHEBEAR': { pass: 'bear123', role: 'player', name: 'YOUSUFTHEBEAR' },
+            'RAP MASTER': { pass: 'rap123', role: 'player', name: 'RAP MASTER' },
+            'SHAYPI': { pass: 'shay123', role: 'player', name: 'SHAYPI' },
+            'Aviad1111': { pass: 'avi1111', role: 'player', name: 'Aviad1111' },
             'OTC 1': { pass: 'otc123', role: 'player', name: 'OTC 1' },
-            'IzMaR': { pass: 'izmar123', role: 'player', name: 'IzMaR' },
-            'Aviad1111': { pass: 'avi1111', role: 'player', name: 'Aviad1111' }
+            'IzMaR': { pass: 'izmar123', role: 'player', name: 'IzMaR' }
         };
 
         const cycles = [
@@ -263,17 +270,21 @@
                     {
                         name: "חיים", pastBalance: 0.00,
                         players: [
-                            { name: "avim24", pnl: -1055.78, fee: 1008.05, games: [{d: '29/04', t: 'NLH 5/10', r: -1055.78, f: 1008.05}] },
                             { name: "Bathens", pnl: -5536.39, fee: 1145.82, games: [{d: '28/04', t: 'PLO 25/50', r: -3000, f: 600.50}, {d: '01/05', t: 'PLO 25/50', r: -2536.39, f: 545.32}] },
+                            { name: "avim24", pnl: -1055.78, fee: 1008.05, games: [{d: '29/04', t: 'NLH 5/10', r: -1055.78, f: 1008.05}] },
+                            { name: "nigil", pnl: 145.41, fee: 0.00, games: [{d: '01/05', t: 'NLH 2/4', r: 145.41, f: 0.00}] },
+                            { name: "dipstay", pnl: -1240.00, fee: 121.49, games: [{d: '30/04', t: 'PLO 10/20', r: -1440.00, f: 121.49}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] },
+                            { name: "Yana79", pnl: 70.85, fee: 80.00, games: [{d: '01/05', t: 'NLH 5/10', r: 70.85, f: 80}] },
                             { name: "raz121212", pnl: 291.69, fee: 129.32, games: [{d: '30/04', t: 'NLH 2/4', r: 291.69, f: 129.32}] },
-                            { name: "dipstay", pnl: -1240.00, fee: 121.49, games: [{d: '30/04', t: 'PLO 10/20', r: -1440.00, f: 121.49}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] }
+                            { name: "Adi Rahimian", pnl: -126.11, fee: 30.90, games: [{d: '02/05', t: 'NLH 5/10', r: -126.11, f: 30.90}] },
+                            { name: "Gil", pnl: -453.00, fee: 38.91, games: [{d: '01/05', t: 'NLH 5/10', r: -453, f: 38.91}] }
                         ]
                     },
                     {
                         name: "איתי", pastBalance: 0.00,
                         players: [
-                            { name: "OTC 1", pnl: 126.70, fee: 173.00, games: [{d: '01/05', t: 'NLH 5/10', r: -53.34, f: 173.00}, {d: 'MTT', t: 'רווח טורניר', r: 180.04, f: 0.00}] },
                             { name: "Aviad1111", pnl: -3632.81, fee: 936.15, games: [{d: '28/04', t: 'PLO 25/50', r: -2000, f: 500}, {d: '30/04', t: 'NLH 10/20', r: -1632.81, f: 436.15}] },
+                            { name: "OTC 1", pnl: 126.70, fee: 173.00, games: [{d: '01/05', t: 'NLH 5/10', r: -53.34, f: 173.00}, {d: 'MTT', t: 'רווח טורניר', r: 180.04, f: 0.00}] },
                             { name: "in2024", pnl: 775.41, fee: 257.16, games: [{d: '01/05', t: 'NLH 5/10', r: 775.41, f: 257.16}] },
                             { name: "Black Rain82", pnl: 862.65, fee: 232.56, games: [{d: '03/05', t: 'PLO 5/10', r: 862.65, f: 232.56}] }
                         ]
@@ -282,6 +293,9 @@
                         name: "אבי", pastBalance: 0.00,
                         players: [
                             { name: "מור קריטי", pnl: -5473.00, fee: 1777.00, games: [{d: '28/04', t: 'NLH 25/50', r: -5473, f: 1777}] },
+                            { name: "yoram3554", pnl: -4419.44, fee: 1924.24, games: [{d: '01/05', t: 'PLO 25/50', r: -4419, f: 1924}] },
+                            { name: "Alof mlyda", pnl: -1388.74, fee: 1836.81, games: [{d: '04/05', t: 'NLH 25/50', r: -1144.46, f: 1836.81}, {d: 'MTT', t: 'הפסד טורניר', r: -244.28, f: 0.00}] },
+                            { name: "עופר וקנין", pnl: 791.86, fee: 2299.81, games: [{d: '30/04', t: 'PLO 25/50', r: 791, f: 2299}] },
                             { name: "dani shovevani1", pnl: 2643.54, fee: 1054.53, games: [{d: '01/05', t: 'NLH 10/20', r: 2871.02, f: 1054.53}, {d: 'MTT', t: 'הפסד טורניר', r: -227.48, f: 0.00}] }
                         ]
                     },
@@ -289,11 +303,8 @@
                         name: "עוז", pastBalance: -2550.00,
                         players: [
                             { name: "adirmezin12", pnl: -697.36, fee: 415.74, games: [{d: '30/04', t: 'PLO 5/10', r: -697.36, f: 415.74}] },
-                            { name: "AM26", pnl: 107.00, fee: 439.00, games: [{d: '01/05', t: 'NLH 5/10', r: 107.00, f: 439.00}] },
-                            { name: "BOOM", pnl: -600.00, fee: 289.00, games: [{d: '02/05', t: 'NLH 5/10', r: -600.00, f: 289.00}] },
-                            { name: "Ofir eliyahu198", pnl: -261.73, fee: 120.16, games: [{d: '03/05', t: 'NLH 2/4', r: -261.73, f: 120.16}] },
-                            { name: "yosi!!", pnl: -300.00, fee: 60.29, games: [{d: '04/05', t: 'NLH 5/10', r: -300.00, f: 60.29}] },
-                            { name: "ozozoz111", pnl: -300.00, fee: 30.19, games: [{d: '29/04', t: 'NLH 5/10', r: -300.00, f: 30.19}] }
+                            { name: "AM26", pnl: 107.00, fee: 439.00, games: [{d: '01/05', t: 'NLH 5/10', r: 107, f: 439}] },
+                            { name: "BOOM", pnl: -600.00, fee: 289.00, games: [{d: '02/05', t: 'NLH 5/10', r: -600, f: 289}] }
                         ]
                     },
                     {
@@ -305,13 +316,18 @@
                     {
                         name: "יוני", pastBalance: 0.00,
                         players: [
-                            { name: "ghost baba", pnl: -213.22, fee: 2.81, games: [{d: '02/05', t: 'NLH 2/4', r: -26.68, f: 2.81}, {d: 'MTT', t: 'הפסד טורניר', r: -186.54, f: 0.00}] }
+                            { name: "SHAYPI", pnl: 216.33, fee: 97.70, games: [{d: '02/05', t: 'סשן משולב', r: 216.33, f: 97.70}] },
+                            { name: "sepopo", pnl: 0.00, fee: 283.83, games: [{d: '02/05', t: 'סשן משולב', r: 0.00, f: 283.83}] },
+                            { name: "ghost baba", pnl: -213.22, fee: 2.81, games: [{d: '02/05', t: 'NLH 2/4', r: -26.68, f: 2.81}, {d: 'MTT', t: 'הפסד טורניר', r: -186.54, f: 0.00}] },
+                            { name: "owl50", pnl: 0.00, fee: 0.00, games: [] },
+                            { name: "YOUSUFTHEBEAR", pnl: 0.00, fee: 0.00, games: [] },
+                            { name: "RAP MASTER", pnl: 0.00, fee: 0.00, games: [] }
                         ]
                     },
                     {
                         name: "בליינדרס", pastBalance: 0.00,
                         players: [
-                            { name: "Hagaim", pnl: 700.00, fee: 160.45, games: [{d: '02/05', t: 'NLH 5/10', r: 700.00, f: 160.45}] }
+                            { name: "Hagaim", pnl: 700.00, fee: 160.45, games: [{d: '02/05', t: 'NLH 5/10', r: 700, f: 160.45}] }
                         ]
                     }
                 ]
@@ -359,17 +375,13 @@
         function renderCycleSelector() {
             const selector = document.getElementById('cycle-selector');
             selector.innerHTML = cycles.map((c, i) => `<option value="${i}" ${i===selectedCycleIndex ? 'selected':''}>${c.label}</option>`).join('');
-            selector.onchange = (e) => { 
-                selectedCycleIndex = Number(e.target.value); 
-                setupView(); 
-            };
+            selector.onchange = (e) => { selectedCycleIndex = Number(e.target.value); setupView(); };
         }
 
         function setupView() {
             document.getElementById('user-badge').textContent = currentUser.name;
             const currentCycle = cycles[selectedCycleIndex];
             const nav = document.getElementById('main-nav');
-            
             if (currentUser.role === 'admin') {
                 nav.classList.remove('hidden');
                 switchTab('nav-dashboard', 'view-dashboard');
@@ -395,10 +407,9 @@
             document.getElementById('logout-btn').onclick = () => window.location.reload();
             document.getElementById('close-modal').onclick = closeModal;
             document.getElementById('player-modal').onclick = (e) => e.target.id === 'player-modal' && closeModal();
-            
             const selector = document.getElementById('agent-selector');
             const currentCycle = cycles[selectedCycleIndex];
-            selector.innerHTML = '<option value="">בחר סוכן להצגה...</option>';
+            selector.innerHTML = '<option value="">בחר סוכן...</option>';
             currentCycle.agents.forEach((a, i) => selector.innerHTML += `<option value="${i}">${a.name}</option>`);
             selector.onchange = (e) => e.target.value !== "" && renderAgentDetails(currentCycle.agents[e.target.value]);
         }
@@ -415,26 +426,15 @@
         function renderDashboard() {
             const currentCycle = cycles[selectedCycleIndex];
             const summaries = currentCycle.agents.map(a => calculateAgentSummary(a, currentCycle.agents));
-            const totalFeesRaw = summaries.reduce((s, x) => s + x.rawFees, 0);
-            const netBalance = summaries.reduce((s, x) => s + x.final, 0);
-
             document.getElementById('dash-stats').innerHTML = `
-                <div class="bg-white p-6 rounded-3xl border shadow-sm text-right"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1">סוכנים פעילים</span><div class="text-3xl font-black text-slate-800 tracking-tighter">${currentCycle.agents.length}</div></div>
-                <div class="bg-white p-6 rounded-3xl border shadow-sm text-right"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1 uppercase tracking-widest">סה"כ עמלות</span><div class="text-3xl font-black text-blue-600 tracking-tighter">${format(totalFeesRaw)}</div></div>
-                <div class="bg-white p-6 rounded-3xl border shadow-sm text-right"><span class="text-[10px] text-slate-400 font-black uppercase tracking-widest block mb-1 uppercase tracking-widest">מאזן מועדון סופי</span><div class="text-3xl font-black ${netBalance >=0 ? 'text-emerald-600' : 'text-red-600'} tracking-tighter">${format(netBalance)}</div></div>`;
-            
+                <div class="bg-white p-6 rounded-3xl border shadow-sm text-right"><span class="text-[10px] text-slate-400 font-black block mb-1">סוכנים פעילים</span><div class="text-3xl font-black text-slate-800 tracking-tighter">${currentCycle.agents.length}</div></div>
+                <div class="bg-white p-6 rounded-3xl border shadow-sm text-right"><span class="text-[10px] text-slate-400 font-black block mb-1 uppercase">סה"כ עמלות (ברוטו)</span><div class="text-3xl font-black text-blue-600 tracking-tighter">${format(summaries.reduce((s,x)=>s+x.rawFees,0))}</div></div>
+                <div class="bg-white p-6 rounded-3xl border shadow-sm text-right"><span class="text-[10px] text-slate-400 font-black block mb-1 uppercase">מאזן מועדון סופי</span><div class="text-3xl font-black ${summaries.reduce((s,x)=>s+x.final,0) >=0 ? 'text-emerald-600' : 'text-red-600'} tracking-tighter">${format(summaries.reduce((s,x)=>s+x.final,0))}</div></div>`;
             if(settlementChart) settlementChart.destroy();
             settlementChart = new Chart(document.getElementById('settlementChart'), {
                 type: 'bar',
                 data: { labels: currentCycle.agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.final), backgroundColor: summaries.map(x => x.final >= 0 ? '#10b981' : '#f43f5e'), borderRadius: 6 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-            });
-
-            if(feeChart) feeChart.destroy();
-            feeChart = new Chart(document.getElementById('feeDistributionChart'), {
-                type: 'doughnut',
-                data: { labels: currentCycle.agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.rawFees), backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#6366f1', '#ec4899'] }] },
-                options: { responsive: true, maintainAspectRatio: false }
             });
         }
 
@@ -442,24 +442,12 @@
             const currentCycle = cycles[selectedCycleIndex];
             const summary = calculateAgentSummary(agent, currentCycle.agents);
             const rate = getAgentPersonalRate(agent.name);
-            
-            let referralHtml = '';
-            if (agent.name === "חיים") {
-                referralHtml = `
-                    <div class="bg-blue-600 p-4 rounded-2xl shadow-lg border border-blue-500 text-white animate-pulse text-right">
-                        <span class="text-[9px] font-black uppercase tracking-widest block mb-1 opacity-80 uppercase tracking-widest">עמלת רשת (עוז)</span>
-                        <div class="text-xl font-black tracking-tight">${format(summary.referralCut)}</div>
-                    </div>
-                `;
-            }
-
             document.getElementById('agent-metrics').innerHTML = `
-                <div class="bg-white p-4 rounded-2xl border shadow-sm text-right"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase tracking-widest">P&L שחקנים</span><div class="text-xl font-black ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'} tracking-tight">${format(summary.sumPnl)}</div></div>
-                <div class="bg-white p-4 rounded-2xl border shadow-sm text-right"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase tracking-widest">עמלת סוכן</span><div class="text-xl font-black text-blue-600 tracking-tight">${format(summary.agentCut)}</div></div>
-                ${referralHtml}
-                <div class="bg-white p-4 rounded-2xl border shadow-sm text-right"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase tracking-widest">יתרת עבר</span><div class="text-xl font-black text-slate-700 tracking-tight">${format(agent.pastBalance)}</div></div>
-                <div class="${summary.final >= 0 ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'} p-4 rounded-2xl border shadow-sm text-right col-span-2 md:col-span-1"><span class="text-[9px] font-black uppercase block mb-1 uppercase tracking-widest">שורה תחתונה</span><div class="text-2xl font-black ${summary.final >= 0 ? 'text-emerald-600' : 'text-red-600'} tracking-tighter">${format(summary.final)}</div></div>`;
-            
+                <div class="bg-white p-4 rounded-2xl border shadow-sm text-right"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase">P&L שחקנים</span><div class="text-xl font-black ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'} tracking-tight">${format(summary.sumPnl)}</div></div>
+                <div class="bg-white p-4 rounded-2xl border shadow-sm text-right"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase">עמלת סוכן</span><div class="text-xl font-black text-blue-600 tracking-tight">${format(summary.agentCut)}</div></div>
+                ${agent.name === "חיים" ? `<div class="bg-blue-600 p-4 rounded-2xl border border-blue-500 text-white text-right shadow-lg"><span class="text-[9px] font-black block mb-1 opacity-80 uppercase tracking-widest">עמלת רשת (עוז)</span><div class="text-xl font-black">${format(summary.referralCut)}</div></div>` : ''}
+                <div class="bg-white p-4 rounded-2xl border shadow-sm text-right"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase">יתרת עבר</span><div class="text-xl font-black text-slate-700 tracking-tight">${format(agent.pastBalance)}</div></div>
+                <div class="${summary.final >= 0 ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'} p-4 rounded-2xl border shadow-sm text-right col-span-2 md:col-span-1"><span class="text-[9px] font-black block mb-1 uppercase">שורה תחתונה</span><div class="text-2xl font-black ${summary.final >= 0 ? 'text-emerald-600' : 'text-red-600'} tracking-tighter">${format(summary.final)}</div></div>`;
             const tbody = document.getElementById('agent-players-table');
             if (!agent.players || agent.players.length === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-12 text-center text-slate-300 italic font-bold">אין פעילות במחזור זה</td></tr>';
             else tbody.innerHTML = [...agent.players].sort((a,b) => Math.abs(b.pnl) - Math.abs(a.pnl)).map(p => `
@@ -481,8 +469,8 @@
             } else {
                 pnlVal.textContent = format(player.pnl); pnlVal.className = `text-5xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'} tracking-tighter font-black`;
                 document.getElementById('player-view-table').innerHTML = player.games.map(g => `
-                    <tr class="hover:bg-slate-50 transition-colors text-right">
-                        <td class="py-4 px-2 text-sm font-bold text-slate-400 uppercase tracking-tighter">${g.d}</td>
+                    <tr class="hover:bg-slate-50 transition-colors text-right font-medium">
+                        <td class="py-4 px-2 text-sm font-bold text-slate-400 uppercase tracking-tighter tracking-tight">${g.d}</td>
                         <td class="py-4 px-2 text-sm text-slate-700 font-black tracking-tight">${g.t}</td>
                         <td class="py-4 px-2 text-sm font-black text-left ${g.r >= 0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(g.r)}</td>
                     </tr>`).join('');
@@ -497,22 +485,20 @@
             document.getElementById('modal-player-name').textContent = playerName;
             const pnlVal = document.getElementById('modal-total-pnl');
             const feeVal = document.getElementById('modal-total-fee');
-            
             if(!player) {
                 pnlVal.textContent = "0.00"; pnlVal.className = "text-2xl font-black text-slate-300"; feeVal.textContent = "0.00";
-                document.getElementById('modal-games-body').innerHTML = '<tr><td colspan="4" class="py-12 text-center text-slate-300">אין פעילות במחזור זה</td></tr>';
+                document.getElementById('modal-games-body').innerHTML = '<tr><td colspan="4" class="py-12 text-center text-slate-300 font-black italic">אין פעילות במחזור זה</td></tr>';
             } else {
                 pnlVal.textContent = format(player.pnl); pnlVal.className = `text-2xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}`;
                 feeVal.textContent = format(player.fee * rate);
                 document.getElementById('modal-games-body').innerHTML = player.games.map(g => `
-                    <tr class="hover:bg-slate-50 border-b border-slate-50 last:border-0 transition-colors text-right">
-                        <td class="py-4 px-2 text-[11px] font-bold text-slate-400 uppercase tracking-tighter">${g.d}</td>
+                    <tr class="hover:bg-slate-50 border-b border-slate-50 last:border-0 transition-colors text-right font-medium">
+                        <td class="py-4 px-2 text-[11px] font-bold text-slate-400 uppercase tracking-tighter tracking-tight">${g.d}</td>
                         <td class="py-4 px-2 text-sm font-black text-slate-700 tracking-tight">${g.t}</td>
                         <td class="py-4 px-2 text-sm font-black text-left ${g.r >= 0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(g.r)}</td>
                         <td class="py-4 px-2 text-sm text-left font-bold text-slate-400 fee-col" dir="ltr">${format(g.f * rate)}</td>
                     </tr>`).join('');
             }
-            
             const credsSection = document.getElementById('modal-creds-section');
             if(currentUser.role !== 'player' && users[playerName]) {
                 credsSection.classList.remove('hidden');
@@ -531,20 +517,14 @@
                 <div class="bg-white p-8 rounded-[2.5rem] border border-red-100 border-t-4 border-t-red-500 shadow-sm text-right">
                     <h3 class="text-xl font-black text-slate-800 mb-6 text-center uppercase tracking-tighter">זליגת כספים בטורנירים</h3>
                     <div class="space-y-4 font-bold">
-                        <div class="flex justify-between p-3 bg-slate-50 rounded-2xl"><span>Overlay</span><span class="text-red-600 font-black">${format(mtt.overlay)}</span></div>
-                        <div class="flex justify-between p-3 bg-slate-50 rounded-2xl"><span>הפסד שחקני בית</span><span class="text-red-600 font-black">${format(mtt.internalLoss)}</span></div>
+                        <div class="flex justify-between p-3 bg-slate-50 rounded-2xl font-black"><span>Overlay</span><span class="text-red-600 font-black">${format(mtt.overlay)}</span></div>
+                        <div class="flex justify-between p-3 bg-slate-50 rounded-2xl font-black"><span>הפסד שחקני בית</span><span class="text-red-600 font-black">${format(mtt.internalLoss)}</span></div>
                         <div class="flex justify-between p-5 bg-red-600 text-white rounded-3xl shadow mt-6 font-black tracking-widest uppercase tracking-widest"><span class="uppercase">סה"כ עלות מועדון</span><span class="text-2xl">${format(mtt.overlay + mtt.internalLoss)}</span></div>
                     </div>
                 </div>`;
         }
 
-        // CORRECTED KEY HANDLING TO ALLOW TYPING
-        document.getElementById('password').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                handleLogin();
-            }
-        });
-        
+        document.getElementById('password').addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
         document.getElementById('login-btn').onclick = handleLogin;
     </script>
 </body>
