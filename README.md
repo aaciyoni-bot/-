@@ -32,7 +32,7 @@
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4 font-bold text-2xl">₪</div>
                 <h2 class="text-2xl font-bold text-slate-800">מערכת התחשבנות</h2>
-                <p class="text-slate-500 mt-2">כניסת מנהלים, סוכנים ושחקנים</p>
+                <p class="text-slate-500 mt-2">גישה מאובטחת לנתונים</p>
             </div>
             <div class="space-y-4">
                 <div>
@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <!-- Player Details Modal (For Admin/Agent Use) -->
+    <!-- Player Details Modal -->
     <div id="player-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 modal-overlay">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -78,13 +78,13 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 mb-6" id="modal-stats-container">
+                <div class="grid grid-cols-2 gap-4 mb-6">
                     <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
                         <span class="text-xs text-blue-600 font-bold uppercase tracking-widest">סה"כ P&L</span>
                         <div id="modal-total-pnl" class="text-2xl font-black">0.00</div>
                     </div>
                     <div id="modal-fee-card" class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                        <span class="text-xs text-slate-500 font-bold uppercase tracking-widest text-nowrap">סה"כ עמלה (100%)</span>
+                        <span class="text-xs text-slate-500 font-bold uppercase tracking-widest">עמלה</span>
                         <div id="modal-total-fee" class="text-2xl font-black">0.00</div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
                                 <th class="pb-3 px-2">תאריך/סשן</th>
                                 <th class="pb-3 px-2">סוג משחק</th>
                                 <th class="pb-3 px-2 text-left">תוצאה</th>
-                                <th class="pb-3 px-2 text-left fee-col">עמלה (100%)</th>
+                                <th class="pb-3 px-2 text-left fee-col">עמלה</th>
                             </tr>
                         </thead>
                         <tbody id="modal-games-body" class="divide-y text-slate-700"></tbody>
@@ -118,11 +118,11 @@
                     </div>
                     <nav class="flex gap-2 items-center">
                         <div id="main-nav" class="flex gap-2 mr-4">
-                            <button id="nav-dashboard" class="nav-btn active px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium">📊 דאשבורד</button>
-                            <button id="nav-agents" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium">👥 דוחות</button>
-                            <button id="nav-mtt" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium">🏆 טורנירים</button>
+                            <button id="nav-dashboard" class="nav-btn active px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium whitespace-nowrap">📊 דאשבורד</button>
+                            <button id="nav-agents" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium whitespace-nowrap">👥 דוחות</button>
+                            <button id="nav-mtt" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium whitespace-nowrap">🏆 טורנירים</button>
                         </div>
-                        <button id="logout-btn" class="bg-slate-50 text-slate-500 hover:text-red-600 px-4 py-2 rounded-lg border border-slate-200 transition-colors font-bold">יציאה</button>
+                        <button id="logout-btn" class="bg-slate-50 text-slate-500 hover:text-red-600 px-4 py-2 rounded-lg border border-slate-200 font-bold">יציאה</button>
                     </nav>
                 </div>
             </div>
@@ -130,11 +130,11 @@
 
         <main class="flex-grow container mx-auto px-4 lg:px-8 max-w-7xl py-8">
             
-            <!-- Admin Dashboard View -->
+            <!-- Dashboard View -->
             <div id="view-dashboard" class="view-section block">
                 <div class="mb-8">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2 font-black">תמונת מצב מועדון</h2>
-                    <p class="text-slate-600 italic">סיכום התחשבנות גלובלי - אדמין.</p>
+                    <p class="text-slate-600 italic">סיכום התחשבנות גלובלי.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="dash-stats"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -143,13 +143,13 @@
                         <div class="chart-container"><canvas id="settlementChart"></canvas></div>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2 font-bold tracking-tighter">פילוח עמלות (100%)</h3>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">פילוח עמלות</h3>
                         <div class="chart-container"><canvas id="feeDistributionChart"></canvas></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Agent/Detailed View -->
+            <!-- Detailed View -->
             <div id="view-agents" class="view-section hidden">
                 <div id="agent-selector-container" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
                     <label class="block text-sm font-semibold text-slate-700 mb-2 font-bold uppercase tracking-tighter">בחר סוכן להצגה:</label>
@@ -160,14 +160,14 @@
                     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8" id="agent-metrics"></div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                         <h3 class="text-lg font-bold text-slate-800 mb-2 border-b border-slate-100 pb-2">פירוט שחקנים</h3>
-                        <p class="text-xs text-slate-400 mb-4 font-medium italic tracking-tighter">* לחץ על שם שחקן לצפייה בפרטי גישה ופירוט המשחקים שלו.</p>
+                        <p class="text-xs text-slate-400 mb-4 font-medium italic">* לחץ על שם שחקן לצפייה בפרטי גישה ופירוט המשחקים שלו.</p>
                         <div class="overflow-x-auto">
                             <table class="w-full text-right border-collapse">
                                 <thead class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-widest">
                                     <tr>
                                         <th class="p-4 border-b">שם שחקן</th>
                                         <th class="p-4 border-b text-left">תוצאה (P&L)</th>
-                                        <th class="p-4 border-b text-left fee-col">עמלה (100%)</th>
+                                        <th class="p-4 border-b text-left fee-col">עמלה</th>
                                     </tr>
                                 </thead>
                                 <tbody id="agent-players-table" class="divide-y text-slate-700"></tbody>
@@ -177,13 +177,13 @@
                 </div>
             </div>
 
-            <!-- Player Individual View -->
+            <!-- Individual Player View -->
             <div id="view-player-single" class="view-section hidden">
                 <div class="max-w-3xl mx-auto">
                     <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden mb-8">
                         <div class="bg-slate-800 text-white p-8">
-                            <h2 class="text-3xl font-black mb-2" id="player-view-name">שלום, שחקן</h2>
-                            <p class="opacity-70 font-medium">סיכום ביצועים אישי לתקופה: 28/04 - 04/05</p>
+                            <h2 class="text-3xl font-black mb-2" id="player-view-name">שלום</h2>
+                            <p class="opacity-70 font-medium">סיכום ביצועים אישי</p>
                         </div>
                         <div class="p-8">
                             <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex justify-between items-center mb-8">
@@ -191,10 +191,9 @@
                                     <span class="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">תוצאה סופית (P&L)</span>
                                     <div id="player-view-pnl" class="text-4xl font-black">0.00</div>
                                 </div>
-                                <div class="text-slate-300 text-5xl">📉</div>
+                                <div class="text-slate-300 text-5xl">📊</div>
                             </div>
-                            
-                            <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">פירוט סשנים ומשחקים</h3>
+                            <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 uppercase tracking-tighter">פירוט משחקים</h3>
                             <div class="overflow-x-auto">
                                 <table class="w-full text-right">
                                     <thead>
@@ -220,7 +219,6 @@
     </div>
 
     <script>
-        // Database including credentials
         const users = {
             'admin': { pass: 'admin123', role: 'admin', name: 'מנהל מערכת' },
             'חיים': { pass: 'חיים177', role: 'agent', name: 'חיים', agentIndex: 0 },
@@ -346,11 +344,11 @@
 
         function calculateAgentSummary(agent) {
             const sumPnl = agent.players.reduce((s, p) => s + p.pnl, 0);
-            const sumFee100 = agent.players.reduce((s, p) => s + p.fee, 0);
+            const sumFeeRaw = agent.players.reduce((s, p) => s + p.fee, 0);
             const rate = agent.name === "אבי" ? 0.8 : 0.6;
-            const agentCut = sumFee100 * rate;
+            const agentCut = sumFeeRaw * rate;
             const final = sumPnl + agentCut + agent.pastBalance;
-            return { sumPnl, sumFee100, agentCut, final };
+            return { sumPnl, sumFeeRaw, agentCut, final };
         }
 
         function handleLogin() {
@@ -369,7 +367,6 @@
         function setupView() {
             document.getElementById('user-badge').textContent = currentUser.name;
             const nav = document.getElementById('main-nav');
-            
             if (currentUser.role === 'admin') {
                 nav.classList.remove('hidden');
                 switchTab('nav-dashboard', 'view-dashboard');
@@ -394,7 +391,6 @@
             document.getElementById('logout-btn').onclick = () => window.location.reload();
             document.getElementById('close-modal').onclick = closeModal;
             document.getElementById('player-modal').onclick = (e) => e.target.id === 'player-modal' && closeModal();
-            
             const selector = document.getElementById('agent-selector');
             selector.innerHTML = '<option value="">בחר סוכן...</option>';
             reportData.agents.forEach((a, i) => selector.innerHTML += `<option value="${i}">${a.name}</option>`);
@@ -412,26 +408,23 @@
 
         function renderDashboard() {
             const summaries = reportData.agents.map(a => calculateAgentSummary(a));
-            const totalFees100 = summaries.reduce((s, x) => s + x.sumFee100, 0);
+            const totalFeesRaw = summaries.reduce((s, x) => s + x.sumFeeRaw, 0);
             const netBalance = summaries.reduce((s, x) => s + x.final, 0);
-
             document.getElementById('dash-stats').innerHTML = `
                 <div class="bg-white p-6 rounded-xl border shadow-sm"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">סוכנים פעילים</span><div class="text-3xl font-bold text-slate-800">${reportData.agents.length}</div></div>
-                <div class="bg-white p-6 rounded-xl border shadow-sm"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">סה"כ עמלות (100%)</span><div class="text-3xl font-bold text-blue-600">${format(totalFees100)}</div></div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">סה"כ עמלות</span><div class="text-3xl font-bold text-blue-600">${format(totalFeesRaw)}</div></div>
                 <div class="bg-white p-6 rounded-xl border shadow-sm"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">מאזן מועדון סופי</span><div class="text-3xl font-bold ${netBalance >=0 ? 'text-emerald-600' : 'text-red-600'}">${format(netBalance)}</div></div>
             `;
-
             if(settlementChart) settlementChart.destroy();
             settlementChart = new Chart(document.getElementById('settlementChart'), {
                 type: 'bar',
                 data: { labels: reportData.agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.final), backgroundColor: summaries.map(x => x.final >= 0 ? '#10b981' : '#f43f5e'), borderRadius: 6 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
-
             if(feeChart) feeChart.destroy();
             feeChart = new Chart(document.getElementById('feeDistributionChart'), {
                 type: 'doughnut',
-                data: { labels: reportData.agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.sumFee100), backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#6366f1'] }] },
+                data: { labels: reportData.agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.sumFeeRaw), backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#6366f1'] }] },
                 options: { responsive: true, maintainAspectRatio: false }
             });
         }
@@ -439,41 +432,34 @@
         function renderAgentDetails(agent) {
             const summary = calculateAgentSummary(agent);
             const isPos = summary.final >= 0;
+            const rate = agent.name === "אבי" ? 0.8 : 0.6;
             const statusText = isPos ? "מועדון חייב לסוכן" : "סוכן חייב למועדון";
-            
             document.getElementById('agent-metrics').innerHTML = `
-                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">סה"כ P&L שחקנים</span><div class="text-xl font-bold ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'}">${format(summary.sumPnl)}</div></div>
-                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">עמלת סוכן</span><div class="text-xl font-bold text-blue-600">${format(summary.agentCut)}</div></div>
-                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">יתרת עבר</span><div class="text-xl font-bold text-slate-700">${format(agent.pastBalance)}</div></div>
-                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">שחקנים רשומים</span><div class="text-xl font-bold text-slate-800">${agent.players.length}</div></div>
-                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border shadow-sm col-span-full md:col-span-1"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורה תחתונה (${statusText})</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">סה"כ P&L שחקנים</span><div class="text-xl font-bold ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'}">${format(summary.sumPnl)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">עמלת סוכן</span><div class="text-xl font-bold text-blue-600">${format(summary.agentCut)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">יתרת עבר</span><div class="text-xl font-bold text-slate-700">${format(agent.pastBalance)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest text-nowrap">שחקנים רשומים</span><div class="text-xl font-bold text-slate-800">${agent.players.length}</div></div>
+                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border shadow-sm col-span-full md:col-span-1"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase tracking-widest">שורה תחתונה</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
             `;
-
             const tbody = document.getElementById('agent-players-table');
             const sortedPlayers = [...agent.players].sort((a,b) => (Math.abs(b.pnl) + b.fee) - (Math.abs(a.pnl) + a.fee));
-            
-            tbody.innerHTML = sortedPlayers.map((p, pIdx) => `
+            tbody.innerHTML = sortedPlayers.map((p) => `
                 <tr class="player-row cursor-pointer hover:bg-slate-50 border-b border-slate-100 transition-colors" onclick="openPlayerDetails('${agent.name}', '${p.name}')">
                     <td class="p-4 font-medium text-slate-800 player-name transition-colors">${p.name}</td>
                     <td class="p-4 font-bold text-left ${p.pnl > 0 ? 'text-emerald-600' : p.pnl < 0 ? 'text-red-600' : 'text-slate-400'}" dir="ltr">${format(p.pnl)}</td>
-                    <td class="p-4 text-left text-slate-600 fee-col" dir="ltr">${format(p.fee)}</td>
+                    <td class="p-4 text-left text-slate-600 fee-col" dir="ltr">${format(p.fee * rate)}</td>
                 </tr>
             `).join('');
         }
 
         function renderPlayerSingleView(playerName) {
             let player = null;
-            reportData.agents.forEach(a => {
-                const found = a.players.find(p => p.name === playerName);
-                if(found) player = found;
-            });
-
+            reportData.agents.forEach(a => { const found = a.players.find(p => p.name === playerName); if(found) player = found; });
             if(!player) return;
-
             document.getElementById('player-view-name').textContent = `שלום, ${player.name}`;
-            document.getElementById('player-view-pnl').textContent = format(player.pnl);
-            document.getElementById('player-view-pnl').className = `text-4xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}`;
-
+            const pnlVal = document.getElementById('player-view-pnl');
+            pnlVal.textContent = format(player.pnl);
+            pnlVal.className = `text-4xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}`;
             const tbody = document.getElementById('player-view-table');
             tbody.innerHTML = player.games.map(g => `
                 <tr class="hover:bg-slate-50">
@@ -488,16 +474,17 @@
             const agent = reportData.agents.find(a => a.name === agentName);
             const player = agent.players.find(p => p.name === playerName);
             const creds = users[playerName];
+            const rate = agent.name === "אבי" ? 0.8 : 0.6;
             
             document.getElementById('modal-player-name').textContent = player.name;
-            document.getElementById('modal-total-pnl').textContent = format(player.pnl);
-            document.getElementById('modal-total-pnl').className = `text-2xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}`;
+            const pnlVal = document.getElementById('modal-total-pnl');
+            pnlVal.textContent = format(player.pnl);
+            pnlVal.className = `text-2xl font-black ${player.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}`;
             
             const credsSection = document.getElementById('modal-creds-section');
             const feeCol = document.querySelectorAll('.fee-col');
             const feeCard = document.getElementById('modal-fee-card');
             
-            // Credential display logic (Agent/Admin only)
             if(currentUser.role !== 'player' && creds) {
                 credsSection.classList.remove('hidden');
                 document.getElementById('modal-display-username').textContent = playerName;
@@ -512,7 +499,7 @@
             } else {
                 feeCard.classList.remove('hidden');
                 feeCol.forEach(el => el.classList.remove('hidden'));
-                document.getElementById('modal-total-fee').textContent = format(player.fee);
+                document.getElementById('modal-total-fee').textContent = format(player.fee * rate);
             }
             
             const gamesBody = document.getElementById('modal-games-body');
@@ -522,21 +509,17 @@
                         <td class="py-3 px-2 text-sm">${g.d}</td>
                         <td class="py-3 px-2 text-sm font-medium text-slate-500 font-bold">${g.t}</td>
                         <td class="py-3 px-2 text-sm font-bold text-left ${g.r >= 0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(g.r)}</td>
-                        <td class="py-3 px-2 text-sm text-left font-medium text-slate-400 fee-col ${currentUser.role === 'player' ? 'hidden' : ''}" dir="ltr">${format(g.f)}</td>
+                        <td class="py-3 px-2 text-sm text-left font-medium text-slate-400 fee-col ${currentUser.role === 'player' ? 'hidden' : ''}" dir="ltr">${format(g.f * rate)}</td>
                     </tr>
                 `).join('');
             } else {
                 gamesBody.innerHTML = `<tr><td colspan="4" class="py-12 text-center text-slate-400 italic">אין מידע מפורט זמין</td></tr>`;
             }
-
             document.getElementById('player-modal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() {
-            document.getElementById('player-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
+        function closeModal() { document.getElementById('player-modal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
 
         function renderMTT() {
             document.getElementById('mtt-summary').innerHTML = `
@@ -549,7 +532,7 @@
                     </div>
                 </div>
                 <div class="bg-white p-8 rounded-xl border shadow-sm">
-                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 tracking-tighter uppercase font-black font-black">ניתוח והמלצות</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 tracking-tighter uppercase font-black">ניתוח והמלצות</h3>
                     <p class="text-slate-600 leading-relaxed mb-4">הטורנירים עולים למועדון מעל ל-2,100 יחידות מדי שבוע. שחקני הבית מסיימים בהפסד מול שחקנים זרים.</p>
                     <div class="mt-4 p-4 bg-blue-50 border-r-4 border-blue-500 rounded text-blue-900 font-medium italic text-sm text-center">מומלץ להקטין את סכומי ה-GTD בטורנירים.</div>
                 </div>
