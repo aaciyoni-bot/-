@@ -9,12 +9,6 @@
     
     <!-- Chosen Palette: Professional Slate & Blue (Financial Accuracy Focus) -->
     
-    <!-- Application Structure Plan: 
-         1. Secure Login: Admin/Agent access.
-         2. Total Inclusivity: Every single player recorded (even with 0,0) is included in the datasets.
-         3. Dynamic Calculation: Agent commission (60%/80%) is derived in real-time from the player table to ensure no sum errors.
-         4. Multi-Source Sync: Data cross-referenced between CSVs and manual inputs. -->
-
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; }
         .chart-container {
@@ -36,10 +30,8 @@
     <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background-color: #0f172a;">
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-slate-200">
             <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4 font-bold text-2xl">
-                    ₪
-                </div>
-                <h2 class="text-2xl font-bold text-slate-800">מערכת התחשבנות מועדון</h2>
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4 font-bold text-2xl">₪</div>
+                <h2 class="text-2xl font-bold text-slate-800">מערכת התחשבנות</h2>
                 <p class="text-slate-500 mt-2">נתונים כספיים - גישה מאובטחת</p>
             </div>
             <div class="space-y-4">
@@ -52,7 +44,7 @@
                     <input type="password" id="password" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" placeholder="••••••••">
                 </div>
                 <div id="login-error" class="text-red-500 text-sm hidden text-center font-medium">פרטי התחברות שגויים</div>
-                <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors mt-4">התחבר למערכת</button>
+                <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors mt-4">כניסה</button>
             </div>
         </div>
     </div>
@@ -64,7 +56,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <div class="flex items-center gap-3">
                         <h1 class="text-2xl font-bold text-slate-800 tracking-tight">💼 התחשבנות סוכנים</h1>
-                        <span id="user-badge" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black border border-blue-100 uppercase"></span>
+                        <span id="user-badge" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black border border-blue-100 uppercase tracking-tighter"></span>
                     </div>
                     <nav class="flex gap-2 items-center">
                         <div id="main-nav" class="flex gap-2 mr-4">
@@ -72,7 +64,7 @@
                             <button id="nav-agents" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium whitespace-nowrap">👥 דוחות</button>
                             <button id="nav-mtt" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium whitespace-nowrap">🏆 טורנירים</button>
                         </div>
-                        <button id="logout-btn" class="text-slate-400 hover:text-red-600 p-2" title="התנתק">🚪</button>
+                        <button id="logout-btn" class="text-slate-400 hover:text-red-600 p-2 transition-colors">🚪 יציאה</button>
                     </nav>
                 </div>
             </div>
@@ -82,16 +74,16 @@
             <div id="view-dashboard" class="view-section block">
                 <div class="mb-8">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">תמונת מצב מועדון</h2>
-                    <p class="text-slate-600 italic">הנתונים בטבלה זו כוללים את כלל השחקנים הפעילים והלא-פעילים.</p>
+                    <p class="text-slate-600">סיכום התחשבנות גלובלי - כלל הנתונים מבוקרים.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="dash-stats"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4">מאזן סופי לפי סוכן</h3>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">מאזן סופי לפי סוכן</h3>
                         <div class="chart-container"><canvas id="settlementChart"></canvas></div>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4">פילוח עמלות סוכנים (100%)</h3>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">פילוח עמלות (100%)</h3>
                         <div class="chart-container"><canvas id="feeDistributionChart"></canvas></div>
                     </div>
                 </div>
@@ -99,21 +91,21 @@
 
             <div id="view-agents" class="view-section hidden">
                 <div id="agent-selector-container" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">בחר סוכן:</label>
-                    <select id="agent-selector" class="w-full md:w-1/3 bg-slate-50 border border-slate-300 text-slate-900 text-lg rounded-lg p-3 outline-none"></select>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">צפה בדוח של:</label>
+                    <select id="agent-selector" class="w-full md:w-1/3 bg-slate-50 border border-slate-300 text-slate-900 text-lg rounded-lg p-3 outline-none shadow-inner"></select>
                 </div>
 
                 <div id="agent-details-container">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8" id="agent-metrics"></div>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-8" id="agent-metrics"></div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">פירוט מלא של כלל השחקנים</h3>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">פירוט שחקנים (עמלות ב-100%)</h3>
                         <div class="overflow-x-auto">
                             <table class="w-full text-right border-collapse">
-                                <thead class="bg-slate-50 text-slate-500 text-sm">
+                                <thead class="bg-slate-50 text-slate-500 text-xs font-bold uppercase tracking-wider">
                                     <tr>
                                         <th class="p-4 border-b">שם שחקן</th>
-                                        <th class="p-4 border-b text-left">תוצאה (P&L)</th>
-                                        <th class="p-4 border-b text-left">עמלה שיוצרה (100%)</th>
+                                        <th class="p-4 border-b text-left">P&L</th>
+                                        <th class="p-4 border-b text-left">עמלה (100%)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="agent-players-table" class="divide-y text-slate-700"></tbody>
@@ -125,7 +117,7 @@
 
             <div id="view-mtt" class="view-section hidden">
                 <div class="mb-8"><h2 class="text-2xl font-bold text-slate-800">ניתוח טורנירים (MTT)</h2></div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="mtt-summary"></div>
+                <div id="mtt-summary" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
             </div>
         </main>
     </div>
@@ -164,13 +156,13 @@
                         { name: "YoavAA", pnl: 23.54, fee: 15.00 },
                         { name: "Baraks1", pnl: -55.00, fee: 98.52 },
                         { name: "Adi Rahimian", pnl: -126.11, fee: 30.90 },
-                        { name: "Yossi xXx", pnl: 0.00, fee: 0.00 },
-                        { name: "Dadi@Max", pnl: 0.00, fee: 0.00 },
-                        { name: "ilanzi", pnl: 0.00, fee: 0.00 },
-                        { name: "addADDis", pnl: 0.00, fee: 0.00 },
-                        { name: "Shekel@", pnl: 0.00, fee: 0.00 },
-                        { name: "DysonV", pnl: 0.00, fee: 0.00 },
-                        { name: "malibu pompom", pnl: 0.00, fee: 0.00 }
+                        { name: "Yossi xXx", pnl: 0.0, fee: 0.0 },
+                        { name: "Dadi@Max", pnl: 0.0, fee: 0.0 },
+                        { name: "ilanzi", pnl: 0.0, fee: 0.0 },
+                        { name: "addADDis", pnl: 0.0, fee: 0.0 },
+                        { name: "Shekel@", pnl: 0.0, fee: 0.0 },
+                        { name: "DysonV", pnl: 0.0, fee: 0.0 },
+                        { name: "malibu pompom", pnl: 0.0, fee: 0.0 }
                     ]
                 },
                 {
@@ -188,11 +180,11 @@
                         { name: "dan13579", pnl: 102.56, fee: 25.77 },
                         { name: "govo22", pnl: -100.00, fee: 40.00 },
                         { name: "MAXPRESSURE7", pnl: -120.00, fee: 3.00 },
-                        { name: "school teacher", pnl: 0.00, fee: 0.00 },
-                        { name: "ID20", pnl: 0.00, fee: 0.00 },
-                        { name: "tomerme13579", pnl: 0.00, fee: 0.00 },
-                        { name: "AAA10MA", pnl: 0.00, fee: 0.00 },
-                        { name: "Don_Pablorr12", pnl: 0.00, fee: 0.00 }
+                        { name: "school teacher", pnl: 0.0, fee: 0.0 },
+                        { name: "ID20", pnl: 0.0, fee: 0.0 },
+                        { name: "tomerme13579", pnl: 0.0, fee: 0.0 },
+                        { name: "AAA10MA", pnl: 0.0, fee: 0.0 },
+                        { name: "Don_Pablorr12", pnl: 0.0, fee: 0.0 }
                     ]
                 },
                 {
@@ -248,7 +240,6 @@
 
         let currentUser = null;
         let settlementChart = null, feeChart = null;
-
         const format = (v) => new Intl.NumberFormat('he-IL', { minimumFractionDigits: 2 }).format(v);
 
         function calculateAgentSummary(agent) {
@@ -263,23 +254,18 @@
         function handleLogin() {
             const u = document.getElementById('username').value.trim();
             const p = document.getElementById('password').value;
-            const error = document.getElementById('login-error');
-
             if (users[u] && users[u].pass === p) {
                 currentUser = users[u];
-                error.classList.add('hidden');
                 document.getElementById('login-screen').classList.add('hidden');
                 document.getElementById('app-content').classList.remove('hidden');
                 setupView();
             } else {
-                error.classList.remove('hidden');
+                document.getElementById('login-error').classList.remove('hidden');
             }
         }
 
         function setupView() {
-            const badge = document.getElementById('user-badge');
-            badge.textContent = currentUser.name;
-
+            document.getElementById('user-badge').textContent = currentUser.name;
             if (currentUser.role === 'admin') {
                 switchTab('nav-dashboard', 'view-dashboard');
             } else {
@@ -294,29 +280,19 @@
 
         function initNavigation() {
             const tabs = ['nav-dashboard', 'nav-agents', 'nav-mtt'];
-            tabs.forEach(tabId => {
-                document.getElementById(tabId).onclick = () => {
-                    const viewId = 'view-' + tabId.split('-')[1];
-                    switchTab(tabId, viewId);
-                };
-            });
+            tabs.forEach(tabId => document.getElementById(tabId).onclick = () => switchTab(tabId, 'view-' + tabId.split('-')[1]));
             document.getElementById('logout-btn').onclick = () => window.location.reload();
             const selector = document.getElementById('agent-selector');
-            selector.innerHTML = '<option value="">בחר סוכן להצגה...</option>';
-            reportData.agents.forEach((a, i) => {
-                selector.innerHTML += `<option value="${i}">${a.name}</option>`;
-            });
-            selector.onchange = (e) => {
-                if(e.target.value !== "") renderAgentDetails(reportData.agents[e.target.value]);
-            };
+            selector.innerHTML = '<option value="">בחר סוכן...</option>';
+            reportData.agents.forEach((a, i) => selector.innerHTML += `<option value="${i}">${a.name}</option>`);
+            selector.onchange = (e) => e.target.value !== "" && renderAgentDetails(reportData.agents[e.target.value]);
         }
 
         function switchTab(activeBtnId, viewId) {
             document.querySelectorAll('.view-section').forEach(v => v.classList.add('hidden'));
             document.getElementById(viewId).classList.remove('hidden');
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'bg-blue-600', 'text-white'));
-            const activeBtn = document.getElementById(activeBtnId);
-            activeBtn.classList.add('active', 'bg-blue-600', 'text-white');
+            document.getElementById(activeBtnId).classList.add('active', 'bg-blue-600', 'text-white');
             if(viewId === 'view-dashboard') renderDashboard();
             if(viewId === 'view-mtt') renderMTT();
         }
@@ -356,7 +332,8 @@
                 <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">סה"כ P&L שחקנים</span><div class="text-xl font-bold ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'}">${format(summary.sumPnl)}</div></div>
                 <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">עמלת סוכן (${summary.rateText})</span><div class="text-xl font-bold text-blue-600">${format(summary.agentCut)}</div></div>
                 <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">יתרת עבר</span><div class="text-xl font-bold text-slate-700">${format(agent.pastBalance)}</div></div>
-                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורה תחתונה (${statusText})</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">שחקנים רשומים</span><div class="text-xl font-bold text-slate-800">${agent.players.length}</div></div>
+                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border shadow-sm col-span-full md:col-span-1"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורה תחתונה (${statusText})</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
             `;
 
             const tbody = document.getElementById('agent-players-table');
@@ -373,17 +350,17 @@
         function renderMTT() {
             document.getElementById('mtt-summary').innerHTML = `
                 <div class="bg-white p-8 rounded-xl border border-red-100 border-t-4 border-t-red-500 shadow-sm">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6 text-center">סיכום זליגת כספים בטורנירים</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6 text-center uppercase tracking-tighter">זליגת כספים בטורנירים</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between p-3 bg-slate-50 rounded"><span>Overlay (GTD)</span><span class="font-bold text-red-600">-1,920.00</span></div>
-                        <div class="flex justify-between p-3 bg-slate-50 rounded"><span>הפסד שחקני בית למערכת</span><span class="font-bold text-red-600">-236.03</span></div>
-                        <div class="flex justify-between p-4 bg-red-600 text-white rounded-lg shadow mt-6"><span class="font-bold uppercase tracking-widest">עלות מועדון כוללת</span><span class="text-2xl font-black">-2,156.03</span></div>
+                        <div class="flex justify-between p-3 bg-slate-50 rounded"><span>הפסד שחקני בית</span><span class="font-bold text-red-600">-236.03</span></div>
+                        <div class="flex justify-between p-4 bg-red-600 text-white rounded-lg shadow mt-6"><span class="font-bold uppercase">עלות מועדון כוללת</span><span class="text-2xl font-black">-2,156.03</span></div>
                     </div>
                 </div>
                 <div class="bg-white p-8 rounded-xl border shadow-sm">
-                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">ניתוח והמלצות ניהול</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2 tracking-tighter uppercase">ניתוח והמלצות</h3>
                     <p class="text-slate-600 leading-relaxed mb-4">המערכת מעידה כי הטורנירים עולים למועדון מעל ל-2,100 יחידות מדי שבוע. שחקני הבית שתומכים בנזילות המשחקים מסיימים בהפסד מול שחקנים זרים.</p>
-                    <div class="mt-4 p-4 bg-blue-50 border-r-4 border-blue-500 rounded text-blue-900 font-medium italic text-sm">מומלץ להקטין את סכומי ה-GTD בטורנירים שאינם מתמלאים ולבחון מבנה כניסות חוזרות יקר יותר.</div>
+                    <div class="mt-4 p-4 bg-blue-50 border-r-4 border-blue-500 rounded text-blue-900 font-medium italic text-sm text-center">מומלץ להקטין את סכומי ה-GTD בטורנירים שאינם מתמלאים.</div>
                 </div>
             `;
         }
