@@ -148,7 +148,7 @@
                 {
                     name: "חיים",
                     pnl: -8743.12,
-                    totalFee100: 3976.93, // Sum of verified players 100% fees
+                    totalFee100: 3976.93,
                     pastBalance: 0.00,
                     finalSettlement: -6356.96,
                     status: "סוכן חייב למועדון",
@@ -358,7 +358,9 @@
                 <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורת התחשבנות</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(agent.finalSettlement)}</div></div>
             `;
             const tbody = document.getElementById('agent-players-table');
-            tbody.innerHTML = agent.players.map(p => `
+            // Sorting players by absolute impact (highest pnl or fee)
+            const sortedPlayers = [...agent.players].sort((a,b) => Math.abs(b.pnl) - Math.abs(a.pnl));
+            tbody.innerHTML = sortedPlayers.map(p => `
                 <tr class="hover:bg-slate-50 border-b border-slate-100 transition-colors">
                     <td class="p-4 font-medium text-slate-800">${p.name}</td>
                     <td class="p-4 font-bold text-left ${p.pnl >=0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(p.pnl)}</td>
