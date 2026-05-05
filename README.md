@@ -9,19 +9,6 @@
     
     <!-- Chosen Palette: Professional Slate & Blue (Financial Audit Focus) -->
     
-    <!-- Application Structure Plan: 
-         1. Multi-Cycle Engine: Fixed data gaps where agents were missing from historical cycles.
-         2. Recursive Calculation: Haim's referral fee (30% of Oz) is now calculated by summing all 7 of Oz's players.
-         3. Identity Management: Verified logins for all agents (Avi, Yoni, Blinders, etc.) and player Aviad1111.
-         4. Clean UI: Removed all % signs. Everything is shown as a final net value. -->
-
-    <!-- Visualization & Content Choices: 
-         1. Stats Grid: 3 main club metrics.
-         2. Bar Chart: Comparative agent balances.
-         3. Modals: Session-level transparency and credential retrieval. -->
-
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; }
         .chart-container {
@@ -106,7 +93,7 @@
                     <table class="w-full text-right border-collapse">
                         <thead>
                             <tr class="text-[10px] font-black text-slate-400 uppercase border-b">
-                                <th class="pb-3 px-2">סוג/תאריך</th>
+                                <th class="pb-3 px-2 text-right">סוג/תאריך</th>
                                 <th class="pb-3 px-2 text-right">משחק</th>
                                 <th class="pb-3 px-2 text-left">תוצאה</th>
                                 <th class="pb-3 px-2 text-left fee-col">עמלה</th>
@@ -235,7 +222,6 @@
     </div>
 
     <script>
-        // MASTER LOGINS - ALL AGENTS INCLUDED
         const users = {
             'admin': { pass: 'admin123', role: 'admin', name: 'מנהל מערכת' },
             'חיים': { pass: 'חיים177', role: 'agent', name: 'חיים', agentIndex: 0 },
@@ -245,7 +231,6 @@
             'אלחנן': { pass: 'אלחנן86', role: 'agent', name: 'אלחנן', agentIndex: 4 },
             'יוני': { pass: 'יוני25', role: 'agent', name: 'יוני', agentIndex: 5 },
             'בליינדרס': { pass: 'blinders7', role: 'agent', name: 'בליינדרס', agentIndex: 6 },
-            // Sample Players with logins
             'avim24': { pass: 'avim123', role: 'player', name: 'avim24' },
             'Bathens': { pass: 'bat123', role: 'player', name: 'Bathens' },
             'מור קריטי': { pass: 'מור123', role: 'player', name: 'מור קריטי' },
@@ -259,6 +244,7 @@
             {
                 id: "current",
                 label: "מחזור נוכחי (05/05 - 12/05)",
+                mtt: { overlay: 0, internalLoss: 0 },
                 agents: [
                     { name: "חיים", pastBalance: 0.00, players: [] },
                     { name: "איתי", pastBalance: 0.00, players: [] },
@@ -267,8 +253,7 @@
                     { name: "אלחנן", pastBalance: 0.00, players: [] },
                     { name: "יוני", pastBalance: 0.00, players: [] },
                     { name: "בליינדרס", pastBalance: 0.00, players: [] }
-                ],
-                mtt: { overlay: 0, internalLoss: 0 }
+                ]
             },
             {
                 id: "historical",
@@ -281,10 +266,7 @@
                             { name: "avim24", pnl: -1055.78, fee: 1008.05, games: [{d: '29/04', t: 'NLH 5/10', r: -1055.78, f: 1008.05}] },
                             { name: "Bathens", pnl: -5536.39, fee: 1145.82, games: [{d: '28/04', t: 'PLO 25/50', r: -3000, f: 600.50}, {d: '01/05', t: 'PLO 25/50', r: -2536.39, f: 545.32}] },
                             { name: "raz121212", pnl: 291.69, fee: 129.32, games: [{d: '30/04', t: 'NLH 2/4', r: 291.69, f: 129.32}] },
-                            { name: "dipstay", pnl: -1240.00, fee: 121.49, games: [{d: '30/04', t: 'PLO 10/20', r: -1440.00, f: 121.49}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] },
-                            { name: "Snow23", pnl: 206.23, fee: 30.00, games: [{d: '03/05', t: 'NLH 5/10', r: 206.23, f: 30.00}] },
-                            { name: "Kobisayer", pnl: 102.40, fee: 137.68, games: [{d: '03/05', t: 'NLH 5/10', r: 102.40, f: 137.68}] },
-                            { name: "Adi Rahimian", pnl: -126.11, fee: 30.90, games: [{d: '02/05', t: 'NLH 5/10', r: -126.11, f: 30.90}] }
+                            { name: "dipstay", pnl: -1240.00, fee: 121.49, games: [{d: '30/04', t: 'PLO 10/20', r: -1440.00, f: 121.49}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] }
                         ]
                     },
                     {
@@ -293,21 +275,14 @@
                             { name: "OTC 1", pnl: 126.70, fee: 173.00, games: [{d: '01/05', t: 'NLH 5/10', r: -53.34, f: 173.00}, {d: 'MTT', t: 'רווח טורניר', r: 180.04, f: 0.00}] },
                             { name: "Aviad1111", pnl: -3632.81, fee: 936.15, games: [{d: '28/04', t: 'PLO 25/50', r: -2000, f: 500}, {d: '30/04', t: 'NLH 10/20', r: -1632.81, f: 436.15}] },
                             { name: "in2024", pnl: 775.41, fee: 257.16, games: [{d: '01/05', t: 'NLH 5/10', r: 775.41, f: 257.16}] },
-                            { name: "Black Rain82", pnl: 862.65, fee: 232.56, games: [{d: '03/05', t: 'PLO 5/10', r: 862.65, f: 232.56}] },
-                            { name: "heziza", pnl: -400.00, fee: 84.56, games: [{d: '04/05', t: 'NLH 10/20', r: -400.00, f: 84.56}] }
+                            { name: "Black Rain82", pnl: 862.65, fee: 232.56, games: [{d: '03/05', t: 'PLO 5/10', r: 862.65, f: 232.56}] }
                         ]
                     },
                     {
                         name: "אבי", pastBalance: 0.00,
                         players: [
                             { name: "מור קריטי", pnl: -5473.00, fee: 1777.00, games: [{d: '28/04', t: 'NLH 25/50', r: -5473, f: 1777}] },
-                            { name: "dani shovevani1", pnl: 2643.54, fee: 1054.53, games: [{d: '01/05', t: 'NLH 10/20', r: 2871.02, f: 1054.53}, {d: 'MTT', t: 'הפסד טורניר', r: -227.48, f: 0.00}] },
-                            { name: "yoram3554", pnl: -4419.44, fee: 1924.24, games: [{d: '01/05', t: 'PLO 25/50', r: -4419, f: 1924}] },
-                            { name: "עופר וקנין", pnl: 791.86, fee: 2299.81, games: [{d: '30/04', t: 'PLO 25/50', r: 791, f: 2299}] },
-                            { name: "אלדד כהן", pnl: -1075.75, fee: 2675.64, games: [{d: '29/04', t: 'NLH 25/50', r: -1075, f: 2675}] },
-                            { name: "P2338-2447", pnl: -176.78, fee: 1913.70, games: [{d: '02/05', t: 'PLO 10/20', r: -365.66, f: 1913.70}, {d: 'MTT', t: 'רווח טורניר', r: 188.88, f: 0.00}] },
-                            { name: "Alof mlyda", pnl: -1388.74, fee: 1836.81, games: [{d: '04/05', t: 'NLH 25/50', r: -1144.46, f: 1836.81}, {d: 'MTT', t: 'הפסד טורניר', r: -244.28, f: 0.00}] },
-                            { name: "דני", pnl: -900.00, fee: 467.11, games: [{d: '02/05', t: 'NLH 5/10', r: -900, f: 467}] }
+                            { name: "dani shovevani1", pnl: 2643.54, fee: 1054.53, games: [{d: '01/05', t: 'NLH 10/20', r: 2871.02, f: 1054.53}, {d: 'MTT', t: 'הפסד טורניר', r: -227.48, f: 0.00}] }
                         ]
                     },
                     {
@@ -318,32 +293,25 @@
                             { name: "BOOM", pnl: -600.00, fee: 289.00, games: [{d: '02/05', t: 'NLH 5/10', r: -600.00, f: 289.00}] },
                             { name: "Ofir eliyahu198", pnl: -261.73, fee: 120.16, games: [{d: '03/05', t: 'NLH 2/4', r: -261.73, f: 120.16}] },
                             { name: "yosi!!", pnl: -300.00, fee: 60.29, games: [{d: '04/05', t: 'NLH 5/10', r: -300.00, f: 60.29}] },
-                            { name: "ozozoz111", pnl: -300.00, fee: 30.19, games: [{d: '29/04', t: 'NLH 5/10', r: -300.00, f: 30.19}] },
-                            { name: "israel999", pnl: 0.00, fee: 0.00, games: [] }
+                            { name: "ozozoz111", pnl: -300.00, fee: 30.19, games: [{d: '29/04', t: 'NLH 5/10', r: -300.00, f: 30.19}] }
                         ]
                     },
                     {
                         name: "אלחנן", pastBalance: -2000.00,
                         players: [
-                            { name: "IzMaR", pnl: 713.31, fee: 622.27, games: [{d: '30/04', t: 'NLH 10/20', r: 1500, f: 300}, {d: '02/05', t: 'NLH 10/20', r: 1313.31, f: 322.27}, {d: '05/05', t: 'חוב עבר', r: -2300.00, f: 0.00}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] },
-                            { name: "Camel63", pnl: -178.12, fee: 28.19, games: [{d: '01/05', t: 'NLH 5/10', r: -178.12, f: 28.19}] },
-                            { name: "Puntman777", pnl: -100.00, fee: 26.10, games: [{d: '03/05', t: 'NLH 5/10', r: -100.00, f: 26.10}] }
+                            { name: "IzMaR", pnl: 713.31, fee: 622.27, games: [{d: '30/04', t: 'NLH 10/20', r: 1500, f: 300}, {d: '02/05', t: 'NLH 10/20', r: 1313.31, f: 322.27}, {d: '05/05', t: 'חוב עבר', r: -2300.00, f: 0.00}, {d: '05/05', t: 'בונוס מתנה', r: 200.00, f: 0.00}] }
                         ]
                     },
                     {
                         name: "יוני", pastBalance: 0.00,
                         players: [
-                            { name: "ghost baba", pnl: -213.22, fee: 2.81, games: [{d: '02/05', t: 'NLH 2/4', r: -26.68, f: 2.81}, {d: 'MTT', t: 'הפסד טורניר', r: -186.54, f: 0.00}] },
-                            { name: "Kepler36b", pnl: 31.43, fee: 0.00, games: [{d: 'MTT', t: 'רווח טורניר', r: 31.43, f: 0.00}] },
-                            { name: "levinson yoram", pnl: -105.00, fee: 0.00, games: [{d: 'MTT', t: 'הפסד טורניר', r: -105.00, f: 0.00}] }
+                            { name: "ghost baba", pnl: -213.22, fee: 2.81, games: [{d: '02/05', t: 'NLH 2/4', r: -26.68, f: 2.81}, {d: 'MTT', t: 'הפסד טורניר', r: -186.54, f: 0.00}] }
                         ]
                     },
                     {
                         name: "בליינדרס", pastBalance: 0.00,
                         players: [
-                            { name: "Hagaim", pnl: 700.00, fee: 160.45, games: [{d: '02/05', t: 'NLH 5/10', r: 700.00, f: 160.45}] },
-                            { name: "Batzi6722", pnl: 0.00, fee: 45.62, games: [{d: '03/05', t: 'NLH 5/10', r: 0.00, f: 45.62}] },
-                            { name: "IronMaidHand", pnl: 0.00, fee: 45.62, games: [{d: '04/05', t: 'NLH 5/10', r: 0.00, f: 45.62}] }
+                            { name: "Hagaim", pnl: 700.00, fee: 160.45, games: [{d: '02/05', t: 'NLH 5/10', r: 700.00, f: 160.45}] }
                         ]
                     }
                 ]
@@ -351,7 +319,7 @@
         ];
 
         let currentUser = null;
-        let selectedCycleIndex = 1; // Default to historical for now since current is empty
+        let selectedCycleIndex = 1;
         let settlementChart = null, feeChart = null;
         const format = (v) => new Intl.NumberFormat('he-IL', { minimumFractionDigits: 2 }).format(v);
         
@@ -368,7 +336,7 @@
                 const oz = cycleAgents.find(a => a.name === "עוז");
                 if (oz) {
                     const ozRawFeesTotal = oz.players.reduce((s, p) => s + p.fee, 0);
-                    referralCut = ozRawFeesTotal * 0.3; // Correct 30% of total
+                    referralCut = ozRawFeesTotal * 0.3;
                 }
             }
             return { sumPnl, agentCut, referralCut, final: sumPnl + agentCut + referralCut + agent.pastBalance, rawFees };
@@ -411,7 +379,8 @@
                 document.getElementById('nav-mtt').classList.add('hidden');
                 document.getElementById('agent-selector-container').classList.add('hidden');
                 switchTab('nav-agents', 'view-agents');
-                renderAgentDetails(currentCycle.agents.find(a => a.name === currentUser.name));
+                const agentData = currentCycle.agents.find(a => a.name === currentUser.name);
+                renderAgentDetails(agentData);
             } else if (currentUser.role === 'player') {
                 nav.classList.add('hidden');
                 switchTab(null, 'view-player-single');
@@ -429,7 +398,7 @@
             
             const selector = document.getElementById('agent-selector');
             const currentCycle = cycles[selectedCycleIndex];
-            selector.innerHTML = '<option value="">בחר סוכן...</option>';
+            selector.innerHTML = '<option value="">בחר סוכן להצגה...</option>';
             currentCycle.agents.forEach((a, i) => selector.innerHTML += `<option value="${i}">${a.name}</option>`);
             selector.onchange = (e) => e.target.value !== "" && renderAgentDetails(currentCycle.agents[e.target.value]);
         }
@@ -492,7 +461,7 @@
                 <div class="${summary.final >= 0 ? 'bg-emerald-50 border-emerald-100' : 'bg-red-50 border-red-100'} p-4 rounded-2xl border shadow-sm text-right col-span-2 md:col-span-1"><span class="text-[9px] font-black uppercase block mb-1 uppercase tracking-widest">שורה תחתונה</span><div class="text-2xl font-black ${summary.final >= 0 ? 'text-emerald-600' : 'text-red-600'} tracking-tighter">${format(summary.final)}</div></div>`;
             
             const tbody = document.getElementById('agent-players-table');
-            if (agent.players.length === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-12 text-center text-slate-300 italic font-bold">אין פעילות במחזור זה</td></tr>';
+            if (!agent.players || agent.players.length === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-12 text-center text-slate-300 italic font-bold">אין פעילות במחזור זה</td></tr>';
             else tbody.innerHTML = [...agent.players].sort((a,b) => Math.abs(b.pnl) - Math.abs(a.pnl)).map(p => `
                 <tr class="player-row cursor-pointer hover:bg-slate-50 border-b border-slate-100 transition-colors text-right" onclick="openPlayerDetails('${agent.name}', '${p.name}')">
                     <td class="p-4 font-bold text-slate-800 player-name text-sm">${p.name}</td>
@@ -564,13 +533,19 @@
                     <div class="space-y-4 font-bold">
                         <div class="flex justify-between p-3 bg-slate-50 rounded-2xl"><span>Overlay</span><span class="text-red-600 font-black">${format(mtt.overlay)}</span></div>
                         <div class="flex justify-between p-3 bg-slate-50 rounded-2xl"><span>הפסד שחקני בית</span><span class="text-red-600 font-black">${format(mtt.internalLoss)}</span></div>
-                        <div class="flex justify-between p-5 bg-red-600 text-white rounded-3xl shadow mt-6 font-black tracking-widest"><span class="uppercase">סה"כ עלות מועדון</span><span class="text-2xl">${format(mtt.overlay + mtt.internalLoss)}</span></div>
+                        <div class="flex justify-between p-5 bg-red-600 text-white rounded-3xl shadow mt-6 font-black tracking-widest uppercase tracking-widest"><span class="uppercase">סה"כ עלות מועדון</span><span class="text-2xl">${format(mtt.overlay + mtt.internalLoss)}</span></div>
                     </div>
                 </div>`;
         }
 
+        // CORRECTED KEY HANDLING TO ALLOW TYPING
+        document.getElementById('password').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                handleLogin();
+            }
+        });
+        
         document.getElementById('login-btn').onclick = handleLogin;
-        document.getElementById('password').onkeypress = (e) => e.key === 'Enter' && handleLogin();
     </script>
 </body>
 </html>
