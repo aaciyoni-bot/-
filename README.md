@@ -7,13 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- Chosen Palette: Professional Slate & Blue (High Accuracy Focus) -->
+    <!-- Chosen Palette: Professional Slate & Blue (Financial Accuracy Focus) -->
     
     <!-- Application Structure Plan: 
          1. Secure Login: Admin/Agent access.
-         2. Audited Data: reportData now contains the 100% Fee values for every player, verified against CSV exports.
-         3. Dynamic Calculation: The UI calculates Agent Commission (60%/80%) on-the-fly to ensure transparency.
-         4. Combined Views: All merged players (like in2024+in2026) are consolidated into single logical entries as requested. -->
+         2. Total Inclusivity: Every single player recorded (even with 0,0) is included in the datasets.
+         3. Dynamic Calculation: Agent commission (60%/80%) is derived in real-time from the player table to ensure no sum errors.
+         4. Multi-Source Sync: Data cross-referenced between CSVs and manual inputs. -->
 
     <style>
         body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; }
@@ -37,10 +37,10 @@
         <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-slate-200">
             <div class="text-center mb-8">
                 <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4 font-bold text-2xl">
-                    $
+                    ₪
                 </div>
-                <h2 class="text-2xl font-bold text-slate-800">כניסה למערכת מאובטחת</h2>
-                <p class="text-slate-500 mt-2">נתוני התחשבנות כספית - לשימוש פנימי בלבד</p>
+                <h2 class="text-2xl font-bold text-slate-800">מערכת התחשבנות מועדון</h2>
+                <p class="text-slate-500 mt-2">נתונים כספיים - גישה מאובטחת</p>
             </div>
             <div class="space-y-4">
                 <div>
@@ -64,7 +64,7 @@
                 <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                     <div class="flex items-center gap-3">
                         <h1 class="text-2xl font-bold text-slate-800 tracking-tight">💼 התחשבנות סוכנים</h1>
-                        <span id="user-badge" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black uppercase border border-blue-100"></span>
+                        <span id="user-badge" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-black border border-blue-100 uppercase"></span>
                     </div>
                     <nav class="flex gap-2 items-center">
                         <div id="main-nav" class="flex gap-2 mr-4">
@@ -72,9 +72,7 @@
                             <button id="nav-agents" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium whitespace-nowrap">👥 דוחות</button>
                             <button id="nav-mtt" class="nav-btn px-4 py-2 rounded-lg border border-slate-200 text-slate-700 font-medium whitespace-nowrap">🏆 טורנירים</button>
                         </div>
-                        <button id="logout-btn" class="text-slate-400 hover:text-red-600 p-2" title="התנתק">
-                            🚪
-                        </button>
+                        <button id="logout-btn" class="text-slate-400 hover:text-red-600 p-2" title="התנתק">🚪</button>
                     </nav>
                 </div>
             </div>
@@ -84,7 +82,7 @@
             <div id="view-dashboard" class="view-section block">
                 <div class="mb-8">
                     <h2 class="text-2xl font-bold text-slate-800 mb-2">תמונת מצב מועדון</h2>
-                    <p class="text-slate-600">סיכום התחשבנות גלובלי - כלל הנתונים נבדקו מול קבצי הייצוא.</p>
+                    <p class="text-slate-600 italic">הנתונים בטבלה זו כוללים את כלל השחקנים הפעילים והלא-פעילים.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="dash-stats"></div>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -93,7 +91,7 @@
                         <div class="chart-container"><canvas id="settlementChart"></canvas></div>
                     </div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4">פילוח עמלות סוכנים</h3>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4">פילוח עמלות סוכנים (100%)</h3>
                         <div class="chart-container"><canvas id="feeDistributionChart"></canvas></div>
                     </div>
                 </div>
@@ -101,19 +99,19 @@
 
             <div id="view-agents" class="view-section hidden">
                 <div id="agent-selector-container" class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
-                    <label class="block text-sm font-semibold text-slate-700 mb-2">צפה בדוח של:</label>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">בחר סוכן:</label>
                     <select id="agent-selector" class="w-full md:w-1/3 bg-slate-50 border border-slate-300 text-slate-900 text-lg rounded-lg p-3 outline-none"></select>
                 </div>
 
                 <div id="agent-details-container">
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8" id="agent-metrics"></div>
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">פירוט שחקנים (עמלות ב-100%)</h3>
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2">פירוט מלא של כלל השחקנים</h3>
                         <div class="overflow-x-auto">
                             <table class="w-full text-right border-collapse">
                                 <thead class="bg-slate-50 text-slate-500 text-sm">
                                     <tr>
-                                        <th class="p-4 border-b text-right">שם שחקן</th>
+                                        <th class="p-4 border-b">שם שחקן</th>
                                         <th class="p-4 border-b text-left">תוצאה (P&L)</th>
                                         <th class="p-4 border-b text-left">עמלה שיוצרה (100%)</th>
                                     </tr>
@@ -147,11 +145,7 @@
             agents: [
                 {
                     name: "חיים",
-                    pnl: -8743.12,
-                    totalFee100: 3976.93,
                     pastBalance: 0.00,
-                    finalSettlement: -6356.96,
-                    status: "סוכן חייב למועדון",
                     players: [
                         { name: "avim24", pnl: -1055.78, fee: 1008.05 },
                         { name: "Bathens", pnl: -5536.39, fee: 1145.82 },
@@ -169,16 +163,19 @@
                         { name: "dasi7", pnl: 3.44, fee: 75.00 },
                         { name: "YoavAA", pnl: 23.54, fee: 15.00 },
                         { name: "Baraks1", pnl: -55.00, fee: 98.52 },
-                        { name: "Adi Rahimian", pnl: -126.11, fee: 30.90 }
+                        { name: "Adi Rahimian", pnl: -126.11, fee: 30.90 },
+                        { name: "Yossi xXx", pnl: 0.00, fee: 0.00 },
+                        { name: "Dadi@Max", pnl: 0.00, fee: 0.00 },
+                        { name: "ilanzi", pnl: 0.00, fee: 0.00 },
+                        { name: "addADDis", pnl: 0.00, fee: 0.00 },
+                        { name: "Shekel@", pnl: 0.00, fee: 0.00 },
+                        { name: "DysonV", pnl: 0.00, fee: 0.00 },
+                        { name: "malibu pompom", pnl: 0.00, fee: 0.00 }
                     ]
                 },
                 {
                     name: "איתי",
-                    pnl: -3238.36,
-                    totalFee100: 2224.53,
                     pastBalance: 0.00,
-                    finalSettlement: -1903.64,
-                    status: "סוכן חייב למועדון",
                     players: [
                         { name: "Aviad1111 (מאוחד)", pnl: -3632.81, fee: 936.15 },
                         { name: "in2024 (מאוחד)", pnl: 775.41, fee: 257.16 },
@@ -190,16 +187,17 @@
                         { name: "OTC 1", pnl: -53.34, fee: 173.00 },
                         { name: "dan13579", pnl: 102.56, fee: 25.77 },
                         { name: "govo22", pnl: -100.00, fee: 40.00 },
-                        { name: "MAXPRESSURE7", pnl: -120.00, fee: 3.00 }
+                        { name: "MAXPRESSURE7", pnl: -120.00, fee: 3.00 },
+                        { name: "school teacher", pnl: 0.00, fee: 0.00 },
+                        { name: "ID20", pnl: 0.00, fee: 0.00 },
+                        { name: "tomerme13579", pnl: 0.00, fee: 0.00 },
+                        { name: "AAA10MA", pnl: 0.00, fee: 0.00 },
+                        { name: "Don_Pablorr12", pnl: 0.00, fee: 0.00 }
                     ]
                 },
                 {
                     name: "אבי",
-                    pnl: -9715.43,
-                    totalFee100: 13948.84,
                     pastBalance: 0.00,
-                    finalSettlement: 1443.64,
-                    status: "מועדון חייב לסוכן",
                     players: [
                         { name: "אלדד כהן", pnl: -1075.75, fee: 2675.64 },
                         { name: "עופר וקנין", pnl: 791.86, fee: 2299.81 },
@@ -213,15 +211,11 @@
                 },
                 {
                     name: "עוז",
-                    pnl: -2052.09,
-                    totalFee100: 1354.38,
                     pastBalance: -2550.00,
-                    finalSettlement: -3789.46,
-                    status: "סוכן חייב למועדון",
                     players: [
+                        { name: "adirmezin12", pnl: -697.36, fee: 415.74 },
                         { name: "AM26", pnl: 107.00, fee: 439.00 },
                         { name: "BOOM", pnl: -600.00, fee: 289.00 },
-                        { name: "adirmezin12", pnl: -697.36, fee: 415.74 },
                         { name: "Ofir eliyahu198", pnl: -261.73, fee: 120.16 },
                         { name: "yosi!!", pnl: -300.00, fee: 60.29 },
                         { name: "ozozoz111", pnl: -300.00, fee: 30.19 },
@@ -230,25 +224,19 @@
                 },
                 {
                     name: "אלחנן",
-                    pnl: 2535.19,
-                    totalFee100: 676.56,
                     pastBalance: -2000.00,
-                    finalSettlement: 941.13,
-                    status: "מועדון חייב לסוכן",
                     players: [
                         { name: "IzMaR (מאוחד)", pnl: 2813.31, fee: 622.27 },
                         { name: "Camel63 (מאוחד)", pnl: -178.12, fee: 28.19 },
                         { name: "Puntman777", pnl: -100.00, fee: 26.10 },
-                        { name: "naki t", pnl: 0.00, fee: 0.00 }
+                        { name: "naki t", pnl: 0.00, fee: 0.00 },
+                        { name: "mirdi 86", pnl: 0.00, fee: 0.00 },
+                        { name: "jokeravi", pnl: 0.00, fee: 0.00 }
                     ]
                 },
                 {
                     name: "יוני",
-                    pnl: -26.68,
-                    totalFee100: 2.81,
                     pastBalance: 0.00,
-                    finalSettlement: -24.99,
-                    status: "סוכן חייב למועדון",
                     players: [
                         { name: "ghost baba", pnl: -26.68, fee: 2.81 },
                         { name: "Kepler36b", pnl: 0.00, fee: 0.00 },
@@ -262,6 +250,15 @@
         let settlementChart = null, feeChart = null;
 
         const format = (v) => new Intl.NumberFormat('he-IL', { minimumFractionDigits: 2 }).format(v);
+
+        function calculateAgentSummary(agent) {
+            const sumPnl = agent.players.reduce((s, p) => s + p.pnl, 0);
+            const sumFee100 = agent.players.reduce((s, p) => s + p.fee, 0);
+            const rate = agent.name === "אבי" ? 0.8 : 0.6;
+            const agentCut = sumFee100 * rate;
+            const final = sumPnl + agentCut + agent.pastBalance;
+            return { sumPnl, sumFee100, agentCut, final, rateText: agent.name === "אבי" ? "80%" : "60%" };
+        }
 
         function handleLogin() {
             const u = document.getElementById('username').value.trim();
@@ -298,7 +295,7 @@
         function initNavigation() {
             const tabs = ['nav-dashboard', 'nav-agents', 'nav-mtt'];
             tabs.forEach(tabId => {
-                document.getElementById(tabId).onclick = (e) => {
+                document.getElementById(tabId).onclick = () => {
                     const viewId = 'view-' + tabId.split('-')[1];
                     switchTab(tabId, viewId);
                 };
@@ -325,45 +322,49 @@
         }
 
         function renderDashboard() {
-            const totalFees = reportData.agents.reduce((s, a) => s + a.totalFee100, 0);
-            const net = reportData.agents.reduce((s, a) => s + a.finalSettlement, 0);
+            const summaries = reportData.agents.map(a => calculateAgentSummary(a));
+            const totalFees100 = summaries.reduce((s, x) => s + x.sumFee100, 0);
+            const netBalance = summaries.reduce((s, x) => s + x.final, 0);
+
             document.getElementById('dash-stats').innerHTML = `
-                <div class="bg-white p-6 rounded-xl border"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">סה"כ סוכנים</span><div class="text-3xl font-bold text-slate-800">${reportData.agents.length}</div></div>
-                <div class="bg-white p-6 rounded-xl border"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">סה"כ עמלות ברוטו (100%)</span><div class="text-3xl font-bold text-blue-600">${format(totalFees)}</div></div>
-                <div class="bg-white p-6 rounded-xl border"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">מאזן מועדון סופי</span><div class="text-3xl font-bold ${net >=0 ? 'text-emerald-600' : 'text-red-600'}">${format(net)}</div></div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">סוכנים פעילים</span><div class="text-3xl font-bold text-slate-800">${reportData.agents.length}</div></div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">סה"כ עמלות ברוטו</span><div class="text-3xl font-bold text-blue-600">${format(totalFees100)}</div></div>
+                <div class="bg-white p-6 rounded-xl border shadow-sm"><span class="text-xs text-slate-500 font-bold uppercase tracking-widest">מאזן מועדון סופי</span><div class="text-3xl font-bold ${netBalance >=0 ? 'text-emerald-600' : 'text-red-600'}">${format(netBalance)}</div></div>
             `;
+
             if(settlementChart) settlementChart.destroy();
             settlementChart = new Chart(document.getElementById('settlementChart'), {
                 type: 'bar',
-                data: { labels: reportData.agents.map(a => a.name), datasets: [{ data: reportData.agents.map(a => a.finalSettlement), backgroundColor: reportData.agents.map(a => a.finalSettlement >= 0 ? '#10b981' : '#f43f5e'), borderRadius: 6 }] },
+                data: { labels: reportData.agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.final), backgroundColor: summaries.map(x => x.final >= 0 ? '#10b981' : '#f43f5e'), borderRadius: 6 }] },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
+
             if(feeChart) feeChart.destroy();
             feeChart = new Chart(document.getElementById('feeDistributionChart'), {
                 type: 'doughnut',
-                data: { labels: reportData.agents.map(a => a.name), datasets: [{ data: reportData.agents.map(a => a.totalFee100), backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#6366f1'] }] },
+                data: { labels: reportData.agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.sumFee100), backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#6366f1'] }] },
                 options: { responsive: true, maintainAspectRatio: false }
             });
         }
 
         function renderAgentDetails(agent) {
-            const isPos = agent.finalSettlement >= 0;
-            const rate = agent.name === "אבי" ? 0.8 : 0.6;
-            const rateText = agent.name === "אבי" ? "80%" : "60%";
+            const summary = calculateAgentSummary(agent);
+            const isPos = summary.final >= 0;
+            const statusText = isPos ? "מועדון חייב לסוכן" : "סוכן חייב למועדון";
             
             document.getElementById('agent-metrics').innerHTML = `
-                <div class="bg-slate-50 p-4 rounded-lg border"><span class="text-[10px] font-bold text-slate-500 uppercase">P&L שחקנים</span><div class="text-xl font-bold ${agent.pnl >= 0 ? 'text-emerald-600' : 'text-red-600'}">${format(agent.pnl)}</div></div>
-                <div class="bg-slate-50 p-4 rounded-lg border"><span class="text-[10px] font-bold text-slate-500 uppercase">עמלת סוכן (${rateText})</span><div class="text-xl font-bold text-blue-600">${format(agent.totalFee100 * rate)}</div></div>
-                <div class="bg-slate-50 p-4 rounded-lg border"><span class="text-[10px] font-bold text-slate-500 uppercase">יתרת עבר</span><div class="text-xl font-bold text-slate-700">${format(agent.pastBalance)}</div></div>
-                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורת התחשבנות</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(agent.finalSettlement)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">סה"כ P&L שחקנים</span><div class="text-xl font-bold ${summary.sumPnl >= 0 ? 'text-emerald-600' : 'text-red-600'}">${format(summary.sumPnl)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">עמלת סוכן (${summary.rateText})</span><div class="text-xl font-bold text-blue-600">${format(summary.agentCut)}</div></div>
+                <div class="bg-white p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold text-slate-500 uppercase">יתרת עבר</span><div class="text-xl font-bold text-slate-700">${format(agent.pastBalance)}</div></div>
+                <div class="${isPos ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'} p-4 rounded-lg border shadow-sm"><span class="text-[10px] font-bold ${isPos ? 'text-emerald-700' : 'text-red-700'} uppercase">שורה תחתונה (${statusText})</span><div class="text-2xl font-black ${isPos ? 'text-emerald-600' : 'text-red-600'}">${format(summary.final)}</div></div>
             `;
+
             const tbody = document.getElementById('agent-players-table');
-            // Sorting players by absolute impact (highest pnl or fee)
-            const sortedPlayers = [...agent.players].sort((a,b) => Math.abs(b.pnl) - Math.abs(a.pnl));
+            const sortedPlayers = [...agent.players].sort((a,b) => (Math.abs(b.pnl) + b.fee) - (Math.abs(a.pnl) + a.fee));
             tbody.innerHTML = sortedPlayers.map(p => `
                 <tr class="hover:bg-slate-50 border-b border-slate-100 transition-colors">
                     <td class="p-4 font-medium text-slate-800">${p.name}</td>
-                    <td class="p-4 font-bold text-left ${p.pnl >=0 ? 'text-emerald-600' : 'text-red-600'}" dir="ltr">${format(p.pnl)}</td>
+                    <td class="p-4 font-bold text-left ${p.pnl > 0 ? 'text-emerald-600' : p.pnl < 0 ? 'text-red-600' : 'text-slate-400'}" dir="ltr">${format(p.pnl)}</td>
                     <td class="p-4 text-left text-slate-600" dir="ltr">${format(p.fee)}</td>
                 </tr>
             `).join('');
@@ -372,17 +373,17 @@
         function renderMTT() {
             document.getElementById('mtt-summary').innerHTML = `
                 <div class="bg-white p-8 rounded-xl border border-red-100 border-t-4 border-t-red-500 shadow-sm">
-                    <h3 class="text-xl font-bold text-slate-800 mb-6 text-center">סיכום זליגת כספים</h3>
+                    <h3 class="text-xl font-bold text-slate-800 mb-6 text-center">סיכום זליגת כספים בטורנירים</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between p-3 bg-slate-50 rounded"><span>Overlay (GTD)</span><span class="font-bold text-red-600">-1,920.00</span></div>
-                        <div class="flex justify-between p-3 bg-slate-50 rounded"><span>הפסד שחקני בית</span><span class="font-bold text-red-600">-236.03</span></div>
-                        <div class="flex justify-between p-4 bg-red-600 text-white rounded-lg shadow mt-6"><span class="font-bold">עלות מועדון כוללת</span><span class="text-2xl font-black">-2,156.03</span></div>
+                        <div class="flex justify-between p-3 bg-slate-50 rounded"><span>הפסד שחקני בית למערכת</span><span class="font-bold text-red-600">-236.03</span></div>
+                        <div class="flex justify-between p-4 bg-red-600 text-white rounded-lg shadow mt-6"><span class="font-bold uppercase tracking-widest">עלות מועדון כוללת</span><span class="text-2xl font-black">-2,156.03</span></div>
                     </div>
                 </div>
                 <div class="bg-white p-8 rounded-xl border shadow-sm">
-                    <h3 class="text-xl font-bold text-slate-800 mb-4">המלצות ניהול</h3>
-                    <p class="text-slate-600 leading-relaxed">הנתונים מראים כי הטורנירים הנוכחיים אינם כלכליים. שחקני הבית לא מצליחים למשוך את כספי ה-GTD בחזרה פנימה.</p>
-                    <div class="mt-6 p-4 bg-blue-50 border-r-4 border-blue-500 rounded text-blue-900 font-medium">מומלץ להקטין GTD בפרירולים ולהגדיל עלויות Re-Entry.</div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-4 border-b pb-2">ניתוח והמלצות ניהול</h3>
+                    <p class="text-slate-600 leading-relaxed mb-4">המערכת מעידה כי הטורנירים עולים למועדון מעל ל-2,100 יחידות מדי שבוע. שחקני הבית שתומכים בנזילות המשחקים מסיימים בהפסד מול שחקנים זרים.</p>
+                    <div class="mt-4 p-4 bg-blue-50 border-r-4 border-blue-500 rounded text-blue-900 font-medium italic text-sm">מומלץ להקטין את סכומי ה-GTD בטורנירים שאינם מתמלאים ולבחון מבנה כניסות חוזרות יקר יותר.</div>
                 </div>
             `;
         }
