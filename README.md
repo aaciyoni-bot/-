@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
@@ -66,7 +67,7 @@
         .division-card {
             background: #ffffff;
             border: 1px solid #f1f5f9;
-            padding: 50px 20px;
+            padding: 50px 10px;
             border-radius: 2.5rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
@@ -98,7 +99,6 @@
             align-items: center;
             gap: 0.5rem;
             width: 100%;
-            overflow: hidden;
         }
         .brand-pfx {
             font-family: 'Montserrat', sans-serif;
@@ -111,13 +111,12 @@
         .brand-main {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900; 
-            font-size: clamp(14px, 4vw, 26px); 
+            font-size: clamp(12px, 2.5vw, 16px); 
             text-transform: uppercase;
             line-height: 1.1;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
             width: 100%;
             white-space: nowrap; 
-            text-overflow: ellipsis;
         }
 
         .section-hidden { display: none; }
