@@ -1,468 +1,453 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מערכת התחשבנות - גרסה מתוקנת ומלאה</title>
+    <title>ORIZIS GROUP | Global Industrial Holdings</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .chart-container { position: relative; width: 100%; max-width: 800px; margin: auto; height: 350px; }
-        .nav-btn.active { background-color: #2563eb; color: white; border-color: #2563eb; }
-        .nav-btn { transition: all 0.2s ease; cursor: pointer; }
-        .modal-overlay { background-color: rgba(15, 23, 42, 0.7); backdrop-filter: blur(4px); }
-        .player-row:hover .player-name { color: #2563eb; text-decoration: underline; }
-        input, select { direction: rtl; }
+        /* משתני עיצוב מרכזיים */
+        :root {
+            --primary-blue: #00C2FF;
+            --accent-purple: #A377FF;
+            --bg-light: #ffffff;
+            --bg-dark: #020617;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: #0f172a;
+            scroll-behavior: smooth;
+            transition: background-color 0.4s;
+        }
+
+        .dark-mode {
+            background-color: var(--bg-dark);
+            color: #f1f5f9;
+        }
+
+        .montserrat { font-family: 'Montserrat', sans-serif; }
+
+        /* ניווט שקוף */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .dark-mode .glass-nav {
+            background: rgba(2, 6, 23, 0.98);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* אזור Hero בעל ניגודיות גבוהה */
+        .hero-section {
+            background-color: #020617;
+            color: #ffffff;
+            padding: 140px 24px;
+            position: relative;
+        }
+        .hero-title {
+            font-size: clamp(3rem, 10vw, 7rem);
+            line-height: 0.95;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+        }
+
+        /* כרטיסיות פורטפוליו */
+        .division-card {
+            background: #ffffff;
+            border: 1px solid #f1f5f9;
+            padding: 60px 30px;
+            border-radius: 3rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+        }
+        .dark-mode .division-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+        .division-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.12);
+        }
+
+        /* אלמנט המותג המשולב - מודגש וגדול יותר */
+        .brand-unit { display: flex; flex-direction: column; align-items: center; }
+        .brand-prefix {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            letter-spacing: 0.6em;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-bottom: 0px;
+        }
+        .brand-main {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900; /* עובי מקסימלי */
+            font-size: 40px;  /* הגדלה משמעותית */
+            text-transform: uppercase;
+            line-height: 0.9;
+            letter-spacing: -0.05em; /* ריווח אותיות צפוף ויוקרתי */
+        }
+
+        .lang-rtl { direction: rtl; }
+        .section-hidden { display: none; }
+
+        /* קונטיינר למדיה */
+        .video-container {
+            background: #0f172a;
+            border-radius: 3.5rem;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.3);
+        }
+        .video-container::after {
+            content: '▶';
+            font-size: 80px;
+            color: white;
+            opacity: 0.2;
+        }
+
+        .location-dot {
+            width: 10px; height: 10px; background: var(--primary-blue); border-radius: 50%;
+            position: relative; margin: 0 10px;
+        }
+        .location-dot::after {
+            content: ''; position: absolute; inset: 0; border-radius: 50%;
+            background: inherit; animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(3); opacity: 0; } }
+
+        .lang-btn { font-size: 10px; font-weight: 900; padding: 6px 10px; border-radius: 6px; border: 1px solid transparent; }
+        .lang-btn.active { border-color: var(--primary-blue); color: var(--primary-blue) !important; }
+
+        .high-contrast-text { color: #0f172a; }
+        .dark-mode .high-contrast-text { color: #ffffff; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col text-right">
+<body id="bodyTag">
 
-    <!-- Login Screen -->
-    <div id="login-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background-color: #0f172a;">
-        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md border border-slate-200">
-            <div class="text-center mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4 font-bold text-2xl">₪</div>
-                <h2 class="text-2xl font-bold text-slate-800 font-black tracking-tighter uppercase">כניסת מערכת</h2>
-                <p class="text-slate-500 mt-2 font-medium">התחשבנות מבוקרת - גישה מאובטחת</p>
-            </div>
-            <div class="space-y-4 text-right">
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">שם משתמש</label>
-                    <input type="text" id="username" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-right" placeholder="הזן שם משתמש">
+    <!-- סרגל ניווט -->
+    <nav class="glass-nav fixed top-0 w-full z-[100] px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showHome()">
+                <div class="w-9 h-9">
+                    <svg viewBox="0 0 100 100" fill="none"><rect x="10" y="10" width="60" height="60" stroke="#00C2FF" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#A377FF" stroke-width="12"/></svg>
                 </div>
-                <div>
-                    <label class="block text-sm font-bold text-slate-700 mb-1">סיסמה</label>
-                    <input type="password" id="password" class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-right" placeholder="••••••••">
-                </div>
-                <div id="login-error" class="text-red-600 text-sm hidden text-center font-black bg-red-50 p-2 rounded-lg border border-red-100 italic">פרטי התחברות שגויים</div>
-                <button id="login-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl transition-all shadow-lg shadow-blue-200 uppercase tracking-widest">התחבר</button>
+                <span class="montserrat font-black text-2xl tracking-tighter uppercase italic high-contrast-text">ORIZIS <span class="font-light text-slate-400 not-italic text-sm">GROUP</span></span>
             </div>
-        </div>
-    </div>
 
-    <!-- Player Details Modal -->
-    <div id="player-modal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4 modal-overlay">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
-            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <button id="close-modal" class="text-slate-400 hover:text-slate-600 p-2 text-3xl font-light">&times;</button>
-                <div class="text-right">
-                    <h3 id="modal-player-name" class="text-2xl font-bold text-slate-800 font-black tracking-tighter">שם שחקן</h3>
-                    <p class="text-sm text-slate-500 mt-1 font-medium italic">פירוט סשנים וחישוב תוצאה</p>
-                </div>
-            </div>
-            <div class="p-6 overflow-y-auto flex-grow text-right">
-                <div id="modal-creds-section" class="mb-6 p-5 bg-emerald-50 border border-emerald-100 rounded-2xl hidden shadow-inner">
-                    <h4 class="text-[11px] font-black text-emerald-700 uppercase tracking-widest mb-4 flex items-center gap-2">🔑 פרטי גישה לשחקן</h4>
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <div class="flex-1 bg-white p-3 rounded-xl border border-emerald-200">
-                            <span class="text-[9px] text-emerald-500 font-bold block uppercase mb-1">שם משתמש:</span>
-                            <code id="modal-display-username" class="text-lg font-black text-slate-800 tracking-tight block">---</code>
-                        </div>
-                        <div class="flex-1 bg-white p-3 rounded-xl border border-emerald-200">
-                            <span class="text-[9px] text-emerald-500 font-bold block uppercase mb-1">סיסמה:</span>
-                            <code id="modal-display-password" class="text-lg font-black text-slate-800 tracking-tight block">---</code>
-                        </div>
+            <div class="hidden lg:flex gap-6 items-center">
+                <button onclick="showDivision('group')" class="text-[10px] font-black uppercase tracking-widest hover:text-blue-500 transition" data-i18n="nav_group">Management</button>
+                <a href="#divisions" class="text-[10px] font-black uppercase tracking-widest hover:text-blue-500 transition" data-i18n="nav_divisions">Portfolio</a>
+                
+                <div class="flex items-center gap-3 border-l pl-6 border-slate-200">
+                    <div class="flex flex-wrap gap-1 max-w-[200px] justify-end">
+                        <button onclick="setLanguage('en')" id="btn-en" class="lang-btn active">EN</button>
+                        <button onclick="setLanguage('he')" id="btn-he" class="lang-btn">HE</button>
+                        <button onclick="setLanguage('fr')" id="btn-fr" class="lang-btn">FR</button>
+                        <button onclick="setLanguage('az')" id="btn-az" class="lang-btn">AZ</button>
+                        <button onclick="setLanguage('zh')" id="btn-zh" class="lang-btn">ZH</button>
+                        <button onclick="setLanguage('ru')" id="btn-ru" class="lang-btn">RU</button>
+                        <button onclick="setLanguage('ar')" id="btn-ar" class="lang-btn">AR</button>
                     </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4 mb-6">
-                    <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 text-right shadow-sm">
-                        <span class="text-[10px] text-blue-600 font-black uppercase tracking-widest block mb-1">סה"כ P&L</span>
-                        <div id="modal-total-pnl" class="text-2xl font-black tracking-tighter">0.00</div>
-                    </div>
-                    <div id="modal-fee-card" class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-right shadow-sm">
-                        <span class="text-[10px] text-slate-500 font-black uppercase tracking-widest block mb-1">עמלה נטו</span>
-                        <div id="modal-total-fee" class="text-2xl font-black tracking-tighter">0.00</div>
-                    </div>
-                </div>
-                <h4 class="font-black text-slate-700 mb-3 text-xs uppercase tracking-widest border-r-4 border-slate-200 pr-2">היסטוריית משחקים:</h4>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-right border-collapse">
-                        <thead>
-                            <tr class="text-[10px] font-black text-slate-400 uppercase border-b">
-                                <th class="pb-3 px-2">תאריך</th>
-                                <th class="pb-3 px-2">משחק</th>
-                                <th class="pb-3 px-2 text-left">תוצאה</th>
-                                <th class="pb-3 px-2 text-left fee-col">עמלה</th>
-                            </tr>
-                        </thead>
-                        <tbody id="modal-games-body" class="divide-y text-slate-700"></tbody>
-                    </table>
+                    <button onclick="toggleTheme()" class="ml-4 text-xl">🌓</button>
                 </div>
             </div>
         </div>
-    </div>
+    </nav>
 
-    <!-- Application Content -->
-    <div id="app-content" class="hidden flex flex-col min-h-screen">
-        <header class="bg-white shadow-sm border-b border-slate-200 py-4 sticky top-0 z-40">
-            <div class="container mx-auto px-4 lg:px-8 max-w-7xl text-right">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div class="flex items-center gap-3 order-last md:order-first">
-                        <h1 class="text-2xl font-black text-slate-800 tracking-tighter uppercase">💼 התחשבנות</h1>
-                        <span id="user-badge" class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-[10px] font-black border border-blue-100 uppercase tracking-tighter"></span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200">
-                        <label class="text-[9px] font-black text-slate-400 uppercase px-2">מחזור:</label>
-                        <select id="cycle-selector" class="bg-white border-0 text-slate-800 text-xs font-black rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm cursor-pointer"></select>
-                    </div>
-                    <nav class="flex gap-2 items-center">
-                        <div id="main-nav" class="flex gap-2 mr-4">
-                            <button id="nav-dashboard" class="nav-btn active px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm">📊 דאשבורד</button>
-                            <button id="nav-agents" class="nav-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm">👥 דוחות</button>
-                            <button id="nav-mtt" class="nav-btn px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm">🏆 טורנירים</button>
-                        </div>
-                        <button id="logout-btn" class="bg-slate-50 text-slate-500 hover:text-red-600 px-4 py-2 rounded-xl border border-slate-200 font-black text-xs uppercase tracking-widest">🚪 יציאה</button>
-                    </nav>
-                </div>
-            </div>
-        </header>
-
-        <main class="flex-grow container mx-auto px-4 lg:px-8 max-w-7xl py-8">
-            <div id="view-dashboard" class="view-section block">
-                <div class="mb-8 text-right"><h2 class="text-3xl font-black text-slate-800 mb-2 tracking-tight">תמונת מצב מועדון</h2></div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8" id="dash-stats"></div>
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-black text-slate-800 mb-4 border-b pb-2 uppercase tracking-tighter text-right">מאזן סופי לפי סוכן</h3>
-                        <div class="chart-container"><canvas id="settlementChart"></canvas></div>
-                    </div>
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-black text-slate-800 mb-4 border-b pb-2 uppercase tracking-tighter text-right font-black">פילוח עמלות נטו</h3>
-                        <div class="chart-container"><canvas id="feeDistributionChart"></canvas></div>
+    <div id="contentWrapper" class="pt-20">
+        <!-- דף הבית -->
+        <div id="homePage">
+            <!-- אזור Hero -->
+            <section class="hero-section">
+                <div class="max-w-6xl mx-auto text-center">
+                    <h1 class="hero-title montserrat mb-8" data-i18n="hero_title">Global Industrial <br><span class="text-blue-400">Authority</span></h1>
+                    <p class="text-xl md:text-2xl font-light text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed" data-i18n="hero_desc">
+                        Directing a powerhouse portfolio of 12 market-leading industrial subsidiaries across Africa, Europe, and Asia.
+                    </p>
+                    <div class="flex flex-col md:flex-row gap-6 justify-center">
+                        <a href="#divisions" class="px-16 py-6 bg-white text-slate-900 font-black rounded-full hover:bg-blue-500 hover:text-white transition uppercase text-xs tracking-widest shadow-2xl">Subsidiary Verticals</a>
+                        <button onclick="showDivision('group')" class="px-16 py-6 border-2 border-white text-white font-black rounded-full hover:bg-white hover:text-slate-900 transition uppercase text-xs tracking-widest">Strategy & Governance</button>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div id="view-agents" class="view-section hidden text-right">
-                <div id="agent-selector-container" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 mb-8 text-right">
-                    <label class="block text-[11px] font-black text-slate-500 mb-2 uppercase tracking-widest">בחר סוכן:</label>
-                    <select id="agent-selector" class="w-full md:w-1/3 bg-slate-50 border border-slate-300 text-slate-900 text-lg font-bold rounded-xl p-3 outline-none shadow-inner"></select>
+            <!-- גריד חטיבות -->
+            <section id="divisions" class="py-32 px-6 bg-white dark:bg-slate-900">
+                <div class="max-w-7xl mx-auto">
+                    <div class="text-center mb-28">
+                        <h2 class="text-4xl font-black montserrat uppercase tracking-tighter mb-4 high-contrast-text" data-i18n="div_title">Subsidiary Ecosystem</h2>
+                        <p class="text-slate-400 font-bold uppercase tracking-[0.3em] text-[10px]" data-i18n="div_subtitle">Proven Market Leadership</p>
+                        <div class="w-24 h-2 bg-blue-500 mx-auto rounded-full mt-8"></div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-12" id="divisionsContainer"></div>
                 </div>
-                <div id="agent-details-container">
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="agent-metrics"></div>
-                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6">
-                        <h3 class="text-lg font-black text-slate-800 mb-2 border-b border-slate-100 pb-2 uppercase tracking-tighter text-right">פירוט שחקנים</h3>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-right border-collapse font-medium">
-                                <thead class="bg-slate-50 text-slate-400 text-[10px] font-black uppercase tracking-widest">
-                                    <tr>
-                                        <th class="p-4 border-b">שם שחקן</th>
-                                        <th class="p-4 border-b text-left">תוצאה (P&L)</th>
-                                        <th class="p-4 border-b text-left fee-col">עמלה</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="agent-players-table" class="divide-y text-slate-700"></tbody>
-                            </table>
-                        </div>
+            </section>
+
+            <!-- נוכחות גלובלית -->
+            <section id="global" class="py-32 px-6 bg-slate-50 dark:bg-slate-950">
+                <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-24 items-center">
+                    <div>
+                        <h2 class="text-5xl font-black montserrat uppercase tracking-tighter mb-8 high-contrast-text" data-i18n="global_title">Global Reach</h2>
+                        <p class="text-slate-500 mb-12 leading-relaxed text-xl" data-i18n="global_desc">
+                            Operational hubs and physical assets managed with cross-continental precision in 11 key regions.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6" id="locationsList"></div>
+                    </div>
+                    <div class="bg-white dark:bg-slate-900 h-[500px] rounded-[4rem] flex items-center justify-center border border-slate-200 dark:border-white/5 shadow-2xl">
+                         <div class="text-center">
+                             <div class="text-[140px] font-black montserrat text-blue-500/10 leading-none">11</div>
+                             <p class="uppercase tracking-[0.5em] text-sm font-black text-slate-400">Jurisdictions</p>
+                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+        </div>
 
-            <div id="view-player-single" class="view-section hidden text-right">
-                <div class="max-w-3xl mx-auto">
-                    <div class="bg-white rounded-[2.5rem] shadow-xl border border-slate-200 overflow-hidden mb-8">
-                        <div class="bg-slate-900 text-white p-8 sm:p-12 text-right">
-                            <h2 class="text-4xl font-black mb-2 tracking-tighter uppercase" id="player-view-name">שלום</h2>
-                            <p class="opacity-50 font-bold uppercase tracking-widest text-xs">סיכום ביצועים אישי</p>
-                        </div>
-                        <div class="p-8 sm:p-12">
-                            <div class="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex justify-between items-center mb-10 shadow-inner">
-                                <div class="text-right">
-                                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">תוצאה סופית (P&L)</span>
-                                    <div id="player-view-pnl" class="text-5xl font-black tracking-tighter">0.00</div>
-                                </div>
-                                <div class="bg-white w-20 h-20 rounded-3xl shadow-sm flex items-center justify-center text-4xl">💹</div>
+        <!-- דף פירוט חטיבה -->
+        <div id="divisionPage" class="section-hidden pb-40 bg-white dark:bg-slate-950">
+            <header class="py-32 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-white/10">
+                <div class="max-w-7xl mx-auto px-6 flex flex-col items-center text-center">
+                    <div id="divLogoBox" class="mb-14 scale-150"></div>
+                    <h1 id="divTitle" class="text-6xl md:text-9xl font-black montserrat uppercase tracking-tighter mb-10 high-contrast-text"></h1>
+                    <div class="w-24 h-2 bg-blue-500 mb-12 rounded-full shadow-sm"></div>
+                    <p id="divVision" class="max-w-4xl mx-auto text-2xl md:text-4xl text-slate-500 font-extralight leading-relaxed italic"></p>
+                </div>
+            </header>
+
+            <main class="max-w-7xl mx-auto px-6 mt-32">
+                <div class="grid lg:grid-cols-12 gap-24">
+                    <div class="lg:col-span-8 space-y-40">
+                        <section>
+                            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-blue-500 mb-12">Operational Overview</h2>
+                            <p id="divAbout" class="text-3xl text-slate-600 dark:text-slate-400 leading-relaxed font-light"></p>
+                        </section>
+                        <section>
+                            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-blue-500 mb-12">Industrial Media</h2>
+                            <div class="video-container">
+                                <span class="text-white/20 text-[10px] font-black uppercase tracking-[1.5em]">Operational Reel</span>
                             </div>
-                            <h3 class="text-xl font-black text-slate-800 mb-6 border-b pb-2 uppercase tracking-tighter text-right">פירוט משחקים</h3>
-                            <div class="overflow-x-auto"><table class="w-full text-right font-medium"><tbody id="player-view-table" class="divide-y text-slate-700"></tbody></table></div>
+                        </section>
+                        <section>
+                            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-blue-500 mb-16">Strategic Capabilities</h2>
+                            <div id="divCaps" class="grid sm:grid-cols-2 gap-10"></div>
+                        </section>
+                        <section>
+                            <h2 class="text-xs font-black uppercase tracking-[0.5em] text-blue-500 mb-16">Selected Field Projects</h2>
+                            <div id="divProjects" class="space-y-16"></div>
+                        </section>
+                    </div>
+                    <div class="lg:col-span-4">
+                        <div class="bg-slate-50 dark:bg-white/5 p-12 rounded-[4rem] border border-slate-200 dark:border-white/10 sticky top-32 shadow-2xl">
+                            <div class="mb-16">
+                                <h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-10">Executive Leadership</h3>
+                                <div id="divTeam" class="space-y-10"></div>
+                            </div>
+                            <div class="mb-16">
+                                <h3 class="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-10">Field Presence</h3>
+                                <div id="divLocations" class="space-y-5"></div>
+                            </div>
+                            <button onclick="showHome()" class="w-full py-6 bg-slate-900 text-white rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-blue-600 shadow-xl transition">Return to Ecosystem</button>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div id="view-mtt" class="view-section hidden text-right">
-                <div class="mb-8 font-black"><h2 class="text-3xl uppercase">ניתוח טורנירים (MTT)</h2></div>
-                <div id="mtt-summary" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
+
+    <!-- כותרת תחתונה -->
+    <footer class="py-24 border-t border-slate-100 dark:border-white/5 bg-white dark:bg-slate-950 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
+            <div class="text-center md:text-left">
+                <div class="flex items-center justify-center md:justify-start gap-3 mb-6">
+                    <div class="w-10 h-10"><svg viewBox="0 0 100 100" fill="none"><rect x="10" y="10" width="60" height="60" stroke="#00C2FF" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#A377FF" stroke-width="12"/></svg></div>
+                    <span class="montserrat font-black text-2xl tracking-tighter uppercase italic high-contrast-text">ORIZIS GROUP</span>
+                </div>
+                <p class="text-xs text-slate-400 uppercase tracking-[0.4em] font-bold">12 Subsidiaries. 11 Nations. Global standard.</p>
+            </div>
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">© 2026 ORIZIS GROUP HOLDINGS LTD.</p>
+        </div>
+    </footer>
 
     <script>
-        const users = {
-            'admin': { pass: 'admin123', role: 'admin', name: 'מנהל מערכת' },
-            'חיים': { pass: 'חיים177', role: 'agent', name: 'חיים', agentIndex: 0 },
-            'איתי': { pass: 'איתי2024', role: 'agent', name: 'איתי', agentIndex: 1 },
-            'אבי': { pass: 'אבי2026', role: 'agent', name: 'אבי', agentIndex: 2 },
-            'עוז': { pass: 'עוז999', role: 'agent', name: 'עוז', agentIndex: 3 },
-            'אלחנן': { pass: 'אלחנן86', role: 'agent', name: 'אלחנן', agentIndex: 4 },
-            'יוני': { pass: 'יוני25', role: 'agent', name: 'יוני', agentIndex: 5 },
-            'בליינדרס': { pass: 'blinders7', role: 'agent', name: 'בליינדרס', agentIndex: 6 }
+        const translations = {
+            en: {
+                nav_group: "Management", nav_divisions: "Portfolio", nav_presence: "Operations",
+                hero_title: "Global Industrial Authority",
+                hero_desc: "Orizis Group leads strategic development and large-scale industrial execution across 12 high-impact sectors worldwide.",
+                div_title: "Subsidiary Ecosystem", div_subtitle: "12 Verticals of Excellence",
+                global_title: "Global Reach", global_desc: "Physical operations across 11 key regions, managing complex industrial chains with precision."
+            },
+            he: {
+                nav_group: "ניהול", nav_divisions: "פורטפוליו", nav_presence: "פעילות",
+                hero_title: "סמכות תעשייתית גלובלית",
+                hero_desc: "אוריזיס גרופ מובילה פיתוח אסטרטגי וביצוע תעשייתי רחב היקף ב-12 סקטורים בעלי אימפקט גבוה ברחבי העולם.",
+                div_title: "המערכת העסקית", div_subtitle: "12 תחומי מצוינות",
+                global_title: "פריסה עולמית", global_desc: "פעילות פיזית ב-11 אזורי מפתח, המנוהלת בדייקנות ומומחיות בשרשראות תעשייה מורכבות."
+            }
         };
 
-        const cycles = [
-            {
-                id: "current",
-                label: "מחזור נוכחי (05/05 - 12/05)",
-                mtt: { overlay: 0, internalLoss: 0 },
-                agents: [
-                    { name: "חיים", pastBalance: 0.00, players: [] },
-                    { name: "איתי", pastBalance: 0.00, players: [] },
-                    { name: "אבי", pastBalance: 0.00, players: [] },
-                    { name: "עוז", pastBalance: 0.00, players: [] },
-                    { name: "אלחנן", pastBalance: 0.00, players: [] },
-                    { name: "יוני", pastBalance: 0.00, players: [] },
-                    { name: "בליינדרס", pastBalance: 0.00, players: [] }
-                ]
+        const locations = ["Zambia", "Botswana", "Tanzania", "Georgia", "Azerbaijan", "Bulgaria", "Israel", "Congo DRC", "Liberia", "Kenya", "Nigeria"];
+
+        const divisions = [
+            { 
+                id: 'group', title: 'Management', color: '#00C2FF', textCol: '#0f172a', tagline: 'Strategic Nerve Center', 
+                icon: '<rect x="10" y="10" width="60" height="60" stroke="#00C2FF" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#A377FF" stroke-width="12"/>',
+                vision: 'Leading global strategy and sovereign-level investment.',
+                about: 'The Management unit acts as the strategic and financial brain of the global conglomerate, managing cross-border capital flow and governmental advisory.',
+                caps: ['Governmental Strategic Advisory', 'Global M&A & Integration', 'Capital Market Structuring', 'National Economic Policy Consulting'],
+                leads: [{n:'Yehonathan Friedman', r:'CEO & Chairman'}],
+                locations: ['Israel (Management Center)'],
+                projects: [{t:'Global Roadmap 2030', d:'Strategic expansion planning for infrastructure corridors.'}]
             },
-            {
-                id: "historical",
-                label: "מחזור שנסגר (28/04 - 05/05)",
-                mtt: { overlay: -1920.00, internalLoss: -236.03 },
-                agents: [
-                    {
-                        name: "חיים", pastBalance: 0.00,
-                        players: [
-                            { name: "Bathens", pnl: -5536.39, fee: 1145.82, games: [{d:'28/04',t:'PLO 25/50',r:-3000,f:600.50},{d:'01/05',t:'PLO 25/50',r:-2536.39,f:545.32}] },
-                            { name: "avim24", pnl: -1055.78, fee: 1008.05, games: [{d:'29/04',t:'NLH 5/10',r:-1055.78,f:1008.05}] },
-                            { name: "dipstay", pnl: -1240.00, fee: 121.49, games: [{d:'30/04',t:'PLO 10/20',r:-1440,f:121.49},{d:'05/05',t:'בונוס',r:200,f:0}] },
-                            { name: "omar1989!", pnl: -500.00, fee: 621.35, games: [{d:'02/05',t:'NLH 5/10',r:-500,f:621.35}] },
-                            { name: "Amirgu", pnl: -554.00, fee: 144.67, games: [{d:'29/04',t:'NLH 10/20',r:-554,f:144.67}] },
-                            { name: "raz121212", pnl: 291.69, fee: 129.32, games: [{d:'30/04',t:'NLH 2/4',r:291.69,f:129.32}] },
-                            { name: "Snow23", pnl: 206.23, fee: 30.00, games: [{d:'03/05',t:'NLH 5/10',r:206.23,f:30}] },
-                            { name: "or75", pnl: 162.37, fee: 32.57, games: [{d:'02/05',t:'NLH 2/4',r:162.37,f:32.57}] },
-                            { name: "Leopold2291", pnl: 116.64, fee: 30.00, games: [{d:'04/05',t:'NLH 5/10',r:116.64,f:30}] },
-                            { name: "Kobisayer", pnl: 102.40, fee: 137.68, games: [{d:'03/05',t:'NLH 5/10',r:102.40,f:137.68}] },
-                            { name: "Yana79", pnl: 70.85, fee: 80.00, games: [{d:'01/05',t:'NLH 5/10',r:70.85,f:80}] },
-                            { name: "nigil", pnl: 145.41, fee: 0.00, games: [{d:'01/05',t:'NLH 2/4',r:145.41,f:0}] },
-                            { name: "Gil", pnl: -453.00, fee: 38.91, games: [{d:'01/05',t:'NLH 5/10',r:-453,f:38.91}] },
-                            { name: "Adi Rahimian", pnl: -126.11, fee: 30.90, games: [{d:'02/05',t:'NLH 5/10',r:-126.11,f:30.90}] },
-                            { name: "Baraks1", pnl: -55.00, fee: 98.52, games: [{d:'04/05',t:'NLH 2/4',r:-55,f:98.52}] },
-                            { name: "YoavAA", pnl: 23.54, fee: 15.00, games: [{d:'03/05',t:'NLH 5/10',r:23.54,f:15}] },
-                            { name: "dasi7", pnl: 3.44, fee: 75.00, games: [{d:'02/05',t:'NLH 5/10',r:3.44,f:75}] },
-                            { name: "Yona177", pnl: 0.00, fee: 237.65, games: [{d:'01/05',t:'NLH 5/10',r:0,f:237.65}] },
-                            { name: "Yossi xXx", pnl: 0, fee: 0, games: [] },
-                            { name: "Dadi@Max", pnl: 0, fee: 0, games: [] },
-                            { name: "ilanzi", pnl: 0, fee: 0, games: [] },
-                            { name: "addADDis", pnl: 0, fee: 0, games: [] },
-                            { name: "Shekel@", pnl: 0, fee: 0, games: [] },
-                            { name: "DysonV", pnl: 0, fee: 0, games: [] },
-                            { name: "malibu pompom", pnl: 0, fee: 0, games: [] }
-                        ]
-                    },
-                    {
-                        name: "עוז", pastBalance: -2550.00,
-                        players: [
-                            { name: "adirmezin12", pnl: -697.36, fee: 415.74, games: [{d:'30/04',r:-697.36,f:415.74}] },
-                            { name: "AM26", pnl: 107.00, fee: 439.00, games: [{d:'01/05',r:107,f:439}] },
-                            { name: "BOOM", pnl: -600.00, fee: 289.00, games: [{d:'02/05',r:-600,f:289}] },
-                            { name: "Ofir eliyahu198", pnl: -261.73, fee: 120.16, games: [{d:'03/05',r:-261.73,f:120.16}] },
-                            { name: "yosi!!", pnl: -300.00, fee: 60.29, games: [{d:'04/05',r:-300,f:60.29}] },
-                            { name: "ozozoz111", pnl: -300.00, fee: 30.19, games: [{d:'29/04',r:-300,f:30.19}] },
-                            { name: "israel999", pnl: 0.00, fee: 0.00, games: [] }
-                        ]
-                    },
-                    {
-                        name: "איתי", pastBalance: 0.00,
-                        players: [
-                            { name: "OTC 1", pnl: 126.70, fee: 173.00, games: [{d:'01/05',t:'NLH 5/10',r:-53.34,f:173.00},{d:'MTT',t:'רווח',r:180.04,f:0}] },
-                            { name: "Aviad1111", pnl: -3632.81, fee: 936.15, games: [{d:'28/04',r:-2000,f:500},{d:'30/04',r:-1632.81,f:436.15}] },
-                            { name: "in2024", pnl: 775.41, fee: 257.16, games: [{d:'01/05',r:775.41,f:257.16}] },
-                            { name: "Black Rain82", pnl: 862.65, fee: 232.56, games: [{d:'03/05',r:862.65,f:232.56}] },
-                            { name: "dan13579", pnl: 102.56, fee: 25.77, games: [{d:'02/05',r:102.56,f:25.77}] },
-                            { name: "heziza", pnl: -400.00, fee: 84.56, games: [{d:'04/05',r:-400,f:84.56}] }
-                        ]
-                    },
-                    {
-                        name: "אבי", pastBalance: 0.00,
-                        players: [
-                            { name: "מור קריטי", pnl: -5473.00, fee: 1777.00, games: [{d:'28/04',r:-5473,f:1777}] },
-                            { name: "yoram3554", pnl: -4419.44, fee: 1924.24, games: [{d:'01/05',r:-4419,f:1924}] },
-                            { name: "dani shovevani1", pnl: 2643.54, fee: 1054.53, games: [{d:'01/05',r:2871.02,f:1054.53},{d:'MTT',r:-227.48,f:0}] },
-                            { name: "אלדד כהן", pnl: -1075.75, fee: 2675.64, games: [{d:'29/04',r:-1075,f:2675}] },
-                            { name: "עופר וקנין", pnl: 791.86, fee: 2299.81, games: [{d:'30/04',r:791,f:2299}] },
-                            { name: "Alof mlyda", pnl: -1388.74, fee: 1836.81, games: [{d:'04/05',r:-1144.46,f:1836.81},{d:'MTT',r:-244.28,f:0}] },
-                            { name: "P2338-2447", pnl: -176.78, fee: 1913.70, games: [{d:'02/05',r:-365.66,f:1913.70},{d:'MTT',r:188.88,f:0}] },
-                            { name: "דני", pnl: -900, fee: 467.11, games: [{d:'02/05',r:-900,f:467}] }
-                        ]
-                    },
-                    {
-                        name: "יוני", pastBalance: 0.00,
-                        players: [
-                            { name: "sepopo", pnl: 0, fee: 283.83, games: [{d:'02/05',r:0,f:283.83}] },
-                            { name: "SHAYPI", pnl: 216.33, fee: 97.70, games: [{d:'02/05',r:216.33,f:97.70}] },
-                            { name: "owl50", pnl: 0, fee: 0, games: [] },
-                            { name: "YOUSUFTHEBEAR", pnl: 0, fee: 0, games: [] },
-                            { name: "RAP MASTER", pnl: 0, fee: 0, games: [] },
-                            { name: "ghost baba", pnl: -213.22, fee: 2.81, games: [{d:'02/05',r:-26.68,f:2.81},{d:'MTT',r:-186.54,f:0}] }
-                        ]
-                    },
-                    {
-                        name: "אלחנן", pastBalance: -2000,
-                        players: [
-                            { name: "IzMaR", pnl: 713.31, fee: 622.27, games: [{d:'05/05',t:'חוב/בונוס',r:-2100,f:0},{d:'02/05',r:2813.31,f:622.27}] }
-                        ]
-                    },
-                    {
-                        name: "בליינדרס", pastBalance: 0,
-                        players: [
-                            { name: "Hagaim", pnl: 700, fee: 160.45, games: [{d:'02/05',r:700,f:160.45}] },
-                            { name: "Yoni250787", pnl: 67.76, fee: 0, games: [] },
-                            { name: "BlindersT", pnl: 10.50, fee: 1.51, games: [] }
-                        ]
-                    }
-                ]
-            }
+            { 
+                id: 're', title: 'Real Estate', color: '#1E3A8A', textCol: '#1e3a8a', tagline: '360° Property Solutions', 
+                icon: '<rect x="10" y="10" width="60" height="60" stroke="#1E3A8A" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#3B82F6" stroke-width="12"/>',
+                vision: 'Redefining city skylines and investment portfolios in Azerbaijan.',
+                about: 'Providing end-to-end real estate excellence in Baku. We integrate luxury construction with expert brokerage and legal advisory.',
+                caps: ['Real Estate Marketing & Sales', 'Luxury Brokerage & Agency', 'Legal & Regulatory Advisory', 'Comprehensive Property Management'],
+                leads: [{n:'RE Director', r:'Baku Division'}],
+                locations: ['Azerbaijan', 'Georgia'],
+                projects: [{t:'Baku Premium Towers', d:'Flagship luxury complex with full management and commercial suites.'}]
+            },
+            { 
+                id: 'tech', title: 'Technologies', color: '#22d3ee', textCol: '#0891b2', tagline: 'Industrial R&D', 
+                icon: '<rect x="10" y="10" width="60" height="60" stroke="#22D3EE" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#8B5CF6" stroke-width="12"/>',
+                vision: 'Securing industrial grids with advanced cybersecurity.',
+                about: 'Based in Sofia, Bulgaria, our Tech hub develops proprietary digital grids for group operations.',
+                caps: ['National Cybersecurity Advisory', 'Industrial IoT System Design', 'Enterprise Digital Transformation', 'Proprietary Software R&D'],
+                leads: [{n:'Chief Tech Officer', r:'Sofia Hub'}],
+                locations: ['Bulgaria', 'Israel'],
+                projects: [{t:'The Orizis Data Shield', d:'Proprietary data network connecting global subsidiaries.'}]
+            },
+            { id: 'hr', title: 'Human Capital', color: '#64748b', textCol: '#334155', tagline: 'Industrial Support', icon: '<rect x="10" y="10" width="60" height="60" stroke="#1e293b" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#94a3b8" stroke-width="12"/>', vision: 'Workforce excellence.', about: 'Providing workforce and safety protocols for demanding sites.', caps: ['National Manpower Policy', 'Security Audits', 'Industrial Facility Management', 'Strategic Staffing'], leads: [{n:'Head of HR', r:'Sofia'}], locations: ['Bulgaria', 'Zambia'], projects: [{t:'Mining Safety Grid', d:'Security management for major mines.'}] },
+            { id: 'agro', title: 'Agriculture', color: '#10b981', textCol: '#065f46', tagline: 'Food Security', icon: '<rect x="10" y="10" width="60" height="60" stroke="#059669" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#10B981" stroke-width="12"/>', vision: 'Sustainable farming.', about: 'Leading precision agriculture in East Africa.', caps: ['Food Security Advisory', 'Smart Irrigation', 'Genetics R&D', 'Agri-Trade Logistics'], leads: [{n:'Agro Director', r:'Nairobi Hub'}], locations: ['Kenya'], projects: [{t:'Rift Valley Project', d:'Automated high-yield farming.'}] },
+            { id: 'meridian', title: 'Meridian', color: '#dc2626', textCol: '#991b1b', tagline: 'National Infra', icon: '<rect x="10" y="10" width="60" height="60" stroke="#991B1B" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#DC2626" stroke-width="12"/>', vision: 'Continental connectivity.', about: 'Civil engineering in Sub-Saharan Africa.', caps: ['PPP Structuring', 'Sovereign Transport Plans', 'Major Civil Engineering', 'Energy Strategy'], leads: [{n:'Chief Engineer', r:'Africa Hub'}], locations: ['Congo DRC', 'Zambia'], projects: [{t:'Southern Power corridor', d:'Modernization of regional energy grids.'}] },
+            { id: 'trade', title: 'Trade', color: '#b45309', textCol: '#78350f', tagline: 'Global Commerce', icon: '<rect x="10" y="10" width="60" height="60" stroke="#7C2D12" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#EA580C" stroke-width="12"/>', vision: 'Linking resources.', about: 'Global mineral brokerage.', caps: ['Trade Policy Advisory', 'Commodity Sourcing', 'Customs Optimization', 'Risk Advisory'], leads: [{n:'Trading Head', r:'Lagos'}], locations: ['Zambia', 'Nigeria'], projects: [{t:'Copper Export Corridor', d:'Managed export logistics for minerals.'}] },
+            { id: 'finance', title: 'Capital', color: '#334155', textCol: '#0f172a', tagline: 'Strategic Funding', icon: '<rect x="10" y="10" width="60" height="60" stroke="#0F172A" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#475569" stroke-width="12"/>', vision: 'Industrial expansion capital.', about: 'Complex financial engineering for group projects.', caps: ['Sovereign Wealth Advisory', 'Asset Management', 'Project Finance', 'Venture Capital'], leads: [{n:'Finance Head', r:'Tel Aviv'}], locations: ['Israel'], projects: [{t:'Industrial Growth Fund', d:'$500M vehicle for agro/infra.'}] },
+            { id: 'energy', title: 'Energy', color: '#eab308', textCol: '#854d0e', tagline: 'Power Solutions', icon: '<rect x="10" y="10" width="60" height="60" stroke="#EAB308" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#FDE047" stroke-width="12"/>', vision: 'Sustainable power.', about: 'Renewable grids for African nations.', caps: ['National Grid Stability', 'Solar Operations', 'Microgrid Design', 'Carbon Auditing'], leads: [{n:'Energy Lead', r:'East Africa'}], locations: ['Kenya', 'Zambia'], projects: [{t:'Kenya Solar Park', d:'50MW renewable energy project.'}] },
+            { id: 'chem', title: 'Chemicals', color: '#f59e0b', textCol: '#92400e', tagline: 'Materials', icon: '<rect x="10" y="10" width="60" height="60" stroke="#D97706" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#F59E0B" stroke-width="12"/>', vision: 'Molecular foundation.', about: 'Supplying reagents and fertilizers.', caps: ['Chemical Safety Advisory', 'Industrial Waste Design', 'Fertilizer R&D', 'Mining Logistics'], leads: [{n:'Lead Chemist', r:'West Africa'}], locations: ['Nigeria', 'Azerbaijan'], projects: [{t:'Industrial Supply Hub', d:'Chemical chain for African mining.'}] },
+            { id: 'logistics', title: 'Logistics', color: '#6366f1', textCol: '#3730a3', tagline: 'Transit Backbone', icon: '<rect x="10" y="10" width="60" height="60" stroke="#4338CA" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#818CF8" stroke-width="12"/>', vision: 'The trade engine.', about: 'Port and multimodal transit operations.', caps: ['National Port Consulting', 'Network Strategy', 'Freight Management', 'Logistics Hub Design'], leads: [{n:'Logistics Dir', r:'Monrovia'}], locations: ['Liberia'], projects: [{t:'Liberia Port Ops', d:'Cargo management for trade corridors.'}] },
+            { id: 'media', title: 'Media', color: '#db2777', textCol: '#831843', tagline: 'Brand Narrative', icon: '<rect x="10" y="10" width="60" height="60" stroke="#DB2777" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#F472B6" stroke-width="12"/>', vision: 'Global storytelling.', about: 'Nation branding and corporate strategy.', caps: ['Nation Branding Strategy', 'Crisis Comms', 'Digital Media Design', 'Creative Narrative'], leads: [{n:'CCO', r:'Tel Aviv Hub'}], locations: ['Israel', 'Bulgaria'], projects: [{t:'Global Brand Sync', d:'Unified rebranding across all nations.'}] },
+            { id: 'foundation', title: 'Foundation', color: '#9333ea', textCol: '#581c87', tagline: 'Social Impact', icon: '<rect x="10" y="10" width="60" height="60" stroke="#7E22CE" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#A855F7" stroke-width="12"/>', vision: 'Investing in communities.', about: 'Health and educational philanthropy.', caps: ['Impact Assessment', 'CSR Strategy', 'Educational Grants', 'Health Planning'], leads: [{n:'Foundation Head', r:'Global'}], locations: ['Global'], projects: [{t:'STEM Scholarships', d:'Supporting engineering students in Georgia.'}] }
         ];
 
-        let currentUser = null;
-        let selectedCycleIndex = 1;
-        let settlementChart = null;
-
-        const format = (v) => new Intl.NumberFormat('he-IL', { minimumFractionDigits: 2 }).format(v);
-        const getAgentPersonalRate = (n) => (n === "אבי" ? 0.8 : (n === "עוז" ? 0.4 : 0.6));
-
-        function calculateAgentSummary(agent, cycleAgents) {
-            const sumPnl = agent.players.reduce((s, p) => s + p.pnl, 0);
-            const rawFees = agent.players.reduce((s, p) => s + p.fee, 0);
-            const personalRate = getAgentPersonalRate(agent.name);
-            let agentCut = rawFees * personalRate;
-            let referralCut = 0;
-            if (agent.name === "חיים") {
-                const oz = cycleAgents.find(a => a.name === "עוז");
-                if (oz) referralCut = oz.players.reduce((s, p) => s + p.fee, 0) * 0.3;
-            }
-            return { sumPnl, agentCut, referralCut, final: sumPnl + agentCut + referralCut + agent.pastBalance, rawFees };
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            const isRTL = (lang === 'he' || lang === 'ar');
+            document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
+            document.body.classList.toggle('lang-rtl', isRTL);
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
+            });
+            ['en', 'he', 'fr', 'az', 'zh', 'ru', 'ar'].forEach(l => {
+                const btn = document.getElementById('btn-' + l);
+                if (btn) btn.className = l === lang ? 'lang-btn active' : 'lang-btn text-slate-400';
+            });
+            initGrid();
         }
 
-        function handleLogin() {
-            const u = document.getElementById('username').value.trim();
-            const p = document.getElementById('password').value;
-            if (users[u] && users[u].pass === p) {
-                currentUser = users[u];
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('app-content').classList.remove('hidden');
-                renderCycleSelector();
-                setupView();
-            } else {
-                document.getElementById('login-error').classList.remove('hidden');
-            }
-        }
+        function toggleTheme() { document.getElementById('bodyTag').classList.toggle('dark-mode'); }
 
-        function renderCycleSelector() {
-            const selector = document.getElementById('cycle-selector');
-            selector.innerHTML = cycles.map((c, i) => `<option value="${i}" ${i===selectedCycleIndex ? 'selected':''}>${c.label}</option>`).join('');
-            selector.onchange = (e) => { selectedCycleIndex = Number(e.target.value); setupView(); };
-        }
+        function initGrid() {
+            const container = document.getElementById('divisionsContainer');
+            container.innerHTML = '';
+            divisions.filter(d => d.id !== 'group').forEach(div => {
+                const card = document.createElement('div');
+                card.className = 'division-card group';
+                card.onclick = () => showDivision(div.id);
+                card.innerHTML = `
+                    <div class="brand-unit">
+                        <div class="w-16 h-16 mb-10"><svg viewBox="0 0 100 100" fill="none">${div.icon}</svg></div>
+                        <div class="brand-name-prefix">Orizis</div>
+                        <div class="brand-name-main" style="color: ${div.textCol}">${div.title}</div>
+                        <p class="text-[10px] tracking-widest uppercase font-black text-slate-400 mt-10 group-hover:text-blue-500 transition">${div.tagline}</p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
 
-        function setupView() {
-            document.getElementById('user-badge').textContent = currentUser.name;
-            const cycle = cycles[selectedCycleIndex];
-            if (currentUser.role === 'admin') {
-                switchTab('nav-dashboard', 'view-dashboard');
-            } else {
-                document.querySelectorAll('.nav-btn').forEach(b => { if(b.id !== 'nav-agents') b.classList.add('hidden'); });
-                switchTab('nav-agents', 'view-agents');
-                renderAgentDetails(cycle.agents.find(a => a.name === currentUser.name));
-            }
-            initNavigation();
-        }
-
-        function initNavigation() {
-            document.getElementById('logout-btn').onclick = () => window.location.reload();
-            document.getElementById('close-modal').onclick = () => document.getElementById('player-modal').classList.add('hidden');
-            const selector = document.getElementById('agent-selector');
-            selector.innerHTML = '<option value="">בחר סוכן...</option>';
-            cycles[selectedCycleIndex].agents.forEach((a, i) => selector.innerHTML += `<option value="${i}">${a.name}</option>`);
-            selector.onchange = (e) => e.target.value !== "" && renderAgentDetails(cycles[selectedCycleIndex].agents[e.target.value]);
-        }
-
-        function switchTab(activeBtnId, viewId) {
-            document.querySelectorAll('.view-section').forEach(v => v.classList.add('hidden'));
-            document.getElementById(viewId).classList.remove('hidden');
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active', 'bg-blue-600', 'text-white'));
-            document.getElementById(activeBtnId).classList.add('active', 'bg-blue-600', 'text-white');
-            if(viewId === 'view-dashboard') renderDashboard();
-            if(viewId === 'view-mtt') renderMTT();
-        }
-
-        function renderDashboard() {
-            const summaries = cycles[selectedCycleIndex].agents.map(a => calculateAgentSummary(a, cycles[selectedCycleIndex].agents));
-            document.getElementById('dash-stats').innerHTML = `
-                <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] text-slate-400 block mb-1">סוכנים</span><div class="text-3xl font-black">${summaries.length}</div></div>
-                <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] text-slate-400 block mb-1">סה"כ עמלות</span><div class="text-3xl font-black text-blue-600">${format(summaries.reduce((s,x)=>s+x.rawFees,0))}</div></div>
-                <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] text-slate-400 block mb-1">מאזן מועדון</span><div class="text-3xl font-black ${summaries.reduce((s,x)=>s+x.final,0)>=0?'text-emerald-600':'text-red-600'}">${format(summaries.reduce((s,x)=>s+x.final,0))}</div></div>`;
-            if(settlementChart) settlementChart.destroy();
-            settlementChart = new Chart(document.getElementById('settlementChart'), {
-                type: 'bar',
-                data: { labels: cycles[selectedCycleIndex].agents.map(a => a.name), datasets: [{ data: summaries.map(x => x.final), backgroundColor: summaries.map(x => x.final >= 0 ? '#10b981' : '#f43f5e'), borderRadius: 6 }] },
-                options: { responsive: true, maintainAspectRatio: false }
+            const locList = document.getElementById('locationsList');
+            locList.innerHTML = '';
+            locations.forEach(loc => {
+                const item = document.createElement('div');
+                item.className = 'flex items-center text-[12px] font-black text-slate-500 uppercase tracking-widest';
+                const marginClass = document.documentElement.dir === 'rtl' ? 'ml-3' : 'mr-3';
+                item.innerHTML = `<span class="location-dot ${marginClass}"></span> ${loc}`;
+                locList.appendChild(item);
             });
         }
 
-        function renderAgentDetails(agent) {
-            const summary = calculateAgentSummary(agent, cycles[selectedCycleIndex].agents);
-            const rate = getAgentPersonalRate(agent.name);
-            document.getElementById('agent-metrics').innerHTML = `
-                <div class="bg-white p-4 rounded-2xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase">P&L שחקנים</span><div class="text-xl font-black ${summary.sumPnl>=0?'text-emerald-600':'text-red-600'}">${format(summary.sumPnl)}</div></div>
-                <div class="bg-white p-4 rounded-2xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase">עמלת סוכן</span><div class="text-xl font-black text-blue-600">${format(summary.agentCut)}</div></div>
-                ${agent.name==="חיים"?`<div class="bg-blue-600 p-4 rounded-2xl border border-blue-500 text-white text-right shadow-lg"><span class="text-[9px] font-black block mb-1 opacity-80">עמלת רשת (עוז)</span><div class="text-xl font-black">${format(summary.referralCut)}</div></div>`:''}
-                <div class="bg-white p-4 rounded-2xl border shadow-sm"><span class="text-[9px] font-black text-slate-400 block mb-1 uppercase">יתרת עבר</span><div class="text-xl font-black text-slate-700">${format(agent.pastBalance)}</div></div>
-                <div class="${summary.final>=0?'bg-emerald-50':'bg-red-50'} p-4 rounded-2xl border shadow-sm col-span-2 md:col-span-1"><span class="text-[9px] font-black block mb-1 uppercase">שורה תחתונה</span><div class="text-2xl font-black ${summary.final>=0?'text-emerald-600':'text-red-600'}">${format(summary.final)}</div></div>`;
-            const tbody = document.getElementById('agent-players-table');
-            tbody.innerHTML = agent.players.length===0?'<tr><td colspan="3" class="p-12 text-center text-slate-300 italic font-bold">אין פעילות</td></tr>':
-                [...agent.players].sort((a,b)=>Math.abs(b.pnl)-Math.abs(a.pnl)).map(p => `
-                <tr class="player-row cursor-pointer hover:bg-slate-50 border-b border-slate-100 transition-colors" onclick="openPlayerDetails('${agent.name}','${p.name}')">
-                    <td class="p-4 font-bold text-slate-800 text-sm">${p.name}</td>
-                    <td class="p-4 font-black text-left ${p.pnl>0?'text-emerald-600':p.pnl<0?'text-red-600':'text-slate-400'} text-sm" dir="ltr">${format(p.pnl)}</td>
-                    <td class="p-4 text-left text-slate-600 font-black text-sm" dir="ltr">${format(p.fee*rate)}</td>
-                </tr>`).join('');
-        }
+        function showDivision(id) {
+            const div = divisions.find(d => d.id === id);
+            document.getElementById('homePage').classList.add('section-hidden');
+            document.getElementById('divisionPage').classList.remove('section-hidden');
+            window.scrollTo({top: 0, behavior: 'instant'});
 
-        function openPlayerDetails(agentName, playerName) {
-            const cycle = cycles[selectedCycleIndex];
-            const agent = cycle.agents.find(a => a.name === agentName);
-            const player = agent.players.find(p => p.name === playerName);
-            const rate = getAgentPersonalRate(agent.name);
-            document.getElementById('modal-player-name').textContent = playerName;
-            document.getElementById('modal-total-pnl').textContent = format(player?.pnl || 0);
-            document.getElementById('modal-total-pnl').className = `text-2xl font-black ${(player?.pnl||0)>=0?'text-emerald-600':'text-red-600'}`;
-            document.getElementById('modal-total-fee').textContent = format((player?.fee||0)*rate);
-            document.getElementById('modal-games-body').innerHTML = player?.games.length>0? player.games.map(g => `
-                <tr class="hover:bg-slate-50 border-b border-slate-50 last:border-0 transition-colors">
-                    <td class="py-4 px-2 text-[11px] font-bold text-slate-400 uppercase">${g.d||'01/05'}</td>
-                    <td class="py-4 px-2 text-sm font-black text-slate-700">${g.t||'סשן'}</td>
-                    <td class="py-4 px-2 text-sm font-black text-left ${g.r>=0?'text-emerald-600':'text-red-600'}" dir="ltr">${format(g.r)}</td>
-                    <td class="py-4 px-2 text-sm text-left font-bold text-slate-400 fee-col" dir="ltr">${format(g.f*rate)}</td>
-                </tr>`).join('') : '<tr><td colspan="4" class="py-12 text-center text-slate-300 font-black italic">אין מידע זמין</td></tr>';
-            document.getElementById('player-modal').classList.remove('hidden');
-        }
+            document.getElementById('divLogoBox').innerHTML = `
+                <div class="brand-unit scale-150">
+                    <div class="w-20 h-20 mb-6"><svg viewBox="0 0 100 100" fill="none">${div.icon}</svg></div>
+                    <div class="brand-name-prefix text-lg">Orizis</div>
+                    <div class="brand-name-main" style="color: ${div.textCol}">${div.title}</div>
+                </div>
+            `;
+            document.getElementById('divTitle').innerText = div.title; 
+            document.getElementById('divVision').innerText = `"${div.vision}"`;
+            document.getElementById('divAbout').innerText = div.about;
 
-        function renderMTT() {
-            const mtt = cycles[selectedCycleIndex].mtt;
-            document.getElementById('mtt-summary').innerHTML = `
-                <div class="bg-white p-8 rounded-3xl border border-red-100 border-t-4 shadow-sm text-right">
-                    <h3 class="text-xl font-black text-slate-800 mb-6 text-center uppercase tracking-tighter">זליגת כספים בטורנירים</h3>
-                    <div class="space-y-4 font-bold">
-                        <div class="flex justify-between p-3 bg-slate-50 rounded-2xl"><span>Overlay</span><span class="text-red-600 font-black">${format(mtt.overlay)}</span></div>
-                        <div class="flex justify-between p-3 bg-slate-50 rounded-2xl"><span>הפסד שחקני בית</span><span class="text-red-600 font-black">${format(mtt.internalLoss)}</span></div>
-                        <div class="flex justify-between p-5 bg-red-600 text-white rounded-3xl shadow mt-6 font-black uppercase"><span class="uppercase tracking-widest">סה"כ עלות מועדון</span><span class="text-2xl">${format(mtt.overlay + mtt.internalLoss)}</span></div>
+            document.getElementById('divCaps').innerHTML = div.caps.map(c => `
+                <div class="p-8 bg-white dark:bg-white/5 rounded-3xl border border-slate-100 dark:border-white/10 shadow-sm transition-all hover:shadow-md">
+                    <div class="w-10 h-1.5 rounded-full mb-6" style="background:${div.color}"></div>
+                    <span class="text-sm font-black uppercase tracking-widest text-slate-800 dark:text-slate-200 leading-relaxed">${c}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('divTeam').innerHTML = div.leads.map(l => `
+                <div class="pb-8 border-b border-slate-100 dark:border-white/10 text-left">
+                    <div class="font-black text-2xl uppercase montserrat high-contrast-text">${l.n}</div>
+                    <div class="text-[11px] text-blue-500 uppercase tracking-widest font-black mt-2">${l.r}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('divLocations').innerHTML = div.locations.map(loc => `
+                <div class="flex items-center text-[13px] font-bold text-slate-500 uppercase">
+                    <span class="location-dot"></span> ${loc}
+                </div>
+            `).join('');
+
+            document.getElementById('divProjects').innerHTML = div.projects.map(p => `
+                <div class="bg-slate-50 dark:bg-white/5 p-14 rounded-[3rem] border-0 shadow-xl">
+                    <h4 class="font-black text-4xl mb-10 uppercase montserrat tracking-widest high-contrast-text">${p.t}</h4>
+                    <p class="text-slate-500 text-2xl leading-relaxed font-light mb-12">${p.d}</p>
+                    <div class="pt-10 border-t border-slate-200 dark:border-white/10 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-blue-500">
+                        <span>Corporate Analysis</span>
+                        <span>[→]</span>
                     </div>
-                </div>`;
+                </div>
+            `).join('');
         }
 
-        document.getElementById('login-btn').onclick = handleLogin;
-        // Fix keyboard Enter logic
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !document.getElementById('login-screen').classList.contains('hidden')) {
-                handleLogin();
-            }
-        });
+        function showHome() {
+            document.getElementById('homePage').classList.remove('section-hidden');
+            document.getElementById('divisionPage').classList.add('section-hidden');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
-        // Initialize dashboard navigation
-        const tabs = ['nav-dashboard', 'nav-agents', 'nav-mtt'];
-        tabs.forEach(tabId => document.getElementById(tabId).onclick = () => switchTab(tabId, 'view-' + tabId.split('-')[1]));
+        initGrid();
+        setLanguage('en');
     </script>
 </body>
 </html>
