@@ -12,7 +12,6 @@
             --bg-light: #ffffff;
             --bg-dark: #020617;
             --text-main: #0f172a;
-            --text-muted: #64748b;
         }
 
         body {
@@ -42,29 +41,29 @@
 
         /* Hero - GUARANTEED WHITE TEXT ON DARK BACKGROUND */
         .hero-section {
-            background-color: #020617; /* Dark background always */
+            background-color: #020617 !important; /* Forces dark background */
             padding: clamp(140px, 20vh, 250px) 24px;
             position: relative;
             overflow: hidden;
             text-align: center;
         }
         .hero-title {
-            color: #ffffff !important; /* Forced white for contrast */
+            color: #ffffff !important; /* Forces white text unconditionally */
             font-size: clamp(3rem, 8vw, 7rem);
-            line-height: 0.9;
+            line-height: 0.95;
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: -0.02em;
         }
         .hero-desc {
-            color: #cbd5e1 !important; /* Light gray for readability */
+            color: #cbd5e1 !important; /* Light slate text for readability */
         }
 
         /* Portfolio Grid Cards */
         .division-card {
             background: #ffffff;
             border: 1px solid #f1f5f9;
-            padding: 50px 24px; /* Reduced side padding to give text more room */
+            padding: 50px 24px;
             border-radius: 2.5rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
@@ -81,7 +80,7 @@
             box-shadow: 0 50px 80px -20px rgba(0, 0, 0, 0.15);
         }
 
-        /* Branding Block - NO OVERLAP, FLUID TEXT */
+        /* Branding Block - NO OVERLAP, PREVENT WORD BREAKING */
         .brand-block {
             display: flex;
             flex-direction: column;
@@ -108,12 +107,15 @@
         .brand-main {
             font-family: 'Montserrat', sans-serif;
             font-weight: 900; 
-            font-size: clamp(20px, 2.5vw, 32px); /* Responsive size, never too large */
+            font-size: clamp(18px, 1.8vw, 28px); /* Perfectly scaled to fit long words */
             text-transform: uppercase;
             line-height: 1.1;
             letter-spacing: -0.02em;
             width: 100%;
-            word-break: break-word; /* Prevents long words like TECHNOLOGIES from overflowing */
+            /* The following ensures words like FOUNDATION stay intact */
+            word-break: normal; 
+            overflow-wrap: normal;
+            hyphens: none;
         }
 
         .section-hidden { display: none; }
@@ -128,7 +130,7 @@
         }
         @keyframes pulse { 0% { transform: scale(1); opacity: 0.6; } 100% { transform: scale(3); opacity: 0; } }
 
-        /* Media Display Placeholders */
+        /* Media Placeholder */
         .media-placeholder {
             background: #f8fafc;
             border: 1px dashed #e2e8f0;
@@ -144,7 +146,7 @@
             border-color: #1e293b;
         }
 
-        /* High Contrast Fixes */
+        /* High Contrast Support */
         .high-contrast-title { color: #0f172a; }
         .dark-mode .high-contrast-title { color: #ffffff; }
     </style>
@@ -192,7 +194,7 @@
                 <div class="max-w-7xl mx-auto">
                     <div class="text-center mb-24">
                         <h2 class="text-5xl font-black montserrat uppercase tracking-tighter mb-6 high-contrast-title">The Ecosystem</h2>
-                        <p class="text-slate-400 font-bold uppercase tracking-[0.5em] text-[12px]">Specialized Market Leaders</p>
+                        <p class="text-slate-400 font-bold uppercase tracking-[0.5em] text-[12px]">12 Specialized Market Leaders</p>
                         <div class="w-32 h-2.5 bg-blue-500 mx-auto rounded-full mt-10"></div>
                     </div>
                     <!-- Exactly 12 Subsidiaries injected here via JS -->
@@ -236,6 +238,14 @@
                         <section>
                             <h2 class="text-[12px] font-black uppercase tracking-[0.8em] text-blue-500 mb-12">Operational Overview</h2>
                             <p id="divAbout" class="text-3xl md:text-4xl text-slate-600 dark:text-slate-400 leading-relaxed font-light"></p>
+                        </section>
+
+                        <!-- Clean Media Placeholder (No Video) -->
+                        <section>
+                            <h2 class="text-[12px] font-black uppercase tracking-[0.8em] text-blue-500 mb-16">Industrial Showcase</h2>
+                            <div class="media-placeholder">
+                                <span class="text-slate-300 font-black uppercase tracking-[1em] text-xs">[ Cinematic Division Reel Placeholder ]</span>
+                            </div>
                         </section>
 
                         <section>
@@ -291,7 +301,7 @@
                 projects: [{t:'Global Synergy Roadmap', d:'Designing the infrastructure for unified growth across 11 nations.'}]
             },
             { 
-                id: 're', title: 'Real Estate', color: '#1E3A8A', textCol: '#1e3a8a', tagline: '360° Property Ecosystem', 
+                id: 're', title: 'Real Estate', color: '#1E3A8A', textCol: '#1a2e5a', tagline: '360° Property Ecosystem', 
                 icon: '<rect x="10" y="10" width="60" height="60" stroke="#1E3A8A" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#3B82F6" stroke-width="12"/>',
                 vision: 'Transforming landscapes through luxury construction and asset management.',
                 about: 'Orizis Real Estate provides an end-to-end value chain in Azerbaijan and Georgia. We manage high-end assets from construction and design to luxury marketing, legal brokerage, and institutional property management.',
@@ -310,7 +320,7 @@
             },
             { id: 'agro', title: 'Agriculture', color: '#10b981', textCol: '#064e3b', tagline: 'Food Security Systems', icon: '<rect x="10" y="10" width="60" height="60" stroke="#059669" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#10B981" stroke-width="12"/>', vision: 'Feeding nations through precision scale.', about: 'Operating major precision agriculture projects in East Africa since 2018.', caps: ['National Food Security Advisory', 'Precision Ag-Tech Integration', 'Sustainable Irrigation Plans', 'Agri-Trade Logistics', 'Crop Genetics Advisory'], leads: [{n:'MD Agriculture', r:'East Africa'}], projects: [{t:'Rift Valley Farm Hub', d:'Automated high-yield maize facility.'}] },
             { id: 'meridian', title: 'Meridian', color: '#dc2626', textCol: '#7f1d1d', tagline: 'Continental Transit Hubs', icon: '<rect x="10" y="10" width="60" height="60" stroke="#991B1B" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#DC2626" stroke-width="12"/>', vision: 'Building the foundations of economy.', about: 'Executing massive infrastructure and energy grid projects in Sub-Saharan Africa since 2018.', caps: ['PPP Infrastructure Design', 'Sovereign Transport Plans', 'Major Civil Engineering', 'Energy Grid Modernization', 'Urban Connectivity Strategy'], leads: [{n:'Chief Engineer', r:'Africa Hub'}], projects: [{t:'Regional Power Corridor', d:'Energy grid synchronization between regional economies.'}] },
-            { id: 'hr', title: 'Human Capital', color: '#64748b', textCol: '#334155', tagline: 'Talent & Security Safety', icon: '<rect x="10" y="10" width="60" height="60" stroke="#1e293b" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#94a3b8" stroke-width="12"/>', vision: 'Professional excellence at scale.', about: 'Providing the critical workforce and safety protocols for the worlds toughest industrial environments.', caps: ['National Manpower Policy', 'Security Risk Audits', 'Strategic Executive Search', 'Technical Safety Training', 'Facility Standards Consulting'], leads: [{n:'Head of Talent', r:'Sofia & Lagos'}], projects: [{t:'Mine Security Grid', d:'Full safety staffing for Tier-1 mining assets in Zambia.'}] },
+            { id: 'hr', title: 'Human Capital', color: '#64748b', textCol: '#1e293b', tagline: 'Talent & Security Safety', icon: '<rect x="10" y="10" width="60" height="60" stroke="#1e293b" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#94a3b8" stroke-width="12"/>', vision: 'Professional excellence at scale.', about: 'Providing the critical workforce and safety protocols for the worlds toughest industrial environments.', caps: ['National Manpower Policy', 'Security Risk Audits', 'Strategic Executive Search', 'Technical Safety Training', 'Facility Standards Consulting'], leads: [{n:'Head of Talent', r:'Sofia & Lagos'}], projects: [{t:'Mine Security Grid', d:'Full safety staffing for Tier-1 mining assets in Zambia.'}] },
             { id: 'trade', title: 'Trade', color: '#b45309', textCol: '#78350f', tagline: 'Global Commodity Exchange', icon: '<rect x="10" y="10" width="60" height="60" stroke="#7C2D12" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#EA580C" stroke-width="12"/>', vision: 'Directing the flow of global demand.', about: 'International commodity brokerage and logistics management for essential minerals.', caps: ['Trade Policy Consulting', 'Strategic Mineral Sourcing', 'Customs Optimization', 'Risk Management', 'International Market Entry'], leads: [{n:'Head of Trade', r:'Dubai Hub'}], projects: [{t:'Copper Export Hub', d:'Managing trade flow for high-purity Zambian copper.'}] },
             { id: 'energy', title: 'Energy', color: '#eab308', textCol: '#713f12', tagline: 'Industrial Power Grids', icon: '<rect x="10" y="10" width="60" height="60" stroke="#EAB308" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#FDE047" stroke-width="12"/>', vision: 'Sustainable energy for industrial growth.', about: 'Developing renewable grids and advising governments on energy transition.', caps: ['Grid Stability Advisory', 'Renewable Energy Policy', 'Smart Grid Design', 'Solar Operations', 'Carbon Footprint Consulting'], leads: [{n:'Energy Director', r:'East Africa'}], projects: [{t:'Rural Solar Grid', d:'50MW plant for regional industrial zones.'}] },
             { id: 'logistics', title: 'Logistics', color: '#6366f1', textCol: '#312e81', tagline: 'Global Movement Engine', icon: '<rect x="10" y="10" width="60" height="60" stroke="#4338CA" stroke-width="12"/><rect x="30" y="30" width="60" height="60" stroke="#818CF8" stroke-width="12"/>', vision: 'Optimizing global supply chains.', about: 'Managing multimodal transit and port ground operations in major hubs.', caps: ['National Port Consulting', 'Network Strategy Design', 'Industrial Freight Mgmt', 'Transit Hub Feasibility', 'Supply Chain Security'], leads: [{n:'Logistics Dir', r:'Monrovia Hub'}], projects: [{t:'Liberia Port Ground Ops', d:'Integrated cargo flow for West African corridors.'}] },
