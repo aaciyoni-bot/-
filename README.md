@@ -15,12 +15,15 @@ real estate and platform products, connected by one unified wallet (VeriPoints).
 - `favicon.png` + inline SVG favicon (the ORIZIS geometric double-square mark).
 - `CNAME` → `www.orizisgroup.com` (GitHub Pages custom domain).
 
-## The ecosystem (linked from the site)
+## Structure
 
-**Owned ventures** — VeriSess · Asfanut · CellMall · ZedGlow · ORIZIS Capital · AdLipa · Royal777 ·
-Tourizis · OrizJoReal · Diamond Ball · Yomani.
-**Client studio** — Oren Farag · Top HaNegev · Hiburatik · Wind Flow.
-All venture URLs are verified live and open in a new tab.
+- **12 divisions** of the group (real departments): ORIZIS Capital, Technology, Real Estate, Agro,
+  Meridian, Energy, Trade, Logistics, Human Capital, Chemicals, Media, Foundation.
+- **Digital ventures** sit under **ORIZIS Capital** (the group's digital-ventures arm), shown as a
+  sector-filterable, verified-live portfolio: VeriSess · Asfanut · CellMall · ZedGlow · ORIZIS Capital ·
+  AdLipa · Royal777 · Tourizis · OrizJoReal · Diamond Ball · Yomani.
+- **Client studio** (under ORIZIS Media) — Oren Farag · Top HaNegev · Hiburatik · Wind Flow.
+- All external URLs are verified live and open in a new tab.
 
 ## Deploy
 
@@ -33,6 +36,6 @@ GitHub Pages (branch `main`, root) rebuilds automatically and serves the site at
 
 ## Editing content
 
-The venture and client lists are data-driven — edit the `ventures` and `studio` arrays near the
-bottom of `index.html` (name, sector, region, colors, URL, description). Cards render from that data,
-so adding a product is a one-line change.
+The division, venture and client lists are data-driven — edit the `divisions`, `ventures` and `studio`
+arrays near the bottom of `index.html` (name, sector, region, colors, URL, description). Cards render
+from that data, so adding a division or product is a one-line change.
