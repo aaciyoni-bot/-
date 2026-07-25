@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ORIZIS GROUP — We build & operate digital ventures</title>
+<meta name="description" content="ORIZIS GROUP is the technology company behind a live ecosystem of e-commerce, fintech, gaming, real-estate and platform products across Israel, Africa and the Caucasus — connected by one unified wallet." />
+<meta name="theme-color" content="#060811" />
+
+<!-- Open Graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="ORIZIS GROUP — We build & operate digital ventures" />
+<meta property="og:description" content="A live ecosystem of e-commerce, fintech, gaming and real-estate products, connected by one unified wallet." />
+<meta property="og:url" content="https://www.orizisgroup.com" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect x='10' y='10' width='58' height='58' rx='8' stroke='%2300C2FF' stroke-width='11' fill='none'/%3E%3Crect x='32' y='32' width='58' height='58' rx='8' stroke='%23A377FF' stroke-width='11' fill='none'/%3E%3C/svg%3E" />
+<link rel="icon" type="image/png" href="favicon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;450;500;600;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   ORIZIS GROUP — design tokens
+   ============================================================ */
+:root{
+  /* dark theme (default) */
+  --bg:#060811;
+  --bg-2:#080b17;
+  --surface:#0d1120;
+  --surface-2:#131a2d;
+  --surface-3:#182138;
+  --border:rgba(255,255,255,.09);
+  --border-strong:rgba(255,255,255,.16);
+  --text:#eef1fa;
+  --text-soft:#c3cadd;
+  --muted:#8e98b3;
+  --faint:#5a6480;
+
+  --cyan:#00c2ff;
+  --violet:#a377ff;
+  --gold:#e7b356;
+  --accent-grad:linear-gradient(135deg,#00c2ff 0%,#5b8cff 45%,#a377ff 100%);
+  --accent-soft:rgba(0,194,255,.14);
+
+  --shadow-sm:0 2px 8px rgba(0,0,0,.25);
+  --shadow-md:0 20px 45px -20px rgba(0,0,0,.6);
+  --shadow-lg:0 50px 90px -40px rgba(0,0,0,.75);
+  --glow:0 0 0 1px rgba(0,194,255,.25),0 25px 60px -25px rgba(0,194,255,.35);
+
+  --r-sm:12px; --r-md:18px; --r-lg:26px; --r-xl:34px; --r-full:999px;
+
+  --maxw:1180px;
+  --space:clamp(88px,12vw,150px);
+  --font-head:'Space Grotesk',system-ui,sans-serif;
+  --font-body:'Inter',system-ui,sans-serif;
+}
+
+html[data-theme="light"]{
+  --bg:#f7f8fc;
+  --bg-2:#eef1f8;
+  --surface:#ffffff;
+  --surface-2:#f4f6fb;
+  --surface-3:#eceff7;
+  --border:rgba(12,20,45,.09);
+  --border-strong:rgba(12,20,45,.16);
+  --text:#0d1326;
+  --text-soft:#2b3450;
+  --muted:#5c6884;
+  --faint:#8a93ad;
+  --accent-soft:rgba(0,150,215,.12);
+  --shadow-md:0 24px 50px -24px rgba(20,40,90,.28);
+  --shadow-lg:0 55px 95px -45px rgba(20,40,90,.35);
+  --glow:0 0 0 1px rgba(0,150,215,.25),0 25px 55px -28px rgba(0,150,215,.30);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{font-family:var(--font-head);line-height:1.08;letter-spacing:-.02em;font-weight:600}
+a{color:inherit;text-decoration:none}
+img,svg{display:block;max-width:100%}
+::selection{background:rgba(0,194,255,.28);color:#fff}
+
+/* utility */
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:24px}
+.eyebrow{
+  font-family:var(--font-head);font-size:12px;font-weight:600;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--cyan);display:inline-flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:"";width:26px;height:2px;background:var(--accent-grad);border-radius:2px}
+.gradtext{background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.muted{color:var(--muted)}
+.section{padding-block:var(--space)}
+
+/* buttons */
+.btn{
+  --pad:15px 30px;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:var(--font-head);font-weight:600;font-size:14.5px;letter-spacing:.01em;
+  padding:var(--pad);border-radius:var(--r-full);border:1px solid transparent;cursor:pointer;
+  transition:transform .18s ease,box-shadow .22s ease,background .22s ease,border-color .22s ease,color .22s ease;
+  white-space:nowrap;
+}
+.btn svg{width:17px;height:17px}
+.btn-primary{background:var(--accent-grad);color:#04121f;box-shadow:0 12px 30px -12px rgba(0,194,255,.6)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 45px -14px rgba(0,194,255,.75)}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--border-strong)}
+.btn-ghost:hover{transform:translateY(-2px);border-color:var(--cyan);background:var(--accent-soft)}
+.btn-sm{--pad:11px 20px;font-size:13px}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav{
+  position:fixed;top:0;inset-inline:0;z-index:100;
+  transition:background .3s ease,border-color .3s ease,backdrop-filter .3s;
+  border-bottom:1px solid transparent;
+}
+.nav.scrolled{
+  background:color-mix(in srgb,var(--bg) 82%,transparent);
+  backdrop-filter:blur(18px) saturate(150%);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+  border-bottom-color:var(--border);
+}
+.nav-inner{max-width:var(--maxw);margin-inline:auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:13px;cursor:pointer}
+.brand .mark{width:38px;height:38px;flex-shrink:0}
+.brand .wordmark{display:flex;flex-direction:column;line-height:.92}
+.brand .wordmark b{font-family:var(--font-head);font-weight:700;font-size:19px;letter-spacing:.14em}
+.brand .wordmark span{font-family:var(--font-head);font-weight:400;font-size:11px;letter-spacing:.42em;color:var(--muted)}
+.nav-links{display:flex;align-items:center;gap:34px}
+.nav-links a{font-size:14px;font-weight:500;color:var(--text-soft);position:relative;transition:color .2s}
+.nav-links a::after{content:"";position:absolute;bottom:-6px;inset-inline-start:0;width:0;height:2px;background:var(--accent-grad);border-radius:2px;transition:width .25s ease}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:12px}
+.icon-btn{
+  width:40px;height:40px;border-radius:var(--r-full);border:1px solid var(--border-strong);
+  background:transparent;color:var(--text);cursor:pointer;display:grid;place-items:center;
+  transition:border-color .2s,background .2s,transform .2s;
+}
+.icon-btn:hover{border-color:var(--cyan);background:var(--accent-soft);transform:translateY(-1px)}
+.icon-btn svg{width:19px;height:19px}
+.sun{display:none}
+html[data-theme="light"] .sun{display:block}
+html[data-theme="light"] .moon{display:none}
+.menu-btn{display:none}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{position:relative;overflow:hidden;padding-top:170px;padding-bottom:110px}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;will-change:transform}
+.orb-1{width:520px;height:520px;background:radial-gradient(circle,rgba(0,194,255,.55),transparent 68%);top:-160px;inset-inline-start:-120px;animation:drift1 22s ease-in-out infinite}
+.orb-2{width:560px;height:560px;background:radial-gradient(circle,rgba(163,119,255,.5),transparent 68%);top:-40px;inset-inline-end:-160px;animation:drift2 26s ease-in-out infinite}
+.orb-3{width:420px;height:420px;background:radial-gradient(circle,rgba(91,140,255,.4),transparent 70%);bottom:-220px;inset-inline-start:38%;animation:drift1 30s ease-in-out infinite}
+@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,50px)}}
+@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-50px,40px)}}
+.hero-grid{
+  position:absolute;inset:0;z-index:0;opacity:.5;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 35%,#000 30%,transparent 78%);
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 35%,#000 30%,transparent 78%);
+}
+.hero-inner{position:relative;z-index:2;max-width:var(--maxw);margin-inline:auto;padding-inline:24px;text-align:center}
+.hero .badge{
+  display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:var(--r-full);
+  border:1px solid var(--border-strong);background:color-mix(in srgb,var(--surface) 60%,transparent);
+  font-size:12.5px;font-weight:500;color:var(--text-soft);letter-spacing:.02em;margin-bottom:30px;
+  backdrop-filter:blur(8px);
+}
+.hero .badge .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.18)}50%{box-shadow:0 0 0 7px rgba(34,197,94,.05)}}
+.hero h1{font-size:clamp(2.7rem,7vw,5.2rem);font-weight:700;letter-spacing:-.03em;margin-bottom:26px}
+.hero h1 .line{display:block}
+.hero p.lead{font-size:clamp(1.05rem,2.2vw,1.35rem);color:var(--text-soft);max-width:660px;margin:0 auto 40px;font-weight:400;line-height:1.6}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* stat strip */
+.stats{
+  position:relative;z-index:2;max-width:920px;margin:82px auto 0;padding-inline:24px;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:22px;
+}
+.stat{text-align:center;padding:6px}
+.stat .num{font-family:var(--font-head);font-weight:700;font-size:clamp(2rem,4.5vw,3rem);letter-spacing:-.02em;line-height:1}
+.stat .lbl{font-size:12.5px;color:var(--muted);margin-top:8px;letter-spacing:.04em}
+
+/* marquee of markets */
+.ticker{border-block:1px solid var(--border);background:var(--bg-2);overflow:hidden;padding:22px 0}
+.ticker-track{display:flex;gap:64px;width:max-content;animation:scroll 34s linear infinite}
+.ticker:hover .ticker-track{animation-play-state:paused}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.ticker-item{display:flex;align-items:center;gap:12px;font-family:var(--font-head);font-weight:500;font-size:15px;color:var(--muted);white-space:nowrap;letter-spacing:.03em}
+.ticker-item svg{width:16px;height:16px;color:var(--cyan);opacity:.8}
+
+/* ============================================================
+   SECTION HEADERS
+   ============================================================ */
+.sec-head{max-width:720px;margin-bottom:56px}
+.sec-head.center{margin-inline:auto;text-align:center}
+.sec-head h2{font-size:clamp(2rem,4.5vw,3.1rem);font-weight:700;margin:18px 0 16px;letter-spacing:-.025em}
+.sec-head p{color:var(--muted);font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.65}
+
+/* ============================================================
+   CAPABILITIES
+   ============================================================ */
+.caps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.cap{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:30px 26px;transition:transform .28s ease,border-color .28s,box-shadow .28s;position:relative;overflow:hidden;
+}
+.cap::before{content:"";position:absolute;inset:0;background:var(--accent-grad);opacity:0;transition:opacity .3s;mix-blend-mode:overlay}
+.cap:hover{transform:translateY(-6px);border-color:var(--border-strong);box-shadow:var(--shadow-md)}
+.cap .ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);border:1px solid var(--border);margin-bottom:20px;color:var(--cyan)}
+.cap .ico svg{width:24px;height:24px}
+.cap h3{font-size:1.28rem;font-weight:600;margin-bottom:10px}
+.cap p{color:var(--muted);font-size:14.5px;line-height:1.6}
+.cap .step{position:absolute;top:22px;inset-inline-end:24px;font-family:var(--font-head);font-size:13px;font-weight:600;color:var(--faint)}
+
+/* ============================================================
+   ECOSYSTEM / VENTURES
+   ============================================================ */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px}
+.chip{
+  font-family:var(--font-head);font-size:13.5px;font-weight:500;padding:9px 18px;border-radius:var(--r-full);
+  border:1px solid var(--border-strong);background:transparent;color:var(--text-soft);cursor:pointer;
+  transition:all .2s ease;
+}
+.chip:hover{border-color:var(--cyan);color:var(--text)}
+.chip.active{background:var(--accent-grad);color:#04121f;border-color:transparent;font-weight:600}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:26px;overflow:hidden;
+  transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s,opacity .35s;
+}
+.card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:var(--accent-grad);opacity:0;transition:opacity .3s;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+}
+.card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+.card:hover::after{opacity:1}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:14px}
+.card .logo{width:52px;height:52px;flex-shrink:0}
+.card .region{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:6px;padding-top:6px}
+.card .region svg{width:13px;height:13px}
+.card h3{font-size:1.34rem;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:9px}
+.card .sector{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.card p{color:var(--muted);font-size:14.5px;line-height:1.62;flex:1;margin-bottom:22px}
+.card .visit{
+  display:inline-flex;align-items:center;gap:8px;font-family:var(--font-head);font-weight:600;font-size:13.5px;
+  color:var(--text);transition:gap .2s,color .2s;align-self:flex-start;
+}
+.card .visit svg{width:15px;height:15px;transition:transform .2s}
+.card:hover .visit{color:var(--cyan)}
+.card:hover .visit svg{transform:translate(3px,-3px)}
+.card .tag-owned{position:absolute;top:0;inset-inline-end:0;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--gold);padding:7px 12px;text-transform:uppercase}
+.card.hide{display:none}
+
+/* ============================================================
+   VERIPOINTS SPOTLIGHT
+   ============================================================ */
+.spotlight{
+  position:relative;overflow:hidden;border-radius:var(--r-xl);
+  background:linear-gradient(135deg,#0a0f1f,#0e1730 55%,#141024);
+  border:1px solid var(--border);padding:clamp(38px,6vw,72px);
+}
+html[data-theme="light"] .spotlight{background:linear-gradient(135deg,#0b1224,#101a34 60%,#191330);border-color:transparent}
+.spotlight *{position:relative;z-index:2}
+.spotlight .glow-orb{position:absolute;z-index:1;width:460px;height:460px;border-radius:50%;filter:blur(80px);opacity:.35}
+.spotlight .g1{background:radial-gradient(circle,var(--gold),transparent 65%);top:-140px;inset-inline-end:-100px;opacity:.28}
+.spotlight .g2{background:radial-gradient(circle,var(--cyan),transparent 65%);bottom:-180px;inset-inline-start:-120px}
+.spotlight-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.spotlight .eyebrow{color:var(--gold)}
+.spotlight .eyebrow::before{background:linear-gradient(90deg,var(--gold),#f0d08a)}
+.spotlight h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;margin:18px 0 18px;color:#fff}
+.spotlight p{color:#c3cadd;font-size:1.05rem;line-height:1.7;margin-bottom:28px}
+.spotlight ul{list-style:none;display:grid;gap:14px}
+.spotlight li{display:flex;align-items:flex-start;gap:12px;color:#dfe4f0;font-size:15px}
+.spotlight li svg{width:20px;height:20px;color:var(--gold);flex-shrink:0;margin-top:2px}
+.token-visual{
+  aspect-ratio:1;border-radius:var(--r-lg);position:relative;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 40%,rgba(231,179,86,.14),transparent 62%);
+}
+.token{
+  width:min(74%,280px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;
+  background:conic-gradient(from 210deg,#e7b356,#f4d79a,#c98f34,#e7b356);
+  box-shadow:0 30px 70px -20px rgba(231,179,86,.5),inset 0 2px 14px rgba(255,255,255,.5),inset 0 -6px 20px rgba(120,80,20,.5);
+  animation:spincoin 14s linear infinite;
+}
+@keyframes spincoin{to{transform:rotate(360deg)}}
+.token .core{width:76%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 35%,#fbe9c0,#d49a3d 70%);display:grid;place-items:center;box-shadow:inset 0 3px 10px rgba(120,80,20,.45)}
+.token .core span{font-family:var(--font-head);font-weight:700;font-size:clamp(1.5rem,4vw,2.4rem);color:#5a3c0e;transform:rotate(0);animation:spincoin 14s linear infinite reverse}
+.token .ring{position:absolute;inset:-14px;border-radius:50%;border:1.5px dashed rgba(231,179,86,.35)}
+.orbit{position:absolute;inset:0;animation:spincoin 20s linear infinite}
+.orbit .node{position:absolute;top:0;inset-inline-start:50%;transform:translateX(-50%);width:38px;height:38px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border-strong);display:grid;place-items:center;color:var(--cyan);box-shadow:var(--shadow-sm)}
+.orbit .node svg{width:18px;height:18px}
+
+/* ============================================================
+   CLIENT STUDIO
+   ============================================================ */
+.studio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.studio-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:24px;
+  transition:transform .26s ease,border-color .26s,box-shadow .26s;display:flex;flex-direction:column;gap:12px;
+}
+.studio-card:hover{transform:translateY(-5px);border-color:var(--border-strong);box-shadow:var(--shadow-md)}
+.studio-card .s-logo{width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);display:grid;place-items:center;font-family:var(--font-head);font-weight:700;font-size:18px}
+.studio-card h4{font-size:1.08rem;font-weight:600}
+.studio-card .s-desc{font-size:13.5px;color:var(--muted);line-height:1.55;flex:1}
+.studio-card .visit{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-head);font-weight:600;font-size:12.5px;color:var(--text-soft);transition:gap .2s,color .2s}
+.studio-card .visit svg{width:13px;height:13px;transition:transform .2s}
+.studio-card:hover .visit{color:var(--cyan)}
+.studio-card:hover .visit svg{transform:translate(2px,-2px)}
+
+/* ============================================================
+   REACH
+   ============================================================ */
+.reach-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.reach-list{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.reach-item{display:flex;align-items:center;gap:12px;font-family:var(--font-head);font-weight:500;font-size:15px;color:var(--text-soft)}
+.reach-item .pin{width:9px;height:9px;border-radius:50%;background:var(--accent-grad);position:relative;flex-shrink:0}
+.reach-item .pin::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--cyan);animation:pulse2 2.6s infinite}
+@keyframes pulse2{0%{transform:scale(1);opacity:.5}100%{transform:scale(3);opacity:0}}
+.reach-visual{
+  aspect-ratio:4/3;border-radius:var(--r-xl);border:1px solid var(--border);
+  background:radial-gradient(circle at 50% 45%,var(--surface-2),var(--surface));
+  display:grid;place-items:center;position:relative;overflow:hidden;
+}
+.reach-visual .big{font-family:var(--font-head);font-weight:700;font-size:clamp(5rem,15vw,9rem);letter-spacing:-.04em;line-height:1;background:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.9}
+.reach-visual .cap{position:absolute;bottom:34px;font-family:var(--font-head);font-size:13px;letter-spacing:.4em;text-transform:uppercase;color:var(--muted)}
+.reach-visual .rings{position:absolute;inset:0}
+.reach-visual .rings i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border:1px solid var(--border);border-radius:50%}
+.reach-visual .rings i:nth-child(1){width:44%;height:58%}
+.reach-visual .rings i:nth-child(2){width:70%;height:92%}
+.reach-visual .rings i:nth-child(3){width:96%;height:128%}
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about{background:var(--bg-2);border-block:1px solid var(--border)}
+.about-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:start}
+.about h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;letter-spacing:-.025em}
+.about .body p{color:var(--text-soft);font-size:1.08rem;line-height:1.75;margin-bottom:20px}
+.about .body p strong{color:var(--text);font-weight:600}
+.about .facts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px}
+.fact{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:20px}
+.fact .k{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.fact .v{font-family:var(--font-head);font-weight:600;font-size:15px;color:var(--text)}
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact{text-align:center}
+.contact-card{
+  position:relative;overflow:hidden;border-radius:var(--r-xl);border:1px solid var(--border);
+  background:linear-gradient(135deg,var(--surface),var(--surface-2));
+  padding:clamp(44px,7vw,88px) 24px;
+}
+.contact-card .orb{opacity:.4}
+.contact-card h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:700;margin-bottom:18px;letter-spacing:-.03em;position:relative;z-index:2}
+.contact-card p{color:var(--text-soft);font-size:1.1rem;max-width:520px;margin:0 auto 34px;position:relative;z-index:2}
+.contact-card .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{border-top:1px solid var(--border);background:var(--bg-2);padding-block:64px 34px}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:44px;margin-bottom:48px}
+.foot-brand p{color:var(--muted);font-size:14px;line-height:1.65;margin-top:18px;max-width:300px}
+.foot-col h5{font-family:var(--font-head);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:16px;font-weight:600}
+.foot-col a{display:block;color:var(--text-soft);font-size:14px;margin-bottom:11px;transition:color .2s}
+.foot-col a:hover{color:var(--cyan)}
+.foot-bottom{border-top:1px solid var(--border);padding-top:26px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.foot-bottom p{color:var(--faint);font-size:13px}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* mobile menu */
+.mobile-menu{
+  position:fixed;inset:0;z-index:99;background:color-mix(in srgb,var(--bg) 96%,transparent);
+  backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.mobile-menu.open{opacity:1;pointer-events:auto}
+.mobile-menu a{font-family:var(--font-head);font-size:1.6rem;font-weight:600;color:var(--text);padding:10px}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1000px){
+  .caps{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .studio-grid{grid-template-columns:repeat(2,1fr)}
+  .spotlight-grid{grid-template-columns:1fr;gap:44px}
+  .about-grid{grid-template-columns:1fr;gap:34px}
+  .reach-grid{grid-template-columns:1fr;gap:40px}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:34px}
+}
+@media(max-width:720px){
+  .nav-links{display:none}
+  .menu-btn{display:grid}
+  .stats{grid-template-columns:repeat(2,1fr);gap:32px 22px}
+  .grid{grid-template-columns:1fr}
+  .caps{grid-template-columns:1fr}
+  .studio-grid{grid-template-columns:1fr}
+  .reach-list{grid-template-columns:1fr}
+  .about .facts{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr;gap:30px}
+  .foot-bottom{flex-direction:column;text-align:center}
+  .hero{padding-top:140px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none;transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="ORIZIS GROUP home">
+      <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <rect x="10" y="10" width="58" height="58" rx="8" stroke="#00C2FF" stroke-width="11"/>
+        <rect x="32" y="32" width="58" height="58" rx="8" stroke="#A377FF" stroke-width="11"/>
+      </svg>
+      <span class="wordmark"><b>ORIZIS</b><span>GROUP</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#ecosystem">Ecosystem</a>
+      <a href="#platform">Platform</a>
+      <a href="#studio">Studio</a>
+      <a href="#reach">Reach</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle color theme">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a href="#contact" class="btn btn-primary btn-sm">Partner with us</a>
+      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#ecosystem">Ecosystem</a>
+  <a href="#platform">Platform</a>
+  <a href="#studio">Studio</a>
+  <a href="#reach">Reach</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<span id="top"></span>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div class="badge"><span class="dot"></span> 16 products live across 4 markets</div>
+    <h1>
+      <span class="line">We build & operate</span>
+      <span class="line"><span class="gradtext">digital ventures.</span></span>
+    </h1>
+    <p class="lead">ORIZIS GROUP is a technology company that designs, ships and runs its own
+      product ecosystem — commerce, fintech, gaming, real estate and platforms — connected by one unified wallet.</p>
+    <div class="hero-cta">
+      <a href="#ecosystem" class="btn btn-primary">
+        Explore the ecosystem
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#platform" class="btn btn-ghost">See the platform</a>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num gradtext" data-count="16">16</div><div class="lbl">Live products</div></div>
+    <div class="stat"><div class="num gradtext" data-count="6">6</div><div class="lbl">Sectors</div></div>
+    <div class="stat"><div class="num gradtext" data-count="4">4</div><div class="lbl">Markets</div></div>
+    <div class="stat"><div class="num gradtext" data-count="1">1</div><div class="lbl">Unified wallet</div></div>
+  </div>
+</header>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track" id="ticker"></div>
+</div>
+
+<!-- ================= CAPABILITIES ================= -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head center reveal">
+      <span class="eyebrow">How we operate</span>
+      <h2>A full-stack venture company</h2>
+      <p>We don't just design screens. We own the whole lifecycle — from the first Figma frame to a
+        live product processing real payments in real markets.</p>
+    </div>
+    <div class="caps">
+      <div class="cap reveal"><span class="step">01</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg></div><h3>Design</h3><p>Portfolio-grade UX/UI with a shared design language — RTL &amp; LTR, light &amp; dark, accessible by default.</p></div>
+      <div class="cap reveal"><span class="step">02</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><h3>Build</h3><p>Modern web stacks — React &amp; Vite, static-fast storefronts, Firebase &amp; serverless back ends shipped in days.</p></div>
+      <div class="cap reveal"><span class="step">03</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><h3>Operate</h3><p>We run what we build — payments, Mobile Money, escrow, catalogs and admin tooling, live and monitored.</p></div>
+      <div class="cap reveal"><span class="step">04</span><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5A2.5 2.5 0 0 1 12 8h.5a2 2 0 0 1 0 4h-1a2 2 0 0 0 0 4h.5a2.5 2.5 0 0 0 2.5-1.5"/></svg></div><h3>Monetize</h3><p>One closed-loop wallet, transparent markups and revenue models built in from day one — not bolted on.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ECOSYSTEM ================= -->
+<section class="section" id="ecosystem">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The ecosystem</span>
+      <h2>Ventures we own &amp; run</h2>
+      <p>Every card below is a live product built and operated by ORIZIS. Filter by sector — each one opens in a new tab.</p>
+    </div>
+    <div class="filters reveal" id="filters">
+      <button class="chip active" data-filter="all">All</button>
+      <button class="chip" data-filter="commerce">Commerce</button>
+      <button class="chip" data-filter="fintech">Fintech</button>
+      <button class="chip" data-filter="gaming">Gaming &amp; Leisure</button>
+      <button class="chip" data-filter="realestate">Real Estate</button>
+      <button class="chip" data-filter="platform">Platforms</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- ================= VERIPOINTS SPOTLIGHT ================= -->
+<section class="section" id="platform">
+  <div class="wrap reveal">
+    <div class="spotlight">
+      <div class="glow-orb g1"></div>
+      <div class="glow-orb g2"></div>
+      <div class="spotlight-grid">
+        <div>
+          <span class="eyebrow">The connective tissue</span>
+          <h2>VeriPoints — one wallet<br>across every product</h2>
+          <p>The whole ecosystem shares a single closed-loop wallet. Sign in once, and your balance
+            follows you — from a marketplace checkout to an escrow hold to a loyalty reward. One identity, one balance, everywhere.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span><strong>1 token = 1 unit of value</strong> — closed loop, no speculation.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span>Append-only ledger, atomic transactions, escrow-ready holds.</span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> <span>A shared SDK any ORIZIS product plugs into in minutes.</span></li>
+          </ul>
+        </div>
+        <div class="token-visual" aria-hidden="true">
+          <div class="orbit">
+            <div class="node"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg></div>
+          </div>
+          <div class="token"><span class="ring"></span><div class="core"><span>VP</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLIENT STUDIO ================= -->
+<section class="section" id="studio">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Studio</span>
+      <h2>Selected client work</h2>
+      <p>Beyond our own ventures, ORIZIS designs and builds sites for clients — brands, consultants and contractors who wanted something better than a template.</p>
+    </div>
+    <div class="studio-grid" id="studioGrid"></div>
+  </div>
+</section>
+
+<!-- ================= REACH ================= -->
+<section class="section" id="reach">
+  <div class="wrap">
+    <div class="reach-grid">
+      <div class="reveal">
+        <span class="eyebrow">Global reach</span>
+        <h2 style="font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;margin:18px 0 18px;letter-spacing:-.025em">Products live across<br>three continents</h2>
+        <p class="muted" style="font-size:1.08rem;line-height:1.7;margin-bottom:34px">From Israeli marketplaces to Mobile-Money commerce in Zambia and real estate in the Caucasus —
+          we build for the markets we operate in, in the languages they speak.</p>
+        <div class="reach-list">
+          <div class="reach-item"><span class="pin"></span> Israel</div>
+          <div class="reach-item"><span class="pin"></span> Zambia</div>
+          <div class="reach-item"><span class="pin"></span> Azerbaijan</div>
+          <div class="reach-item"><span class="pin"></span> Nigeria</div>
+          <div class="reach-item"><span class="pin"></span> Georgia</div>
+          <div class="reach-item"><span class="pin"></span> Global (online)</div>
+        </div>
+      </div>
+      <div class="reach-visual reveal" aria-hidden="true">
+        <div class="rings"><i></i><i></i><i></i></div>
+        <div class="big">3</div>
+        <div class="cap">Continents</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="section about" id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="reveal">
+        <span class="eyebrow">About</span>
+        <h2>A product company,<br>not an agency</h2>
+      </div>
+      <div class="body reveal">
+        <p><strong>ORIZIS GROUP</strong> is the technology company behind the ORIZIS ecosystem. We take ideas
+          from concept to a live, revenue-ready product — and then we keep operating them.</p>
+        <p>Our work spans consumer marketplaces, Mobile-Money fintech, social gaming, real-estate platforms
+          and loyalty systems — unified by a shared design language and one cross-product wallet. Where most
+          studios hand off a static site, we ship platforms that <strong>transact, scale and stay live.</strong></p>
+        <div class="facts">
+          <div class="fact"><div class="k">Legal entity</div><div class="v">ORIZIS TECHNOLOGY LTD</div></div>
+          <div class="fact"><div class="k">Company no.</div><div class="v" dir="ltr">516977758</div></div>
+          <div class="fact"><div class="k">Focus</div><div class="v">Own ventures &amp; client builds</div></div>
+          <div class="fact"><div class="k">Model</div><div class="v">Design · Build · Operate</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="section contact" id="contact">
+  <div class="wrap reveal">
+    <div class="contact-card">
+      <div class="orb orb-2" style="inset-inline-end:auto;inset-inline-start:-120px;top:-160px"></div>
+      <h2>Let's build something<br>that <span class="gradtext">actually ships.</span></h2>
+      <p>Whether you want to launch a venture, plug into our wallet, or need a site that stands out — we'd love to talk.</p>
+      <div class="btns">
+        <a href="mailto:aaci.yoni@gmail.com" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          aaci.yoni@gmail.com
+        </a>
+        <a href="#ecosystem" class="btn btn-ghost">Browse the ecosystem</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <svg class="mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <rect x="10" y="10" width="58" height="58" rx="8" stroke="#00C2FF" stroke-width="11"/>
+            <rect x="32" y="32" width="58" height="58" rx="8" stroke="#A377FF" stroke-width="11"/>
+          </svg>
+          <span class="wordmark"><b>ORIZIS</b><span>GROUP</span></span>
+        </a>
+        <p>A technology company building and operating a live ecosystem of digital ventures — connected by one unified wallet.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Ventures</h5>
+        <a href="https://verisess.vercel.app" target="_blank" rel="noopener">VeriSess</a>
+        <a href="https://aaciyoni-bot.github.io/ASFANUT/" target="_blank" rel="noopener">Asfanut</a>
+        <a href="https://www.oriziscap.com" target="_blank" rel="noopener">ORIZIS Capital</a>
+        <a href="https://tourizis.com" target="_blank" rel="noopener">Tourizis</a>
+      </div>
+      <div class="foot-col">
+        <h5>More</h5>
+        <a href="https://aaciyoni-bot.github.io/cellmall-site/" target="_blank" rel="noopener">CellMall</a>
+        <a href="https://aaciyoni-bot.github.io/zedglow-site/" target="_blank" rel="noopener">ZedGlow</a>
+        <a href="https://adlipa.web.app" target="_blank" rel="noopener">AdLipa</a>
+        <a href="https://aaciyoni-bot.github.io/ORIZJOREAL/" target="_blank" rel="noopener">OrizJoReal</a>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="#about">About</a>
+        <a href="#platform">Platform</a>
+        <a href="#studio">Studio</a>
+        <a href="mailto:aaci.yoni@gmail.com">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 ORIZIS TECHNOLOGY LTD — Company no. 516977758. All rights reserved.</p>
+      <p>Design · Build · Operate</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- data ---------- */
+const LOGO = (a,b)=>`<svg class="logo" viewBox="0 0 100 100" fill="none"><rect x="10" y="10" width="58" height="58" rx="8" stroke="${a}" stroke-width="11"/><rect x="32" y="32" width="58" height="58" rx="8" stroke="${b}" stroke-width="11"/></svg>`;
+const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>';
+const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>';
+
+const ventures = [
+  {name:'VeriSess', cat:'commerce', sector:'Marketplace · Escrow', region:'Israel', c1:'#00c2ff', c2:'#5b8cff', url:'https://verisess.vercel.app',
+    desc:'A marketplace for protected video consultations with verified experts — escrow-backed sessions, dual payment (card + wallet).'},
+  {name:'Asfanut', cat:'commerce', sector:'Collectibles · Auctions', region:'Israel', c1:'#a377ff', c2:'#00c2ff', url:'https://aaciyoni-bot.github.io/ASFANUT/',
+    desc:'Israel’s collectors’ arena — live auctions, secure trade, buy-it-now and escrow, with a "collector vault" experience.'},
+  {name:'CellMall', cat:'commerce', sector:'E-commerce · Mobile Money', region:'Zambia', c1:'#22d3ee', c2:'#5b8cff', url:'https://aaciyoni-bot.github.io/cellmall-site/',
+    desc:'A smartphone superstore for Zambia priced in Kwacha, checkout via MTN, Airtel & Zamtel Mobile Money.'},
+  {name:'ZedGlow', cat:'commerce', sector:'Beauty · Mobile Money', region:'Zambia', c1:'#f472b6', c2:'#a377ff', url:'https://aaciyoni-bot.github.io/zedglow-site/',
+    desc:'A beauty & cosmetics store for women across Zambia — wigs, makeup, skincare and perfume, Mobile-Money ready.'},
+  {name:'ORIZIS Capital', cat:'fintech', sector:'Lending · Investment', region:'Zambia', c1:'#00c2ff', c2:'#22d3ee', url:'https://www.oriziscap.com',
+    desc:'A lending & investment platform for Zambia — loan applications, an admin loan book and an investor portal, secured by Firebase Auth.'},
+  {name:'AdLipa', cat:'fintech', sector:'Ad-tech · Mobile Money', region:'Zambia · Nigeria', c1:'#34d399', c2:'#00c2ff', url:'https://adlipa.web.app',
+    desc:'Businesses buy social-media ad campaigns (FB, IG, TikTok, YouTube) and pay with Mobile Money instead of a card.'},
+  {name:'Royal777', cat:'gaming', sector:'Social Casino', region:'Global', c1:'#e7b356', c2:'#f472b6', url:'https://royal777.vercel.app',
+    desc:'A play-money social casino — slots and tables built for entertainment, kept strictly separate from real-value products.'},
+  {name:'Tourizis', cat:'gaming', sector:'Casino & Tourism', region:'Global', c1:'#e7b356', c2:'#34d399', url:'https://tourizis.com',
+    desc:'A world casino & tourism portal — global casino hosting deals, in-house destinations and curated organized trips, kept cleanly separated.'},
+  {name:'OrizJoReal', cat:'realestate', sector:'Real Estate', region:'Azerbaijan', c1:'#5b8cff', c2:'#a377ff', url:'https://aaciyoni-bot.github.io/ORIZJOREAL/',
+    desc:'Azerbaijan real estate for Arabic-speaking investors — a full property CMS with brokers, bookings and inventory.'},
+  {name:'Diamond Ball', cat:'platform', sector:'Loyalty Engine', region:'Israel', c1:'#00c2ff', c2:'#a377ff', url:'https://aaciyoni-bot.github.io/SCRATCH/',
+    desc:'A rebrandable customer-loyalty club — scratch-card wins, staff-confirmed rewards, birthdays and a live admin panel.'},
+  {name:'Yomani', cat:'platform', sector:'Project Cockpit', region:'Israel', c1:'#22d3ee', c2:'#5b8cff', url:'https://aaciyoni-bot.github.io/YOMANI/',
+    desc:'A smart project journal & command-center — a unified task board across an entire portfolio, standalone and cloud-optional.'},
+];
+
+const studio = [
+  {name:'Oren Farag', letter:'O', desc:'Safety, audit & crisis-management consultancy — a trusted-advisor brand with articles and a client portal.', url:'https://orenfarage.com'},
+  {name:'Top HaNegev', letter:'T', desc:'Infrastructure & civil-works contractor — earthworks, roads and drainage for the Negev.', url:'http://tophanegev.com'},
+  {name:'Hiburatik', letter:'ח', desc:'Author brand & book store for Tal Niv — an editorial site with an integrated checkout.', url:'https://hiburatik.co.il'},
+  {name:'Wind Flow', letter:'W', desc:'Air-conditioning & climate solutions — a clean, conversion-focused service brand.', url:'https://windflow-ac.vercel.app'},
+];
+
+/* ---------- render ventures ---------- */
+const grid = document.getElementById('grid');
+grid.innerHTML = ventures.map(v=>`
+  <a class="card" data-cat="${v.cat}" href="${v.url}" target="_blank" rel="noopener">
+    <span class="tag-owned">Owned</span>
+    <div class="card-top">
+      ${LOGO(v.c1,v.c2)}
+      <span class="region">${PIN}${v.region}</span>
+    </div>
+    <div class="sector">${v.sector}</div>
+    <h3>${v.name}</h3>
+    <p>${v.desc}</p>
+    <span class="visit">Visit product ${ARROW}</span>
+  </a>`).join('');
+
+/* ---------- render studio ---------- */
+document.getElementById('studioGrid').innerHTML = studio.map(s=>`
+  <a class="studio-card" href="${s.url}" target="_blank" rel="noopener">
+    <div class="s-logo">${s.letter}</div>
+    <h4>${s.name}</h4>
+    <div class="s-desc">${s.desc}</div>
+    <span class="visit">Visit site ${ARROW}</span>
+  </a>`).join('');
+
+/* ---------- ticker ---------- */
+const markets = ['Israel','Zambia','Azerbaijan','Nigeria','Georgia','Global Online'];
+const tItem = m=>`<span class="ticker-item">${PIN}${m}</span>`;
+document.getElementById('ticker').innerHTML = (markets.map(tItem).join('')).repeat(2);
+
+/* ---------- filters ---------- */
+const chips=[...document.querySelectorAll('.chip')];
+const cards=[...document.querySelectorAll('.card')];
+chips.forEach(chip=>chip.addEventListener('click',()=>{
+  chips.forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  const f=chip.dataset.filter;
+  cards.forEach(card=>{
+    const show = f==='all'||card.dataset.cat===f;
+    card.classList.toggle('hide',!show);
+  });
+}));
+
+/* ---------- theme ---------- */
+const themeBtn=document.getElementById('themeBtn');
+const root=document.documentElement;
+const saved=localStorage.getItem('orizis-theme');
+if(saved) root.setAttribute('data-theme',saved);
+themeBtn.addEventListener('click',()=>{
+  const next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+  root.setAttribute('data-theme',next);
+  localStorage.setItem('orizis-theme',next);
+});
+
+/* ---------- nav scroll ---------- */
+const nav=document.getElementById('nav');
+const onScroll=()=>nav.classList.toggle('scrolled',window.scrollY>20);
+onScroll(); window.addEventListener('scroll',onScroll,{passive:true});
+
+/* ---------- mobile menu ---------- */
+const menuBtn=document.getElementById('menuBtn');
+const mobileMenu=document.getElementById('mobileMenu');
+menuBtn.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+/* ---------- reveal on scroll ---------- */
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*70);io.unobserve(e.target);}
+  });
+},{threshold:.14,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- count-up ---------- */
+const cio=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,target=+el.dataset.count;let n=0;
+    const t=setInterval(()=>{n++;el.textContent=n;if(n>=target){el.textContent=target;clearInterval(t);}},90);
+    cio.unobserve(el);
+  });
+},{threshold:.6});
+document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+</script>
+</body>
+</html>
