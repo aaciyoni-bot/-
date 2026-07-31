@@ -393,17 +393,6 @@ footer{border-top:1px solid var(--border);background:var(--bg-2);padding-block:6
   </div>
 </section>
 
-<!-- STUDIO -->
-<section class="section" id="studio">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <span class="eyebrow">ORIZIS Media · Studio</span>
-      <h2>Selected client work</h2>
-      <p>The group's media &amp; digital arm also designs and builds for clients — brands, consultants and contractors who wanted something better than a template.</p>
-    </div>
-    <div class="studio-grid" id="studioGrid"></div>
-  </div>
-</section>
 
 <!-- REACH -->
 <section class="section" id="reach">
@@ -481,10 +470,10 @@ footer{border-top:1px solid var(--border);background:var(--bg-2);padding-block:6
         <a href="#divisions">ORIZIS Technology</a><a href="#divisions">ORIZIS Real Estate</a><a href="#divisions">ORIZIS Agro</a>
       </div>
       <div class="foot-col"><h5>Live Ventures</h5>
-        <a href="https://verisess.vercel.app" target="_blank" rel="noopener">VeriSess</a><a href="https://aaciyoni-bot.github.io/zedglow-site/" target="_blank" rel="noopener">ZedGlow</a><a href="https://aaciyoni-bot.github.io/zedtech-site/" target="_blank" rel="noopener">ZedTech</a><a href="https://aaciyoni-bot.github.io/ASFANUT/" target="_blank" rel="noopener">Asfanut</a>
+        <a href="https://chipazi.com" target="_blank" rel="noopener">Chipazi</a><a href="https://zedmall.co.zm" target="_blank" rel="noopener">ZedMall</a><a href="https://vochira.com" target="_blank" rel="noopener">Vochira</a><a href="https://lernoto.com" target="_blank" rel="noopener">Lernoto</a>
       </div>
       <div class="foot-col"><h5>Company</h5>
-        <a href="#about">About</a><a href="#platform">Wallet</a><a href="#studio">Studio</a><a href="mailto:aaci.yoni@gmail.com">Contact</a>
+        <a href="#about">About</a><a href="#platform">Wallet</a><a href="#ventures">Ventures</a><a href="mailto:aaci.yoni@gmail.com">Contact</a>
       </div>
     </div>
     <div class="foot-bottom"><p>© 2026 ORIZIS TECHNOLOGY LTD — Company no. 516977758. All rights reserved.</p><p>Design · Build · Operate</p></div>
@@ -515,11 +504,11 @@ const ic=k=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-w
 
 /* ---- the 12 real divisions ---- */
 const divisions=[
-  {name:'Capital',icon:'capital',tag:'Finance & Digital Ventures',flag:true,url:'#ventures',visit:'View the portfolio',
-    desc:'The group\'s investment and digital-ventures arm — structuring project finance and building, funding and operating the live product portfolio.'},
+  {name:'Capital',icon:'capital',tag:'Digital Ventures',flag:true,url:'#ventures',visit:'View the portfolio',
+    desc:'The group\'s digital-ventures arm — building, launching and operating the live product portfolio and its shared wallet.'},
   {name:'Technology',icon:'tech',tag:'Product R&D & Cyber',url:'#ventures',visit:'See what we ship',
     desc:'Enterprise software, industrial IoT and cybersecurity — the engineering engine behind every ORIZIS platform and its shared wallet.'},
-  {name:'Real Estate',icon:'realestate',tag:'360° Property',url:'https://aaciyoni-bot.github.io/ORIZJOREAL/',visit:'Visit OrizJoReal',
+  {name:'Real Estate',icon:'realestate',tag:'360° Property',url:'https://orizisreal.com',visit:'Visit OrizisReal',
     desc:'An end-to-end property value chain in Azerbaijan and Georgia — construction, luxury marketing, brokerage and institutional management.'},
   {name:'Agro',icon:'agro',tag:'Food Security',
     desc:'Precision-agriculture and food-security projects in East Africa — sustainable irrigation, agri-tech and high-yield production at scale.'},
@@ -535,30 +524,28 @@ const divisions=[
     desc:'Workforce, security and safety protocols for demanding industrial environments — executive search, audits and technical training.'},
   {name:'Chemicals',icon:'chem',tag:'Molecular Science',
     desc:'Industrial-grade fertilizers and reagents for critical sectors — mining supply chains and laboratory-standard consulting.'},
-  {name:'Media',icon:'media',tag:'Brand & Studio',url:'#studio',visit:'See client work',
-    desc:'Brand strategy, communications and digital craft — nation branding for partners and premium sites built for external clients.'},
+  {name:'Media',icon:'media',tag:'Brand & Communications',
+    desc:'Brand strategy, communications and digital craft — the in-house design engine behind every ORIZIS product and its identity.'},
   {name:'Foundation',icon:'foundation',tag:'Social Impact',
     desc:'The group\'s philanthropic arm — STEM education, healthcare access and social infrastructure across our active regions.'},
 ];
 
 /* ---- the live digital ventures (under ORIZIS Technology) ---- */
 const ventures=[
-  {name:'VeriSess',cat:'commerce',sector:'Marketplace · Escrow',region:'Israel',c1:'#00c2ff',c2:'#5b8cff',url:'https://verisess.vercel.app',desc:'A marketplace for protected video consultations with verified experts — escrow-backed sessions, dual payment (card + wallet).'},
-  {name:'Asfanut',cat:'commerce',sector:'Collectibles · Auctions',region:'Israel',c1:'#a377ff',c2:'#00c2ff',url:'https://aaciyoni-bot.github.io/ASFANUT/',desc:'Israel’s collectors’ arena — live auctions, secure trade, buy-it-now and escrow, with a “collector vault” experience.'},
-  {name:'CellMall',cat:'commerce',sector:'E-commerce · Mobile Money',region:'Zambia',c1:'#22d3ee',c2:'#5b8cff',url:'https://aaciyoni-bot.github.io/cellmall-site/',desc:'A smartphone superstore for Zambia priced in Kwacha, checkout via MTN, Airtel & Zamtel Mobile Money.'},
-  {name:'ZedGlow',cat:'commerce',sector:'Beauty · Mobile Money',region:'Zambia',c1:'#f472b6',c2:'#a377ff',url:'https://aaciyoni-bot.github.io/zedglow-site/',desc:'A beauty & cosmetics store for women across Zambia — wigs, makeup, skincare and perfume, Mobile-Money ready.'},
+  {name:'Chipazi',cat:'commerce',sector:'Electronics · Mobile Money',region:'Zambia',c1:'#2563eb',c2:'#22d3ee',url:'https://chipazi.com',desc:'A full electronics & gadgets store for Zambia — phones, audio and smart devices priced in Kwacha, checkout via MTN, Airtel & Zamtel Mobile Money.'},
+  {name:'Kayachi',cat:'commerce',sector:'Home & Kitchen · Mobile Money',region:'Zambia',c1:'#0d9488',c2:'#22d3ee',url:'https://kayachi.com',desc:'Home & kitchen essentials for Zambian households — appliances, cookware and décor, paid with Mobile Money.'},
+  {name:'Mwanako',cat:'commerce',sector:'Baby & Mum · Mobile Money',region:'Zambia',c1:'#0284c7',c2:'#5b8cff',url:'https://mwanako.com',desc:'Everything for babies and mothers — feeding, diapers, clothing and nursery — delivered across Zambia with Mobile-Money checkout.'},
+  {name:'Zuwango',cat:'commerce',sector:'Solar & Power · Mobile Money',region:'Zambia',c1:'#d97706',c2:'#f472b6',url:'https://zuwango.com',desc:'Solar and backup-power solutions for Zambia’s energy needs — panels, batteries and kits, paid with Mobile Money.'},
+  {name:'ZedGlow',cat:'commerce',sector:'Beauty · Mobile Money',region:'Zambia',c1:'#f472b6',c2:'#a377ff',url:'https://zedglow.com',desc:'A beauty & cosmetics store for women across Zambia — wigs, makeup, skincare and perfume, Mobile-Money ready.'},
+  {name:'Vochira',cat:'commerce',sector:'Gift Cards · Mobile Money',region:'Zambia',c1:'#059669',c2:'#f59e0b',url:'https://vochira.com',desc:'Digital gift cards & subscriptions delivered instantly by code — airtime, streaming and gaming — paid with Mobile Money.'},
+  {name:'ZedMall',cat:'commerce',sector:'Marketplace · Mobile Money',region:'Zambia',c1:'#7c3aed',c2:'#22d3ee',url:'https://zedmall.co.zm',desc:'Zambia’s global-shopping marketplace priced in Kwacha — browse millions of products and pay with Mobile Money.'},
+  {name:'Lernoto',cat:'platform',sector:'Online Courses · Mobile Money',region:'Zambia',c1:'#4338ca',c2:'#a377ff',url:'https://lernoto.com',desc:'Affordable online courses with verifiable certificates — digital skills, business and more, paid with Mobile Money.'},
   {name:'AdLipa',cat:'fintech',sector:'Ad-tech · Mobile Money',region:'Zambia · Nigeria',c1:'#34d399',c2:'#00c2ff',url:'https://adlipa.web.app',desc:'Businesses buy social-media ad campaigns (FB, IG, TikTok, YouTube) and pay with Mobile Money instead of a card.'},
-  {name:'OrizJoReal',cat:'realestate',sector:'Real Estate CMS',region:'Azerbaijan',c1:'#5b8cff',c2:'#a377ff',url:'https://aaciyoni-bot.github.io/ORIZJOREAL/',desc:'Azerbaijan real estate for Arabic-speaking investors — a full property CMS with brokers, bookings and inventory.'},
-  {name:'Diamond Ball',cat:'platform',sector:'Loyalty Engine',region:'Israel',c1:'#00c2ff',c2:'#a377ff',url:'https://aaciyoni-bot.github.io/SCRATCH/',desc:'A rebrandable customer-loyalty club — scratch-card wins, staff-confirmed rewards, birthdays and a live admin panel.'},
-  {name:'Yomani',cat:'platform',sector:'Project Cockpit',region:'Israel',c1:'#22d3ee',c2:'#5b8cff',url:'https://aaciyoni-bot.github.io/YOMANI/',desc:'A smart project journal & command-center — a unified task board across an entire portfolio, standalone and cloud-optional.'},
+  {name:'VeriSess',cat:'commerce',sector:'Marketplace · Escrow',region:'Israel',c1:'#00c2ff',c2:'#5b8cff',url:'https://verisess.vercel.app',desc:'A marketplace for protected video consultations with verified experts — escrow-backed sessions, dual payment (card + wallet).'},
+  {name:'OrizisReal',cat:'realestate',sector:'Real Estate · Investment',region:'Azerbaijan',c1:'#5b8cff',c2:'#a377ff',url:'https://orizisreal.com',desc:'ORIZIS real-estate investment in Azerbaijan — curated properties, an investor portal and full brokerage support.'},
 ];
 
-const studio=[
-  {name:'Oren Farag',letter:'O',desc:'Safety, audit & crisis-management consultancy — a trusted-advisor brand with articles and a client portal.',url:'https://orenfarage.com'},
-  {name:'Top HaNegev',letter:'T',desc:'Infrastructure & civil-works contractor — earthworks, roads and drainage for the Negev.',url:'http://tophanegev.com'},
-  {name:'Hiburatik',letter:'ח',desc:'Author brand & book store for Tal Niv — an editorial site with an integrated checkout.',url:'https://hiburatik.co.il'},
-  {name:'Wind Flow',letter:'W',desc:'Air-conditioning & climate solutions — a clean, conversion-focused service brand.',url:'https://windflow-ac.vercel.app'},
-];
+const studio=[];
 
 /* render divisions */
 document.getElementById('divGrid').innerHTML=divisions.map(d=>{
@@ -582,12 +569,6 @@ document.getElementById('grid').innerHTML=ventures.map(v=>`
     <span class="visit">Visit product ${ARROW}</span>
   </a>`).join('');
 
-/* render studio */
-document.getElementById('studioGrid').innerHTML=studio.map(s=>`
-  <a class="studio-card" href="${s.url}" target="_blank" rel="noopener">
-    <div class="s-logo">${s.letter}</div><h4>${s.name}</h4><div class="s-desc">${s.desc}</div>
-    <span class="visit">Visit site ${ARROW}</span>
-  </a>`).join('');
 
 /* ticker */
 const markets=['Israel','Zambia','Azerbaijan','Nigeria','Georgia','Global Online'];
