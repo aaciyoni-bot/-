@@ -151,6 +151,16 @@ html[data-theme="light"] .moon{display:none}
 .chip:hover{border-color:var(--cyan);color:var(--text)}
 .chip.active{background:var(--accent-grad);color:#04121f;border-color:transparent;font-weight:600}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+#grid{display:block}
+.vdiv{margin-bottom:56px}
+.vdiv:last-child{margin-bottom:0}
+.vdiv-head{margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.vdiv-head h3{font-family:var(--font-head);font-size:1.55rem;font-weight:700;letter-spacing:-.01em}
+.vdiv-head .tag{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);border:1px solid var(--border-strong);border-radius:var(--r-full);padding:4px 12px}
+.vdiv-head p{color:var(--text-soft);font-size:.96rem;flex-basis:100%;margin-top:2px;max-width:64ch}
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:900px){.vgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.vgrid{grid-template-columns:1fr}}
 .card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s,opacity .35s}
 .card::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:var(--accent-grad);opacity:0;transition:opacity .3s;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
@@ -354,17 +364,9 @@ footer{border-top:1px solid var(--border);background:var(--bg-2);padding-block:6
 <section class="section venture-band" id="ventures">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">ORIZIS Technology · Digital Ventures</span>
-      <h2>The platforms we've built &amp; run</h2>
-      <p>Under ORIZIS Technology sits the group's digital-ventures portfolio — every product below is live and
-        operated by us. Filter by sector; each card opens in a new tab.</p>
-    </div>
-    <div class="filters reveal" id="filters">
-      <button class="chip active" data-filter="all">All</button>
-      <button class="chip" data-filter="commerce">Commerce</button>
-      <button class="chip" data-filter="fintech">Fintech</button>
-      <button class="chip" data-filter="realestate">Real Estate</button>
-      <button class="chip" data-filter="platform">Platforms</button>
+      <span class="eyebrow">Group Structure</span>
+      <h2>Two arms. One engine.</h2>
+      <p><b>ORIZIS Technologies</b> — the subsidiary that holds our Zambia Mobile-Money commerce portfolio — and <b>ORIZIS</b>, holding the group's additional ventures. Every product below is live and operated by us.</p>
     </div>
     <div class="grid" id="grid"></div>
   </div>
@@ -565,14 +567,18 @@ document.getElementById('divGrid').innerHTML=divisions.map(d=>{
   return d.url?`<a class="division" href="${d.url}"${ext}>${inner}</a>`:`<div class="division">${inner}</div>`;
 }).join('');
 
-/* render ventures */
-document.getElementById('grid').innerHTML=ventures.map(v=>`
+/* render ventures — grouped by group division */
+const vcard=v=>`
   <a class="card" data-cat="${v.cat}" href="${v.url}" target="_blank" rel="noopener">
     <div class="shot" style="background:linear-gradient(135deg,${v.c1}22,${v.c2}22)"><img loading="lazy" alt="${v.name} preview" src="https://s.wordpress.com/mshots/v1/${encodeURIComponent(v.url)}?w=760&h=460"></div>
     <div class="card-top">${LOGO(v.c1,v.c2)}<span class="region">${PIN}${v.region}</span></div>
     <div class="sector">${v.sector}</div><h3>${v.name}</h3><p>${v.desc}</p>
     <span class="visit">Visit product ${ARROW}</span>
-  </a>`).join('');
+  </a>`;
+const vdiv=(title,tag,sub,list)=>list.length?`<div class="vdiv reveal"><div class="vdiv-head"><h3>${title}</h3><span class="tag">${tag}</span><p>${sub}</p></div><div class="vgrid">${list.map(vcard).join('')}</div></div>`:'';
+document.getElementById('grid').innerHTML=
+  vdiv('ORIZIS Technologies','Subsidiary','Our Zambia Mobile-Money commerce portfolio — every store runs on one shared engine, wallet and infrastructure.',ventures.filter(v=>/Zambia/.test(v.region)))+
+  vdiv('ORIZIS','Group','Additional wholly-owned ventures across our other markets.',ventures.filter(v=>!/Zambia/.test(v.region)));
 
 
 /* ticker */
