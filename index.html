@@ -155,6 +155,9 @@ html[data-theme="light"] .moon{display:none}
 .card::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:var(--accent-grad);opacity:0;transition:opacity .3s;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
 .card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
 .card:hover::after{opacity:1}
+.card .shot{margin:-26px -26px 22px;aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--border);position:relative}
+.card .shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.card:hover .shot img{transform:scale(1.05)}
 .card-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:14px}
 .card .logo{width:52px;height:52px;flex-shrink:0}
 .card .region{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:6px;padding-top:6px}
@@ -565,6 +568,7 @@ document.getElementById('divGrid').innerHTML=divisions.map(d=>{
 /* render ventures */
 document.getElementById('grid').innerHTML=ventures.map(v=>`
   <a class="card" data-cat="${v.cat}" href="${v.url}" target="_blank" rel="noopener">
+    <div class="shot" style="background:linear-gradient(135deg,${v.c1}22,${v.c2}22)"><img loading="lazy" alt="${v.name} preview" src="https://s.wordpress.com/mshots/v1/${encodeURIComponent(v.url)}?w=760&h=460"></div>
     <div class="card-top">${LOGO(v.c1,v.c2)}<span class="region">${PIN}${v.region}</span></div>
     <div class="sector">${v.sector}</div><h3>${v.name}</h3><p>${v.desc}</p>
     <span class="visit">Visit product ${ARROW}</span>
